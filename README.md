@@ -10,34 +10,34 @@ This project involves designing and deploying a full-stack online car rental sys
 
 ## Table of Contents
 
-- [Project Description](#project-description)
-- [Usage](#usage)
-- [Tech Stack](#tech-stack)
-- [Visuals](#visuals)
-- [Known Issues](#known-issues)
-- [License](#license)
-- [Team](#team)
+- [Project Description](#-project-description)
+- [Usage](#-usage)
+- [Tech Stack](#-tech-stack)
+- [Visuals](#-visuals)
+- [Known Issues](#-known-issues)
+- [License](#-license)
+- [Team](#-team)
 
 
-## 🔖 Project Description {#project-description}
+## 🔖 Project Description
 
 
-## 👓 Usage {#usage}
+## 👓 Usage
 
 
-## 💻 Tech Stack {#tech-stack}
+## 💻 Tech Stack
 
 
-## 🎞️ Visuals {#visuals}
+## 🎞️ Visuals
 
 
-## 💡 Known Issues {#known-issues}
+## 💡 Known Issues
 
 
-## 📝 License {#license}
+## 📝 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👥 Team {#team}
+## 👥 Team
 Feel free to contact us for further inquiries or feedback.
 
 ###Enrique Albavera

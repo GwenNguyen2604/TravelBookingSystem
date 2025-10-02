@@ -13,7 +13,7 @@ This project involves designing and deploying a full-stack online car rental sys
 - [Project Description](#-project-description)
 - [Usage](#-usage)
 - [Tech Stack](#-tech-stack)
-- [Visuals](#-film_strip-visuals)
+- [Visuals](#%EF%B8%8F-visuals)
 - [Known Issues](#-known-issues)
 - [License](#-license)
 - [Team](#-team)

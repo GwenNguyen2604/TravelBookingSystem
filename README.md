@@ -20,12 +20,17 @@ This project involves designing and deploying a full-stack online car rental sys
 
 
 ## 🔖 Project Description
-
+This project involves the end-to-end development of a digital platform for Legacy Auto Group, a car rental company with a 40-year history, under new ownership. The core mandate is to design and implement a robust, scalable, and user-friendly system that supports the complete online rental lifecycle. The solution will empower customers to search for vehicles, make bookings, and process payments seamlessly, while providing the business with valuable feedback through an integrated rating system.
 
 ## 👓 Usage
 
 
 ## 💻 Tech Stack
+
+### Programming Languages
+JS, HTML, CSS, Python
+
+### Libraries and Frameworks
 
 
 ## 🎞️ Visuals
@@ -40,15 +45,15 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 👥 Team
 Feel free to contact us for further inquiries or feedback.
 
-###Enrique Albavera
+### Enrique Albavera
 
-###Britaney Do
+### Britaney Do
 
-###David Le
+### David Le
 
-###Mahmoud Nanah
+### Mahmoud Nanah
 
-###Nguyen Nguyen
+### Nguyen Nguyen
 
-###Conner O'donnell
+### Conner O'donnell
 

@@ -13,7 +13,7 @@ This project involves designing and deploying a full-stack online car rental sys
 - [Project Description](#-project-description)
 - [Usage](#-usage)
 - [Tech Stack](#-tech-stack)
-- [Visuals](#-visuals)
+- [Visuals](#https://github.com/GwenNguyen2604/TravelBookingSystem?tab=readme-ov-file#%EF%B8%8F-visuals)
 - [Known Issues](#-known-issues)
 - [License](#-license)
 - [Team](#-team)

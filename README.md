@@ -10,13 +10,13 @@ This project involves designing and deploying a full-stack online car rental sys
 
 ## Table of Contents
 
-- [Project Description] (#project-description)
+- [Project Description](#project-description)
 - [Usage](#usage)
-- [Tech Stack] (#tech-stack)
-- [Visuals] (#visuals)
-- [Known Issues] (#known-issues)
-- [License] (#license)
-- [Team] (#team)
+- [Tech Stack](#tech-stack)
+- [Visuals](#visuals)
+- [Known Issues](#known-issues)
+- [License](#license)
+- [Team](#team)
 
 
 ## 🔖 Project Description {#project-description}

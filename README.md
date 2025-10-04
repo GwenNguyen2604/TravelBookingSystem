@@ -46,6 +46,8 @@ This project is licensed under the GPL-3.0 License - see the LICENSE file for de
 Feel free to contact us for further inquiries or feedback.
 
 #### Enrique Albavera
+- Email: [ealsamano.gmail.com](mailto:ealsamano@gmail.com)
+- LinkedIn: [Enrique-Albavera](https://www.linkedin.com/in/enrique-albavera-405218387/)
 
 #### Britaney Do
 - Email: [britaney.do@gmail.com](mailto:britaney.do@gmail.com)

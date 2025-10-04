@@ -4,32 +4,42 @@ import sqlite3
 conn = sqlite3.connect("car_Rental.db")
 cursor = conn.cursor()
 
-# 1. Create the table (if it doesn't exist)
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS cars (
-    brand TEXT,
-    model TEXT,
-    year INTEGER
-)
-""")
+# 1. Create the table with UNIQUE constraint to prevent future duplicates
+#cursor.execute("""
+#CREATE TABLE IF NOT EXISTS cars (
+   # brand TEXT,
+   # model TEXT,
+  #  year INTEGER,
+ #   UNIQUE(brand, model, year)
+#)
+#""")
 
-# 2. Insert data (make sure strings are quoted properly)
-cursor.execute("""
-INSERT INTO cars (brand, model, year) VALUES
-('Nissan', 'AccordXL', 2002),
-('Ford', 'Focus', 2020)
-""")
+# 2. Remove existing duplicates, keeping only the first occurrence
+#cursor.execute("""
+#DELETE FROM cars
+#WHERE ROWID NOT IN (
+#    SELECT MIN(ROWID)
+#    FROM cars
+#    GROUP BY brand, model, year
+#)
+#""")
 
-# 3. Commit changes
-conn.commit()
+# 3. Insert new data — duplicates will be ignored
+#cursor.execute("""
+#INSERT OR IGNORE INTO cars (brand, model, year) VALUES
+#('', '', )
+#""")
 
-# 4. Select all data from the cars table
-res = cursor.execute("SELECT * FROM cars")
+# 4. Commit changes
+#conn.commit()
 
-# 5. Fetch and print results
-rows = res.fetchall()
+# 5. Fetch and print all rows
+cursor.execute("SELECT * FROM cars")
+rows = cursor.fetchall()
 for row in rows:
     print(row)
 
 # 6. Close the connection
 conn.close()
+
+

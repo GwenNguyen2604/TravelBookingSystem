@@ -1,4 +1,4 @@
-# TravelBookingSystem
+# Car Rental System
 
 [![forthebadge](https://forthebadge.com/images/badges/uses-html.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
@@ -40,7 +40,7 @@ JS, HTML, CSS, Python
 
 
 ## 📝 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the GPL-3.0 License - see the LICENSE file for details.
 
 ## 👥 Team
 Feel free to contact us for further inquiries or feedback.
@@ -48,6 +48,8 @@ Feel free to contact us for further inquiries or feedback.
 #### Enrique Albavera
 
 #### Britaney Do
+- Email: [britaney.do@gmail.com](mailto:britaney.do@gmail.com)
+- LinkedIn: [britaney-do](https://linkedin.com/in/britaney-do-6866a9230/)
 
 #### David Le
 

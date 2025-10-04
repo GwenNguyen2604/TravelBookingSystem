@@ -60,4 +60,5 @@ Feel free to contact us for further inquiries or feedback.
 #### Nguyen Nguyen
 
 #### Conner O'donnell
+-Email: [connerodonnell21@gmail.com](mailto:connerodonnell21@gmail.com)
 

@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS cars (
 # 2. Insert data (make sure strings are quoted properly)
 cursor.execute("""
 INSERT INTO cars (brand, model, year) VALUES
-('Ferrari', 'CLassi12', 2025),
-('Tesla', 'Model S', 2018)
+('Nissan', 'AccordXL', 2002),
+('Ford', 'Focus', 2020)
 """)
 
 # 3. Commit changes

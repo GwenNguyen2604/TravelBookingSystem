@@ -46,7 +46,7 @@ npx serve
 Visit:
 ```bash
 http://localhost:3000
-
+```
 
 ## 💻 Tech Stack
 

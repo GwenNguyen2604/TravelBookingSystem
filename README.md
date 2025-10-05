@@ -11,7 +11,7 @@ This project involves designing and deploying a full-stack online car rental sys
 ## Table of Contents
 
 - [Project Description](#-project-description)
-- [Usage](#-usage)
+- [Installation](#-usage)
 - [Tech Stack](#-tech-stack)
 - [Visuals](#%EF%B8%8F-visuals)
 - [Known Issues](#-known-issues)
@@ -22,7 +22,30 @@ This project involves designing and deploying a full-stack online car rental sys
 ## 🔖 Project Description
 This project involves the end-to-end development of a digital platform for Manta, a car rental company with a 40-year history, under new ownership. The core mandate is to design and implement a robust, scalable, and user-friendly system that supports the complete online rental lifecycle. The solution will allow customers to search for vehicles, make bookings, and process payments seamlessly, while providing the business with valuable feedback through an integrated rating system.
 
-## 👓 Usage
+## 👓 Installation
+1. **Install Node.js**
+Make sure you have Node.js
+ (v18+ recommended) and npm installed.
+You can check with:
+
+```bash
+node -v
+npm -v
+
+2. **Install Dependencies**
+From the frontend directory, run:
+```bash
+npm install
+
+3. **Run the Frontend**
+Start a local development server with:
+```bash
+npx serve
+
+4. **Open in Browser**
+Visit:
+```bash
+http://localhost:3000
 
 
 ## 💻 Tech Stack

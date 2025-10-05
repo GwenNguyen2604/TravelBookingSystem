@@ -3,18 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <title>My Website</title>
+
+  <!-- Regular Ysabeau -->
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Ysabeau SC Semibold -->
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Banner with top-right buttons -->
+  <!-- Banner -->
   <div class="home-banner">
-    <div class="banner-buttons">
-      <a href="signin.html" class="button">Sign In</a>
-      <a href="register.html" class="button">Register</a>
+    <!-- Clickable Logo + Logo Name (left side) -->
+    <a href="homepage.html" class="banner-logo">
+      <img src="images/manta.png" alt="Logo" class="logo-image">
+      <img src="images/mantaname.png" alt="Logo Name" class="logo-name-image">
+    </a>
+
+    <!-- Right-side content -->
+    <div class="banner-right">
+      <!-- Text links -->
+      <div class="banner-links">
+        <a href="vehicles.html" class="text-link">Vehicles</a>
+        <a href="location.html" class="text-link">Locations</a>
+        <a href="support.html" class="text-link">Support</a>
+      </div>
+
+      <!-- Sign In / Register buttons -->
+      <div class="banner-buttons">
+        <a href="signin.html" class="button sign-in">Sign In</a>
+        <a href="register.html" class="button register">Register</a>
+      </div>
     </div>
+  </div> <!-- END .home-banner -->
+
+  <!-- Hero image (now outside the banner) -->
+  <div class="hero-image">
+    <img src="images/car.png" alt="Hero Image">
   </div>
 
-  <!-- Main heading -->
-  <h1>Welcome to My Website</h1>
 </body>
 </html>

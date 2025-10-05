@@ -1,39 +1,134 @@
+/* Body & fonts */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Ysabeau', Arial, sans-serif;
   text-align: center;
-  margin: 0;      /* remove default top/bottom/side spacing */
-  padding: 0;     /* also remove any default padding */
+  margin: 0;
+  padding: 0;
 }
 
+/* Headings and buttons */
+h1, .button {
+  font-family: 'Ysabeau SC', Arial, sans-serif;
+  font-weight: 600;
+}
+
+/* Buttons */
 .button {
   display: inline-block;
   padding: 12px 24px;
   margin: 10px;
-  background-color: #3498db;
-  color: white;
   text-decoration: none;
   border-radius: 8px;
-  transition: background 0.3s;
+  transition: background 0.3s, color 0.3s;
 }
 
+/* Sign In / Register styles */
+.sign-in {
+  background-color: white;
+  color: black;
+  font-size: 1.1rem;
+}
+
+.register {
+  background-color: black;
+  color: white;
+  font-size: 1.1rem;
+}
+
+/* Button hover */
 .button:hover {
-  background-color: #2980b9;
+  background-color: #4B6697;
 }
 
+/* Banner container */
 .home-banner {
   background-color: #6D7C97;
-  height: 9vh;      /* adjust banner height */
+  height: 9vh;
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0 20px;
   display: flex;
-  justify-content: flex-end;  /* push content to the right */
-  align-items: flex-start;    /* top-align content */
-  padding-top: 20px;          /* small space from the top */
-  padding-right: 20px;        /* small space from the right */
-  box-sizing: border-box;     /* include padding in width/height */
+  justify-content: flex-end; /* right-align right-side content */
+  align-items: center;       /* vertical center */
+  box-sizing: border-box;
+  position: relative;        /* for absolute positioning of logo */
 }
 
+/* Logo container (left side) */
+.banner-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Logo image: size relative to banner height so it fits */
+.logo-image {
+  height: 80%; /* 80% of the banner height */
+  width: auto;
+  max-height: 100px; /* prevent overly large images on very tall viewports */
+}
+
+/* Logo name image: slightly smaller */
+.logo-name-image {
+  height: 55%; /* 55% of the banner height */
+  width: auto;
+  max-height: 65px;
+}
+
+/* Container for all right-side items */
+.banner-right {
+  display: flex;
+  align-items: center;
+  gap: 60px; /* space between text links and buttons */
+}
+
+/* Text links container */
+.banner-links {
+  display: flex;
+  align-items: center;
+  gap: 70px;  /* space between Vehicles / Location / Support */
+}
+
+/* Text-only links with animated underline */
+.text-link {
+  color: black;
+  text-decoration: none;
+  font-family: 'Ysabeau SC', Arial, sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1.6rem;  
+  position: relative;  
+  transition: color 0.3s;
+}
+
+.text-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;        
+  width: 0;
+  height: 2px;         
+  background-color: black;
+  transition: width 0.3s ease;
+}
+
+.text-link:hover::after {
+  width: 100%;
+}
+
+/* Sign In / Register buttons spacing */
 .banner-buttons .button {
-  margin-left: 10px;  /* space between buttons */
+  margin-left: 10px;
+}
+
+/* Hero image (directly under banner) */
+.hero-image img {
+  width: 100%;
+  height: 150vh;      /* half of the viewport height; change to 100vh if you want fullscreen */
+  object-fit: cover;
+  display: block;
 }

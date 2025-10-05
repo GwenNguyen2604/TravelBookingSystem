@@ -31,16 +31,19 @@ You can check with:
 ```bash
 node -v
 npm -v
+```
 
 2. **Install Dependencies**
 From the frontend directory, run:
 ```bash
 npm install
+```
 
 3. **Run the Frontend**
 Start a local development server with:
 ```bash
 npx serve
+```
 
 4. **Open in Browser**
 Visit:

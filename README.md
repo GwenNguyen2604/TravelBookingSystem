@@ -3,6 +3,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/uses-html.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/uses-css.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 
 ## 📰 Project Summary
 
@@ -24,8 +25,7 @@ This project involves the end-to-end development of a digital platform for Manta
 
 ## 👓 Installation
 1. **Install Node.js**
-Make sure you have Node.js
- (v18+ recommended) and npm installed.
+Make sure you have Node.js (v18+ recommended) and npm installed. \n
 You can check with:
 
 ```bash
@@ -50,6 +50,7 @@ Visit:
 ```bash
 http://localhost:3000
 ```
+Ctrl + C to stop the program
 
 ## 💻 Tech Stack
 

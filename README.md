@@ -31,7 +31,7 @@ This project involves the end-to-end development of a digital platform for Manta
     npm -v
     ```
 
-2. **Set up the virtual environment**
+2. **Set up the virtual environment**  
     From the frontend folder, run:
    ```bash
    npm install
@@ -42,13 +42,13 @@ This project involves the end-to-end development of a digital platform for Manta
    npx serve
    ```
 
-4. **Open in Browser**
+4. **Open in Browser**  
     Go to:
     ```bash
     http://localhost:3000
     ```
 
-5. **Stop the Server**
+5. **Stop the Server**  
     Press Ctrl + C in the terminal to stop the server.
 
 ## 💻 Tech Stack

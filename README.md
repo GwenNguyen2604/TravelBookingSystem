@@ -80,6 +80,8 @@ Feel free to contact us for further inquiries or feedback.
 - LinkedIn: [britaney-do](https://linkedin.com/in/britaney-do-6866a9230/)
 
 #### David Le
+- Email: [davidle173@gmail.com](mailto:davidle173@gmail.com)
+- LinkedIn:[David-Le](https://www.linkedin.com/in/david-le-b313912a7/)
 
 #### Mahmoud Nanah
 

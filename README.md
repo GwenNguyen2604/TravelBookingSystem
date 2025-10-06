@@ -58,6 +58,6 @@ Feel free to contact us for further inquiries or feedback.
 #### Mahmoud Nanah
 
 #### Nguyen Nguyen
+- Email: [nguyennguyen.apr@gmail.com](nguyennguyen.apr@gmail.com)
 
 #### Conner O'donnell
-

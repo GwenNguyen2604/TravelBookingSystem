@@ -73,6 +73,71 @@ def MoveMaintCarToCarsTable(car_vin):
 
     con.commit()
 
+#Name: GetAllVinsGivenBrand
+#Description: Returns a sql object of all vins given a brand parameter from the cars table
+def GetAllVinsGivenBrand(brand_name):
+    con = sqlite3.connect('car_Rental.db')
+
+    allCars = con.execute("SELECT vin FROM cars WHERE brand = ?", (brand_name,))
+
+    con.commit()
+
+    return allCars
+
+#Name: GetAllVinsGivenModel
+#Description: Returns a sql object of all vins given a model parameter from the cars table
+def GetAllVinsGivenModel(model_name):
+    con = sqlite3.connect('car_Rental.db')
+
+    allCars = con.execute("SELECT vin FROM cars WHERE model = ?", (model_name,))
+
+    con.commit()
+
+    return allCars
+
+#Name: GetAllVinsGivenYear
+#Description: Returns a sql object of all vins given a year parameter from the cars table
+def GetAllVinsGivenYear(year_num):
+    con = sqlite3.connect('car_Rental.db')
+
+    allCars = con.execute("SELECT vin FROM cars WHERE year = ?", (year_num,))
+
+    con.commit()
+    
+    return allCars
+
+#Name: GetAllCarDataGivenBrand
+#Description: Returns a sql object of all car data given the brand from the cars table
+def GetAllCarDataGivenBrand(brand_name):
+    con = sqlite3.connect('car_Rental.db')
+
+    allCars = con.execute("SELECT * FROM cars WHERE brand = ?", (brand_name,))
+
+    con.commit()
+
+    return allCars
+
+#Name: GetAllCarDataGivenModel
+#Description: Returns a sql object of all car data given the model from the cars table
+def GetAllCarDataGivenModel(model_name):
+    con = sqlite3.connect('car_Rental.db')
+
+    allCars = con.execute("SELECT * FROM cars WHERE model = ?", (model_name,))
+
+    con.commit()
+
+    return allCars
+
+#Name: GetAllCarDataGivenYear
+def GetAllCarDataGivenYear(year_num):
+    con = sqlite3.connect('car_Rental.db')
+
+    allCars = con.execute("SELECT * FROM cars WHERE year = ?", (year_num,))
+
+    con.commit()
+
+    return allCars
+
 #Name: AddColumnToCarsTable
 #Description: Adds a vin column, data type TEXT to the cars table
 #Note: Run this function if the database has not been updated with a new column for the vin

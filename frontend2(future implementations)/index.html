@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TravelBookingSystem – Car List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 24px; }
+    h1 { margin: 0 0 16px; }
+    .controls { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    input[type="text"] { padding: 8px; width: 260px; }
+    label { font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; }
+    .title { font-weight: 600; margin-bottom: 6px; }
+    .muted { color: #6b7280; font-size: 14px; }
+    .tag { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; background: #eef2ff; }
+    .tag.unavailable { background: #fee2e2; }
+    footer { margin-top: 20px; font-size: 12px; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <h1>Rental Cars</h1>
+
+  <div class="controls">
+    <input id="q" type="text" placeholder="Search make or model…" />
+    <label><input id="onlyAvail" type="checkbox" /> Available only</label>
+    <span class="muted" id="count"></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Source: mock data for now. Hook up to the real API or database later.
+  </footer>
+
+  <script>
+    // Simple mock dataset for now. Replace with API results later.
+    const cars = [
+      { id: 1, make: "Toyota", model: "Corolla", daily_rate: 39, available: true },
+      { id: 2, make: "Honda", model: "Civic", daily_rate: 42, available: false },
+      { id: 3, make: "Tesla", model: "Model 3", daily_rate: 89, available: true },
+      { id: 4, make: "Ford", model: "Escape", daily_rate: 55, available: true },
+      { id: 5, make: "Hyundai", model: "Elantra", daily_rate: 37, available: false }
+    ];
+
+    const grid = document.getElementById("grid");
+    const q = document.getElementById("q");
+    const onlyAvail = document.getElementById("onlyAvail");
+    const count = document.getElementById("count");
+
+    function render(list) {
+      grid.innerHTML = "";
+      list.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="title">${c.make} ${c.model}</div>
+          <div class="muted">$${c.daily_rate.toFixed(2)} per day</div>
+          <div class="tag ${c.available ? "" : "unavailable"}">
+            ${c.available ? "Available" : "Unavailable"}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      count.textContent = `${list.length} result${list.length === 1 ? "" : "s"}`;
+    }
+
+    function applyFilters() {
+      const query = q.value.trim().toLowerCase();
+      let list = cars.filter(c =>
+        `${c.make} ${c.model}`.toLowerCase().includes(query)
+      );
+      if (onlyAvail.checked) list = list.filter(c => c.available);
+      render(list);
+    }
+
+    q.addEventListener("input", applyFilters);
+    onlyAvail.addEventListener("change", applyFilters);
+    render(cars);
+  </script>
+</body>
+</html>

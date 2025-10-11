@@ -10,7 +10,8 @@ cursor = conn.cursor()
    # brand TEXT,
    # model TEXT,
   #  year INTEGER,
- #   UNIQUE(brand, model, year)
+   # vin TEXT,  
+ #   UNIQUE(brand, model, year, vin)
 #)
 #""")
 
@@ -20,13 +21,13 @@ cursor = conn.cursor()
 #WHERE ROWID NOT IN (
 #    SELECT MIN(ROWID)
 #    FROM cars
-#    GROUP BY brand, model, year
+#    GROUP BY brand, model, year, vin
 #)
 #""")
 
 # 3. Insert new data — duplicates will be ignored
 #cursor.execute("""
-#INSERT OR IGNORE INTO cars (brand, model, year) VALUES
+#INSERT OR IGNORE INTO cars (brand, model, year, vin) VALUES
 #('', '', )
 #""")
 

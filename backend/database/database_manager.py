@@ -141,9 +141,9 @@ def GetAllCarDataGivenYear(year_num):
 #Name: AddColumnToCarsTable
 #Description: Adds a vin column, data type TEXT to the cars table
 #Note: Run this function if the database has not been updated with a new column for the vin
-def AddColumnToCarsTable():
-    con = sqlite3.connect('car_Rental.db')
+#def AddColumnToCarsTable():
+    #con = sqlite3.connect('car_Rental.db')
 
-    con.execute("ALTER TABLE cars ADD vin TEXT")
+    #con.execute("ALTER TABLE cars ADD vin TEXT")
 
-    con.commit()
+    #con.commit()

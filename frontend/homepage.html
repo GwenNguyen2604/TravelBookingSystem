@@ -10,6 +10,9 @@
   <!-- Ysabeau SC Semibold -->
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
 
+  <!-- Alegreya Sans SC -->
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -38,10 +41,78 @@
     </div>
   </div> <!-- END .home-banner -->
 
+  
   <!-- Hero image (now outside the banner) -->
   <div class="hero-image">
-    <img src="images/car.png" alt="Hero Image">
+  <img src="images/car.png" alt="Hero Image">
+
+  <!-- Text overlay (already exists) -->
+  <div class="hero-text">
+    <span class="blue">Unlock</span>
+    <span class="blue">a</span>
+    <span class="white">Smoother</span>
+    <span class="blue">Ride</span>
   </div>
+
+  <!-- Booking form overlay -->
+  <div class="booking-form">
+    <!-- Top row: Locations -->
+    <div class="booking-row">
+      <div class="booking-item location-item">
+        <label for="pickup-location">Pickup Location</label>
+        <select id="pickup-location">
+          <option value="" disabled selected>Select pickup location</option>
+          <option value="location1">Location 1</option>
+          <option value="location2">Location 2</option>
+        </select>
+      </div>
+
+      <div class="booking-item location-item">
+        <label for="dropoff-location">Dropoff Location</label>
+        <select id="dropoff-location">
+          <option value="" disabled selected>Select dropoff location</option>
+          <option value="location1">Location 1</option>
+          <option value="location2">Location 2</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Bottom row: Dates and Times -->
+    <div class="booking-row">
+      <div class="booking-item">
+        <label for="pickup-date">Pickup Date</label>
+        <input type="date" id="pickup-date">
+      </div>
+
+      <div class="booking-item">
+        <label for="pickup-time">Pickup Time</label>
+        <select id="pickup-time">
+          <option value="" disabled selected>Select pickup time</option>
+          <option value="08:00">08:00 AM</option>
+          <option value="09:00">09:00 AM</option>
+        </select>
+      </div>
+
+      <div class="booking-item">
+        <label for="dropoff-date">Dropoff Date</label>
+        <input type="date" id="dropoff-date">
+      </div>
+
+      <div class="booking-item">
+        <label for="dropoff-time">Dropoff Time</label>
+        <select id="dropoff-time">
+          <option value="" disabled selected>Select dropoff time</option>
+          <option value="08:00">08:00 AM</option>
+          <option value="09:00">09:00 AM</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="button search-button">Search Cars</button>
+  </div>
+
+</div>
+
 
 </body>
 </html>

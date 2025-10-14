@@ -140,11 +140,11 @@ h1, .button {
 /* Text overlay */
 .hero-text {
   position: absolute;
-  top: 18%;             /* vertically center */
+  top: 22%;             /* vertically center */
   left: 50%;            /* horizontally center */
   transform: translate(-50%, -50%);
   font-family: 'Alegreya Sans SC', Arial, sans-serif;
-  font-size: 5.5rem;      /* adjust size as needed */
+  font-size: 5.3rem;      /* adjust size as needed */
   font-weight: 400;
   text-align: center;
   white-space: nowrap;  /* prevents line breaks */
@@ -169,12 +169,12 @@ h1, .button {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  background-color: rgba(255, 255, 255, 0.506); /* semi-transparent white */
+  background-color: rgba(74, 99, 133, 0.325); /*semi-transparent white */
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 30px;
   max-width: 1000px;
   width: 90%;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);      /* optional shadow */
+  /* box-shadow: 0 8px 20px rgba(0,0,0,0.2);      optional shadow */
   z-index: 2;               /* ensures it sits above the image */
 }
 
@@ -213,7 +213,29 @@ h1, .button {
   border-radius: 8px;
   background-color: white;
   font-size: 1rem;
+  font-family: 'Ysabeau', Arial, sans-serif; /* ✅ match your site font */
+  color: #555; /* ✅ slightly lighter shade than black */
 }
+
+/* Optional: lighter placeholder text */
+.booking-item select:invalid {
+  color: #999;  /* placeholder color for <select> */
+}
+
+.booking-item input::placeholder {
+  color: #999;
+  font-family: 'Ysabeau', Arial, sans-serif;
+}
+
+.booking-item select {
+  appearance: none;          /* removes native arrow styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><polyline points="1,1 6,6 11,1" fill="none" stroke="gray" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat right 12px center;
+  background-size: 12px 8px;
+  padding-right: 36px;        /* ✅ gives space so text doesn’t hit the arrow */
+}
+
 
 .booking-item input:focus,
 .booking-item select:focus {
@@ -228,9 +250,10 @@ h1, .button {
   padding: 12px 24px;
   border-radius: 8px;
   margin: 20px auto 0 auto; /* top margin 20px, horizontal margins auto */
-  width: 20%;                /* keeps it 20% wide */
+  width: 10%;                /* keeps it 20% wide */
   cursor: pointer;
   display: block;            /* needed for margin auto to work */
+  border: #4B6697;         /* border color of search button*/
 }
 
 .search-button:hover {

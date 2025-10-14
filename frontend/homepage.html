@@ -61,18 +61,38 @@
       <div class="booking-item location-item">
         <label for="pickup-location">Pickup Location</label>
         <select id="pickup-location">
+
           <option value="" disabled selected>Select pickup location</option>
-          <option value="location1">Location 1</option>
-          <option value="location2">Location 2</option>
+          <option value="Location 1">Los Angeles, CA</option>
+          <option value="Location 2">San Francisco, CA</option>
+          <option value="Location 3">San Diego, CA</option>
+          <option value="Location 4">Anaheim, CA</option>
+          <option value="Location 5">Sacramento, CA</option>
+          <option value="Location 6">San Jose, CA</option>
+          <option value="Location 7">Oakland, CA</option>
+          <option value="Location 8">Palm Springs, CA</option>
+          <option value="Location 9">Fresno, CA</option>
+          <option value="Location 10">Santa Barbara, CA</option>
+          
         </select>
       </div>
 
       <div class="booking-item location-item">
         <label for="dropoff-location">Dropoff Location</label>
         <select id="dropoff-location">
+
           <option value="" disabled selected>Select dropoff location</option>
-          <option value="location1">Location 1</option>
-          <option value="location2">Location 2</option>
+          <option value="Location 1">Los Angeles, CA</option>
+          <option value="Location 2">San Francisco, CA</option>
+          <option value="Location 3">San Diego, CA</option>
+          <option value="Location 4">Anaheim, CA</option>
+          <option value="Location 5">Sacramento, CA</option>
+          <option value="Location 6">San Jose, CA</option>
+          <option value="Location 7">Oakland, CA</option>
+          <option value="Location 8">Palm Springs, CA</option>
+          <option value="Location 9">Fresno, CA</option>
+          <option value="Location 10">Santa Barbara, CA</option>
+
         </select>
       </div>
     </div>
@@ -108,10 +128,32 @@
       </div>
     </div>
 
-    <button class="button search-button">Search Cars</button>
+    <button class="button search-button">Search</button>
   </div>
 
 </div>
+
+<!--some js code; didn't see the need to add a js file if it'st just a bit-->
+
+<script>
+  const pickupDateInput = document.getElementById('pickup-date');
+  const dropoffDateInput = document.getElementById('dropoff-date');
+
+  // Set today's date as the minimum for both on page load
+  const today = new Date().toISOString().split('T')[0];
+  pickupDateInput.min = today;
+  dropoffDateInput.min = today;
+
+  // When pickup date changes, adjust dropoff date minimum
+  pickupDateInput.addEventListener('change', function () {
+    dropoffDateInput.min = this.value;
+
+    // If dropoff date is before new pickup date, clear it
+    if (dropoffDateInput.value && dropoffDateInput.value < this.value) {
+      dropoffDateInput.value = '';
+    }
+  });
+</script>
 
 
 </body>

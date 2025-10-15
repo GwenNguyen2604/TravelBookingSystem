@@ -22,6 +22,7 @@ def GetAllCarsFromTable():
 
     carData = con.execute("SELECT * FROM cars")
     
+<<<<<<< Updated upstream
     print("*** cars table ***")
     data = carData.fetchall()
     for row in data:
@@ -34,6 +35,20 @@ def GetAllCarsFromTable():
         print(i)
 
     con.commit()
+=======
+    # print("*** cars table ***")
+    # data = carData.fetchall()
+    # for row in data:
+    #     print(row)
+
+    # print("\n*** maint_cars table ***")
+    # maintcarsData = con.execute("SELECT * FROM maint_cars")
+    # d = maintcarsData.fetchall()
+    # for i in d:
+    #     print(i)
+
+    # con.commit()
+>>>>>>> Stashed changes
 
     return carData
     
@@ -141,9 +156,39 @@ def GetAllCarDataGivenYear(year_num):
 #Name: AddColumnToCarsTable
 #Description: Adds a vin column, data type TEXT to the cars table
 #Note: Run this function if the database has not been updated with a new column for the vin
+<<<<<<< Updated upstream
 #def AddColumnToCarsTable():
     #con = sqlite3.connect('car_Rental.db')
 
     #con.execute("ALTER TABLE cars ADD vin TEXT")
 
     #con.commit()
+=======
+def AddColumnToCarsTable():
+    con = sqlite3.connect('car_Rental.db')
+
+    con.execute("ALTER TABLE cars ADD vin TEXT")
+
+    con.commit()
+
+#Name: GetAllCarsAsCSV
+#Description: Gets all cars in the cars table and returns them as a CSV string
+#Note: The string will have to be processed by the caller; Format: brand, model, year, vin, --> Repeat for all cars
+def GetAllCarsAsCSV():
+    csv_string = ""
+
+    con = sqlite3.connect('car_Rental.db')
+
+    allCars = con.execute("SELECT * FROM cars")
+
+    data = allCars.fetchall()
+
+    for c in data:
+        csv_string += c
+
+    con.commit()
+    
+    return csv_string
+
+print(GetAllCarsAsCSV())
+>>>>>>> Stashed changes

@@ -73,7 +73,7 @@
           <option value="Location 8">Palm Springs, CA</option>
           <option value="Location 9">Fresno, CA</option>
           <option value="Location 10">Santa Barbara, CA</option>
-          
+
         </select>
       </div>
 
@@ -133,6 +133,22 @@
 
 </div>
 
+<!-- Featured Brands Section -->
+<section class="featured-brands">
+  <h2 class="featured-title">Featured Brands</h2>
+
+  <!-- Row 1 -->
+  <div class="brand-row">
+    <img src="images/firstbrandrow.png" alt="Brands Row 1" class="brand-logo">
+  </div>
+
+  <!-- Row 2 -->
+  <div class="brand-row">
+    <img src="images/secondbrandrow.png" alt="Brands Row 2" class="brand-logo">
+  </div>
+</section>
+
+
 <!--some js code; didn't see the need to add a js file if it'st just a bit-->
 
 <script>
@@ -154,6 +170,26 @@
     }
   });
 </script>
+
+<script>
+  // Animate title and rows on scroll
+  const featuredElements = document.querySelectorAll('.featured-title, .brand-row');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // animate only once
+      }
+    });
+  }, {
+    threshold: 0.5
+  });
+
+  featuredElements.forEach(el => observer.observe(el));
+</script>
+
+
 
 
 </body>

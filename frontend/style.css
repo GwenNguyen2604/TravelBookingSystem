@@ -76,7 +76,7 @@ h1, .button {
 .logo-name-image {
   height: 55%; /* 55% of the banner height */
   width: auto;
-  max-height: 35px;
+  max-height: 40px;
 }
 
 /* Container for all right-side items */
@@ -162,19 +162,18 @@ h1, .button {
 /* Booking form overlay on top of hero image */
 .booking-form {
   position: absolute;       /* float on top of image */
-  bottom: 20%;              /* distance from bottom of hero image */
+  bottom: 16%;              /* distance from bottom of hero image */
   left: 50%;                /* center horizontally */
   transform: translateX(-50%);
   
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  background-color: rgba(74, 99, 133, 0.325); /*semi-transparent white */
+  background-color: rgba(255, 255, 255, 0.428); /*semi-transparent white */
   padding: 20px;
   border-radius: 30px;
   max-width: 1000px;
   width: 90%;
-  /* box-shadow: 0 8px 20px rgba(0,0,0,0.2);      optional shadow */
   z-index: 2;               /* ensures it sits above the image */
 }
 
@@ -208,9 +207,9 @@ h1, .button {
 
 .booking-item input,
 .booking-item select {
-  padding: 10px 14px;
+  padding: 12px 12px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 5px;
   background-color: white;
   font-size: 1rem;
   font-family: 'Ysabeau', Arial, sans-serif; /* ✅ match your site font */
@@ -258,4 +257,50 @@ h1, .button {
 
 .search-button:hover {
   background-color: #34507a;
+}
+
+.featured-brands {
+  margin: 20px 20px;              /* space outside the grey box */
+  padding: 25px 25px 40px 25px;   /* top, right, bottom, left */
+  background-color: #6a799527;    /* very light grey */
+  border-radius: 10px;
+  text-align: left;               /* title stays left-aligned */
+}
+
+.featured-title {
+  font-family: 'Ysabeau SC', Arial, sans-serif;
+  font-weight: 100;
+  font-size: 2rem;
+  margin: 0 0 20px 0;       /* 20px space below the title */
+  padding: 0;               /* no padding */
+  opacity: 0;
+  transform: translateY(20px);  /* start slightly lower */
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.featured-title.visible {
+  opacity: 1;
+  transform: translateY(0);     /* moves up into place */
+}
+
+/* Brand rows */
+.brand-row {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  margin-bottom: 40px;
+
+  display: flex;             /* use flex for alignment */
+  justify-content: center;   /* center the images horizontally */
+}
+
+.brand-row.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.brand-row img {
+  width: 80%;
+  max-width: 1000px;
+  height: auto;
 }

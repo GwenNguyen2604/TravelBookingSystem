@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
 
   <!-- Alegreya Sans SC -->
-<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -44,153 +44,155 @@
   
   <!-- Hero image (now outside the banner) -->
   <div class="hero-image">
-  <img src="images/car.png" alt="Hero Image">
+    <img src="images/car.png" alt="Hero Image">
 
-  <!-- Text overlay (already exists) -->
-  <div class="hero-text">
-    <span class="blue">Unlock</span>
-    <span class="blue">a</span>
-    <span class="white">Smoother</span>
-    <span class="blue">Ride</span>
-  </div>
-
-  <!-- Booking form overlay -->
-  <div class="booking-form">
-    <!-- Top row: Locations -->
-    <div class="booking-row">
-      <div class="booking-item location-item">
-        <label for="pickup-location">Pickup Location</label>
-        <select id="pickup-location">
-
-          <option value="" disabled selected>Select pickup location</option>
-          <option value="Location 1">Los Angeles, CA</option>
-          <option value="Location 2">San Francisco, CA</option>
-          <option value="Location 3">San Diego, CA</option>
-          <option value="Location 4">Anaheim, CA</option>
-          <option value="Location 5">Sacramento, CA</option>
-          <option value="Location 6">San Jose, CA</option>
-          <option value="Location 7">Oakland, CA</option>
-          <option value="Location 8">Palm Springs, CA</option>
-          <option value="Location 9">Fresno, CA</option>
-          <option value="Location 10">Santa Barbara, CA</option>
-
-        </select>
-      </div>
-
-      <div class="booking-item location-item">
-        <label for="dropoff-location">Dropoff Location</label>
-        <select id="dropoff-location">
-
-          <option value="" disabled selected>Select dropoff location</option>
-          <option value="Location 1">Los Angeles, CA</option>
-          <option value="Location 2">San Francisco, CA</option>
-          <option value="Location 3">San Diego, CA</option>
-          <option value="Location 4">Anaheim, CA</option>
-          <option value="Location 5">Sacramento, CA</option>
-          <option value="Location 6">San Jose, CA</option>
-          <option value="Location 7">Oakland, CA</option>
-          <option value="Location 8">Palm Springs, CA</option>
-          <option value="Location 9">Fresno, CA</option>
-          <option value="Location 10">Santa Barbara, CA</option>
-
-        </select>
-      </div>
+    <!-- Text overlay -->
+    <div class="hero-text">
+      <span class="blue">Unlock</span>
+      <span class="blue">a</span>
+      <span class="white">Smoother</span>
+      <span class="blue">Ride</span>
     </div>
 
-    <!-- Bottom row: Dates and Times -->
-    <div class="booking-row">
-      <div class="booking-item">
-        <label for="pickup-date">Pickup Date</label>
-        <input type="date" id="pickup-date">
+    <!-- Booking form overlay -->
+    <div class="booking-form">
+      <!-- Top row: Locations -->
+      <div class="booking-row">
+        <div class="booking-item location-item">
+          <label for="pickup-location">Pickup Location</label>
+          <select id="pickup-location">
+            <option value="" disabled selected>Select pickup location</option>
+            <option value="Los Angeles, CA">Los Angeles, CA</option>
+            <option value="San Francisco, CA">San Francisco, CA</option>
+            <option value="San Diego, CA">San Diego, CA</option>
+            <option value="Anaheim, CA">Anaheim, CA</option>
+            <option value="Sacramento, CA">Sacramento, CA</option>
+            <option value="San Jose, CA">San Jose, CA</option>
+            <option value="Oakland, CA">Oakland, CA</option>
+            <option value="Palm Springs, CA">Palm Springs, CA</option>
+            <option value="Fresno, CA">Fresno, CA</option>
+            <option value="Santa Barbara, CA">Santa Barbara, CA</option>
+          </select>
+        </div>
+
+        <div class="booking-item location-item">
+          <label for="dropoff-location">Dropoff Location</label>
+          <select id="dropoff-location">
+            <option value="" disabled selected>Select dropoff location</option>
+            <option value="Los Angeles, CA">Los Angeles, CA</option>
+            <option value="San Francisco, CA">San Francisco, CA</option>
+            <option value="San Diego, CA">San Diego, CA</option>
+            <option value="Anaheim, CA">Anaheim, CA</option>
+            <option value="Sacramento, CA">Sacramento, CA</option>
+            <option value="San Jose, CA">San Jose, CA</option>
+            <option value="Oakland, CA">Oakland, CA</option>
+            <option value="Palm Springs, CA">Palm Springs, CA</option>
+            <option value="Fresno, CA">Fresno, CA</option>
+            <option value="Santa Barbara, CA">Santa Barbara, CA</option>
+          </select>
+        </div>
       </div>
 
-      <div class="booking-item">
-        <label for="pickup-time">Pickup Time</label>
-        <select id="pickup-time">
-          <option value="" disabled selected>Select pickup time</option>
-          <option value="08:00">08:00 AM</option>
-          <option value="09:00">09:00 AM</option>
-        </select>
+      <!-- Bottom row: Dates and Times -->
+      <div class="booking-row">
+        <div class="booking-item">
+          <label for="pickup-date">Pickup Date</label>
+          <input type="date" id="pickup-date">
+        </div>
+
+        <div class="booking-item">
+          <label for="pickup-time">Pickup Time</label>
+          <select id="pickup-time">
+            <option value="" disabled selected>Select pickup time</option>
+          </select>
+        </div>
+
+        <div class="booking-item">
+          <label for="dropoff-date">Dropoff Date</label>
+          <input type="date" id="dropoff-date">
+        </div>
+
+        <div class="booking-item">
+          <label for="dropoff-time">Dropoff Time</label>
+          <select id="dropoff-time">
+            <option value="" disabled selected>Select dropoff time</option>
+          </select>
+        </div>
       </div>
 
-      <div class="booking-item">
-        <label for="dropoff-date">Dropoff Date</label>
-        <input type="date" id="dropoff-date">
-      </div>
+      <button class="button search-button">Search</button>
+    </div>
+  </div>
 
-      <div class="booking-item">
-        <label for="dropoff-time">Dropoff Time</label>
-        <select id="dropoff-time">
-          <option value="" disabled selected>Select dropoff time</option>
-          <option value="08:00">08:00 AM</option>
-          <option value="09:00">09:00 AM</option>
-        </select>
-      </div>
+  <!-- Featured Brands Section -->
+  <section class="featured-brands">
+    <h2 class="featured-title">Featured Brands</h2>
+
+    <!-- Row 1 -->
+    <div class="brand-row">
+      <img src="images/firstbrandrow.png" alt="Brands Row 1" class="brand-logo">
     </div>
 
-    <button class="button search-button">Search</button>
-  </div>
+    <!-- Row 2 -->
+    <div class="brand-row">
+      <img src="images/secondbrandrow.png" alt="Brands Row 2" class="brand-logo">
+    </div>
+  </section>
 
-</div>
+  <!-- JavaScript -->
+  <script>
+    // ------------------ Date Handling ------------------
+    const pickupDateInput = document.getElementById('pickup-date');
+    const dropoffDateInput = document.getElementById('dropoff-date');
 
-<!-- Featured Brands Section -->
-<section class="featured-brands">
-  <h2 class="featured-title">Featured Brands</h2>
+    const today = new Date().toISOString().split('T')[0];
+    pickupDateInput.min = today;
+    dropoffDateInput.min = today;
 
-  <!-- Row 1 -->
-  <div class="brand-row">
-    <img src="images/firstbrandrow.png" alt="Brands Row 1" class="brand-logo">
-  </div>
-
-  <!-- Row 2 -->
-  <div class="brand-row">
-    <img src="images/secondbrandrow.png" alt="Brands Row 2" class="brand-logo">
-  </div>
-</section>
-
-
-<!--some js code; didn't see the need to add a js file if it'st just a bit-->
-
-<script>
-  const pickupDateInput = document.getElementById('pickup-date');
-  const dropoffDateInput = document.getElementById('dropoff-date');
-
-  // Set today's date as the minimum for both on page load
-  const today = new Date().toISOString().split('T')[0];
-  pickupDateInput.min = today;
-  dropoffDateInput.min = today;
-
-  // When pickup date changes, adjust dropoff date minimum
-  pickupDateInput.addEventListener('change', function () {
-    dropoffDateInput.min = this.value;
-
-    // If dropoff date is before new pickup date, clear it
-    if (dropoffDateInput.value && dropoffDateInput.value < this.value) {
-      dropoffDateInput.value = '';
-    }
-  });
-</script>
-
-<script>
-  // Animate title and rows on scroll
-  const featuredElements = document.querySelectorAll('.featured-title, .brand-row');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // animate only once
+    pickupDateInput.addEventListener('change', function () {
+      dropoffDateInput.min = this.value;
+      if (dropoffDateInput.value && dropoffDateInput.value < this.value) {
+        dropoffDateInput.value = '';
       }
     });
-  }, {
-    threshold: 0.5
-  });
 
-  featuredElements.forEach(el => observer.observe(el));
-</script>
+    // ------------------ Time Handling ------------------
+    function populateTimes(selectId, intervalMinutes = 30) {
+      const select = document.getElementById(selectId);
+      const startHour = 0;
+      const endHour = 23;
 
+      for (let hour = startHour; hour <= endHour; hour++) {
+        for (let min = 0; min < 60; min += intervalMinutes) {
+          const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+          const ampm = hour < 12 ? "AM" : "PM";
+          const minuteStr = min.toString().padStart(2, "0");
+          const timeStr = `${hour12}:${minuteStr} ${ampm}`;
 
+          const option = document.createElement("option");
+          option.value = `${hour.toString().padStart(2, "0")}:${minuteStr}`;
+          option.text = timeStr;
+          select.appendChild(option);
+        }
+      }
+    }
 
+    populateTimes("pickup-time");
+    populateTimes("dropoff-time");
+
+    // ------------------ Featured Brands Animation ------------------
+    const featuredElements = document.querySelectorAll('.featured-title, .brand-row');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // animate only once
+        }
+      });
+    }, { threshold: 0.5 });
+
+    featuredElements.forEach(el => observer.observe(el));
+  </script>
 
 </body>
 </html>

@@ -14,39 +14,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
+
+  <!-- Choices.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 </head>
 <body>
   <!-- Banner -->
   <div class="home-banner">
-    <!-- Clickable Logo + Logo Name (left side) -->
     <a href="homepage.html" class="banner-logo">
       <img src="images/manta.png" alt="Logo" class="logo-image">
       <img src="images/mantaname.png" alt="Logo Name" class="logo-name-image">
     </a>
 
-    <!-- Right-side content -->
     <div class="banner-right">
-      <!-- Text links -->
       <div class="banner-links">
         <a href="vehicles.html" class="text-link">Vehicles</a>
         <a href="location.html" class="text-link">Locations</a>
         <a href="support.html" class="text-link">Support</a>
       </div>
-
-      <!-- Sign In / Register buttons -->
       <div class="banner-buttons">
         <a href="signin.html" class="button sign-in">Sign In</a>
         <a href="register.html" class="button register">Register</a>
       </div>
     </div>
-  </div> <!-- END .home-banner -->
+  </div>
 
-  
-  <!-- Hero image (now outside the banner) -->
+  <!-- Hero image -->
   <div class="hero-image">
     <img src="images/car.png" alt="Hero Image">
-
-    <!-- Text overlay -->
     <div class="hero-text">
       <span class="blue">Unlock</span>
       <span class="blue">a</span>
@@ -127,24 +122,30 @@
   <!-- Featured Brands Section -->
   <section class="featured-brands">
     <h2 class="featured-title">Featured Brands</h2>
-
-    <!-- Row 1 -->
     <div class="brand-row">
       <img src="images/firstbrandrow.png" alt="Brands Row 1" class="brand-logo">
     </div>
-
-    <!-- Row 2 -->
     <div class="brand-row">
       <img src="images/secondbrandrow.png" alt="Brands Row 2" class="brand-logo">
     </div>
   </section>
 
-  <!-- JavaScript -->
+  <!-- Testimonials Section -->
+<section class="testimonials">
+  <h2 class="testimonials-title">Testimonials</h2>
+  <div class="testimonial-row">
+    <!-- Individual testimonials will go here -->
+  </div>
+</section>
+
+
+  <!-- Choices.js -->
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
   <script>
     // ------------------ Date Handling ------------------
     const pickupDateInput = document.getElementById('pickup-date');
     const dropoffDateInput = document.getElementById('dropoff-date');
-
     const today = new Date().toISOString().split('T')[0];
     pickupDateInput.min = today;
     dropoffDateInput.min = today;
@@ -159,10 +160,8 @@
     // ------------------ Time Handling ------------------
     function populateTimes(selectId, intervalMinutes = 30) {
       const select = document.getElementById(selectId);
-      const startHour = 0;
-      const endHour = 23;
 
-      for (let hour = startHour; hour <= endHour; hour++) {
+      for (let hour = 8; hour <= 22; hour++) {   // 8am to 10pm
         for (let min = 0; min < 60; min += intervalMinutes) {
           const hour12 = hour % 12 === 0 ? 12 : hour % 12;
           const ampm = hour < 12 ? "AM" : "PM";
@@ -177,8 +176,26 @@
       }
     }
 
+    // Populate times first
     populateTimes("pickup-time");
     populateTimes("dropoff-time");
+
+    // Initialize Choices.js with sorting disabled
+    const pickupTimeChoice = new Choices('#pickup-time', { 
+      searchEnabled: false, 
+      itemSelectText: '', 
+      shouldSort: false 
+    });
+
+    const dropoffTimeChoice = new Choices('#dropoff-time', { 
+      searchEnabled: false, 
+      itemSelectText: '', 
+      shouldSort: false 
+    });
+
+    // Locations Choices.js
+    const pickupLocChoice = new Choices('#pickup-location', { searchEnabled: false, itemSelectText: '' });
+    const dropoffLocChoice = new Choices('#dropoff-location', { searchEnabled: false, itemSelectText: '' });
 
     // ------------------ Featured Brands Animation ------------------
     const featuredElements = document.querySelectorAll('.featured-title, .brand-row');
@@ -186,13 +203,16 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          observer.unobserve(entry.target); // animate only once
+          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.5 });
 
     featuredElements.forEach(el => observer.observe(el));
-  </script>
 
+    const testimonialElements = document.querySelectorAll('.testimonials-title');
+    testimonialElements.forEach(el => observer.observe(el));
+
+  </script>
 </body>
 </html>

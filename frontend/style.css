@@ -211,7 +211,7 @@ h1, .button {
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: white;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-family: 'Ysabeau', Arial, sans-serif; /* ✅ match your site font */
   color: #555; /* ✅ slightly lighter shade than black */
 }
@@ -309,4 +309,99 @@ h1, .button {
   margin-left: -30px;  /* adjust this number as needed */
   max-width: 5400px;
 }
+
+/* Choices.js overrides for scrollable dropdown */
+.choices__list--dropdown {
+  max-height: 200px;   /* limit dropdown height */
+  overflow-y: auto;    /* scrollable */
+}
+
+/* Force Choices.js select boxes to be thinner */
+.booking-item select.choices__input,
+.choices__inner {
+  min-height: 36px !important;   /* adjust to match your date input */
+  height: 36px !important;
+  padding: 4px 12px !important;
+  font-size: 1.0rem !important;
+  line-height: 1.2 !important;
+  border-radius: 6px !important;
+}
+
+/* Dropdown options */
+.choices__list--dropdown .choices__item {
+  padding: 6px 12px !important;
+  font-size: 0.9rem !important;
+}
+
+/* Right-align text inside date inputs */
+.booking-item input[type="date"] {
+  text-align: left;
+}
+
+/* Right-align text inside Choices.js select boxes */
+.booking-item .choices__inner {
+  text-align: left !important;
+}
+
+/* Target the actual Choices.js container */
+.booking-item .choices {
+  width: 100% !important;       /* prevent horizontal stretching */
+}
+
+.booking-item .choices__inner {
+  min-height: 45px !important;  /* match date input */
+  height: 45px !important;
+  padding: 6px 12px !important; /* vertical padding */
+  display: flex !important;      /* flex helps vertical alignment */
+  align-items: center !important; /* vertically center text */
+  text-align: left !important;   /* left-align text */
+  box-sizing: border-box !important;
+}
+
+/* Placeholder text vertical alignment */
+.booking-item .choices__placeholder {
+  line-height: normal !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Options dropdown sizing */
+.choices__list--dropdown {
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+/* Individual dropdown items */
+.choices__list--dropdown .choices__item {
+  padding: 6px 12px !important;
+  font-size: 0.9rem !important;
+}
+
+.testimonials-title {
+  font-family: 'Ysabeau SC', Arial, sans-serif;
+  font-weight: 100;
+  font-size: 2rem;
+  margin: 0 0 20px 0;   /* space below the header */
+  padding: 0;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.testimonials-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Row for testimonials */
+.testimonial-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;  /* left align */
+  margin-bottom: 40px;
+}
+
+
 

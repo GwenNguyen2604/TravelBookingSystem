@@ -345,7 +345,7 @@ h1, .button {
   font-family: 'Ysabeau SC', Arial, sans-serif;
   font-weight: 100;
   font-size: 2rem;
-  margin: 0 0 20px 0;
+  margin: 20px 0px 0px 40px;
   padding: 0;
   text-align: left;
   opacity: 0;
@@ -365,3 +365,47 @@ h1, .button {
   justify-content: flex-start;
   margin-bottom: 40px;
 }
+
+.testimonials-subtitle {
+  font-family: 'Ysabeau', Arial, sans-serif;
+  font-style: italic;
+  color: #777;
+  font-size: 1.1rem;
+  margin: 4px 40px 0 40px;   /* top right bottom left */
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+
+.testimonials-subtitle.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.testimonial-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 90px;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+.testimonial-img {
+  flex: 0 0 auto;       /* don’t stretch or shrink */
+  width: auto;           /* natural width */
+  max-width: 350px;      /* cap the width */
+  height: auto;          /* maintain aspect ratio */
+  object-fit: contain;   /* keep image proportions */
+  opacity: 0;
+  transform: translateY(20px) translateX(-20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* when visible */
+.testimonial-img.visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0);
+}
+

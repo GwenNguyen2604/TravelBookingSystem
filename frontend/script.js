@@ -16,7 +16,7 @@ pickupDateInput.addEventListener('change', function () {
 function populateTimes(selectId, intervalMinutes = 30) {
   const select = document.getElementById(selectId);
 
-  for (let hour = 8; hour <= 22; hour++) {   // 8am to 10pm
+  for (let hour = 8; hour <= 22; hour++) {
     for (let min = 0; min < 60; min += intervalMinutes) {
       const hour12 = hour % 12 === 0 ? 12 : hour % 12;
       const ampm = hour < 12 ? "AM" : "PM";
@@ -35,7 +35,7 @@ function populateTimes(selectId, intervalMinutes = 30) {
 populateTimes("pickup-time");
 populateTimes("dropoff-time");
 
-// Initialize Choices.js with sorting disabled
+// ------------------ Initialize Choices.js ------------------
 // Locations
 const pickupLocChoice = new Choices('#pickup-location', { 
   searchEnabled: false, 
@@ -60,8 +60,7 @@ const dropoffTimeChoice = new Choices('#dropoff-time', {
   shouldSort: false 
 });
 
-// ------------------ Force dropdown height with JavaScript ------------------
-// This runs after Choices.js initializes
+// ------------------ Force dropdown height ------------------
 function forceDropdownHeight() {
   const allDropdowns = document.querySelectorAll('.choices__list--dropdown');
   allDropdowns.forEach(dropdown => {
@@ -69,32 +68,29 @@ function forceDropdownHeight() {
     dropdown.style.setProperty('overflow-y', 'auto', 'important');
     dropdown.style.setProperty('overflow-x', 'hidden', 'important');
   });
-  
-  // Hide scrollbar on ALL parent containers
+
   const choicesContainers = document.querySelectorAll('.choices');
   choicesContainers.forEach(container => {
     container.style.setProperty('overflow', 'visible', 'important');
   });
-  
+
   const choicesLists = document.querySelectorAll('.choices__list');
   choicesLists.forEach(list => {
     if (!list.classList.contains('choices__list--dropdown')) {
       list.style.setProperty('overflow', 'visible', 'important');
     }
   });
-  
+
   const choicesInner = document.querySelectorAll('.choices__inner');
   choicesInner.forEach(inner => {
     inner.style.setProperty('overflow', 'hidden', 'important');
   });
 }
 
-// Run multiple times to catch the dropdowns
 setTimeout(forceDropdownHeight, 50);
 setTimeout(forceDropdownHeight, 200);
 setTimeout(forceDropdownHeight, 500);
 
-// Also add event listeners to fix height when dropdowns open
 [pickupLocChoice, dropoffLocChoice, pickupTimeChoice, dropoffTimeChoice].forEach(choice => {
   choice.passedElement.element.addEventListener('showDropdown', function() {
     setTimeout(function() {
@@ -104,7 +100,6 @@ setTimeout(forceDropdownHeight, 500);
         dropdown.style.setProperty('overflow-y', 'auto', 'important');
         dropdown.style.setProperty('overflow-x', 'hidden', 'important');
       }
-      // Fix ALL parent overflows
       const allParents = dropdown.closest('.choices');
       if (allParents) {
         allParents.style.setProperty('overflow', 'visible', 'important');
@@ -115,8 +110,11 @@ setTimeout(forceDropdownHeight, 500);
   });
 });
 
-// ------------------ Featured Brands Animation ------------------
-const featuredElements = document.querySelectorAll('.featured-title, .brand-row');
+// ------------------ Featured Brands + Testimonials Animation ------------------
+const animatedElements = document.querySelectorAll(
+  '.featured-title, .brand-row, .testimonials-title, .testimonials-subtitle'
+);
+
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -126,7 +124,22 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.5 });
 
-featuredElements.forEach(el => observer.observe(el));
+animatedElements.forEach(el => observer.observe(el));
 
-const testimonialElements = document.querySelectorAll('.testimonials-title');
-testimonialElements.forEach(el => observer.observe(el));
+// ------------------ Testimonial Images Fade In ------------------
+const testimonialImages = document.querySelectorAll('.testimonial-img');
+
+const testimonialObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      testimonialObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+// Apply staggered delay via JS
+testimonialImages.forEach((img, index) => {
+  img.style.transitionDelay = `${index * 0.2}s`;
+  testimonialObserver.observe(img);
+});

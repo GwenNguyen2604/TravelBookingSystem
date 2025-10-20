@@ -26,7 +26,15 @@ class DatabaseLogger:
         pass
 
     @staticmethod
+    def LogRentalPriceFailedRequest(vin):
+        pass
+
+    @staticmethod
     def LogRentalPriceAdded(vin, price):
+        pass
+
+    @staticmethod
+    def LogRentalPriceFailAdded(vin):
         pass
 
     @staticmethod

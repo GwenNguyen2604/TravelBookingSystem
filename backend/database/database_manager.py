@@ -88,9 +88,13 @@ class CarsDatabase:
 
         exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
 
-        if (exists.arraysize != 0): return
+        if (exists.arraysize != 0): 
+            database_logger.DatabaseLogger.LogRentalPriceFailAdded(vin)
+            return
 
         con.execute("INSERT INTO rental_price_table (vin, rental_price) VALUES (?, ?)", (vin, price,))
+
+        database_logger.DatabaseLogger.LogRentalPriceAdded(vin, price)
 
         con.commit()
 
@@ -112,11 +116,26 @@ class CarsDatabase:
     # Description: Gets all rental prices and vins from the rental_price_table table as a sqlite object
     @staticmethod
     def GetAllRentalPricesFromTable():
-        pass
+        con = sqlite3.connect(CarsDatabase.database)
 
+        allPrices = con.execute("SELECT * FROM rental_price_table")
+
+        con.commit()
+
+        return allPrices
+
+    # Description: Sets a new price to an existing vin in the rental_price_table table. Returns if the vin doesn't exist
     @staticmethod
     def UpdateRentalPriceInTable(vin, new_price):
-        pass
+        con = sqlite3.connect(CarsDatabase.database)
+
+        exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
+
+        if (exists.arraysize == 0): return
+
+        con.execute("UPDATE rental_price_table SET rental_price = ? WHERE vin = ?", (new_price, vin,))
+
+        con.commit()
 
     #STATUS MANAGER
     @staticmethod

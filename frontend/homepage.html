@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Website</title>
+
+  <!-- Regular Ysabeau -->
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Ysabeau SC Semibold -->
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
+
+  <!-- Alegreya Sans SC -->
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Choices.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+</head>
+<body>
+  <!-- Banner -->
+  <div class="home-banner">
+    <a href="homepage.html" class="banner-logo">
+      <img src="images/manta.png" alt="Logo" class="logo-image">
+      <img src="images/mantaname.png" alt="Logo Name" class="logo-name-image">
+    </a>
+
+    <div class="banner-right">
+      <div class="banner-links">
+        <a href="vehicles.html" class="text-link">Vehicles</a>
+        <a href="location.html" class="text-link">Locations</a>
+        <a href="support.html" class="text-link">Support</a>
+      </div>
+      <div class="banner-buttons">
+        <a href="signin.html" class="button sign-in">Sign In</a>
+        <a href="register.html" class="button register">Register</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero image -->
+  <div class="hero-image">
+    <img src="images/car.png" alt="Hero Image">
+    <div class="hero-text">
+      <span class="blue">Unlock</span>
+      <span class="blue">a</span>
+      <span class="white">Smoother</span>
+      <span class="blue">Ride</span>
+    </div>
+
+    <!-- Booking form overlay -->
+    <div class="booking-form">
+      <!-- Top row: Locations -->
+      <div class="booking-row">
+        <div class="booking-item location-item">
+          <label for="pickup-location">Pickup Location</label>
+          <select id="pickup-location">
+            <option value="" disabled selected>Select pickup location</option>
+            <option value="Los Angeles, CA">Los Angeles, CA</option>
+            <option value="San Francisco, CA">San Francisco, CA</option>
+            <option value="San Diego, CA">San Diego, CA</option>
+            <option value="Anaheim, CA">Anaheim, CA</option>
+            <option value="Sacramento, CA">Sacramento, CA</option>
+            <option value="San Jose, CA">San Jose, CA</option>
+            <option value="Oakland, CA">Oakland, CA</option>
+            <option value="Palm Springs, CA">Palm Springs, CA</option>
+            <option value="Fresno, CA">Fresno, CA</option>
+            <option value="Santa Barbara, CA">Santa Barbara, CA</option>
+          </select>
+        </div>
+
+        <div class="booking-item location-item">
+          <label for="dropoff-location">Dropoff Location</label>
+          <select id="dropoff-location">
+            <option value="" disabled selected>Select dropoff location</option>
+            <option value="Los Angeles, CA">Los Angeles, CA</option>
+            <option value="San Francisco, CA">San Francisco, CA</option>
+            <option value="San Diego, CA">San Diego, CA</option>
+            <option value="Anaheim, CA">Anaheim, CA</option>
+            <option value="Sacramento, CA">Sacramento, CA</option>
+            <option value="San Jose, CA">San Jose, CA</option>
+            <option value="Oakland, CA">Oakland, CA</option>
+            <option value="Palm Springs, CA">Palm Springs, CA</option>
+            <option value="Fresno, CA">Fresno, CA</option>
+            <option value="Santa Barbara, CA">Santa Barbara, CA</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Bottom row: Dates and Times -->
+      <div class="booking-row">
+        <div class="booking-item">
+          <label for="pickup-date">Pickup Date</label>
+          <input type="date" id="pickup-date">
+        </div>
+
+        <div class="booking-item">
+          <label for="pickup-time">Pickup Time</label>
+          <select id="pickup-time">
+            <option value="" disabled selected>Select pickup time</option>
+          </select>
+        </div>
+
+        <div class="booking-item">
+          <label for="dropoff-date">Dropoff Date</label>
+          <input type="date" id="dropoff-date">
+        </div>
+
+        <div class="booking-item">
+          <label for="dropoff-time">Dropoff Time</label>
+          <select id="dropoff-time">
+            <option value="" disabled selected>Select dropoff time</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="button search-button">Search</button>
+    </div>
+  </div>
+
+  <!-- Featured Brands Section -->
+  <section class="featured-brands">
+    <h2 class="featured-title">Featured Brands</h2>
+    <div class="brand-row">
+      <img src="images/firstbrandrow.png" alt="Brands Row 1" class="brand-logo">
+    </div>
+    <div class="brand-row">
+      <img src="images/secondbrandrow.png" alt="Brands Row 2" class="brand-logo">
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+<section class="testimonials">
+  <h2 class="testimonials-title">Testimonials</h2>
+  <p class="testimonials-subtitle">Effortless. Proven.</p>
+  <div class="testimonial-row">
+    <!-- Individual testimonials -->
+  <img class="testimonial-img" src="images/testimonial1.png" alt="Testimonial 1">
+  <img class="testimonial-img" src="images/testimonial2.png" alt="Testimonial 2">
+  <img class="testimonial-img" src="images/testimonial3.png" alt="Testimonial 3">
+  </div>
+
+</section>
+
+
+  <!-- Choices.js -->
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+  <!-- Your custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

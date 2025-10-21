@@ -6,57 +6,57 @@ class DatabaseLogger:
         pass
 
     @staticmethod
-    def LogCarAddToMasterTable(make, model, year, vin):
+    def log_car_add_to_master_table(make, model, year, vin):
         pass
 
     @staticmethod
-    def LogRatingAddedToRatingTable(vin, rating, comment, date_time):
+    def log_rating_added_to_rating_table(vin, rating, comment, date_time):
         pass
 
     @staticmethod
-    def LogRatingRequest(vin):
+    def log_rating_request(vin):
         pass
 
     @staticmethod
-    def LogFailedRatingRequest(vin):
+    def log_failed_rating_request(vin):
         pass
 
     @staticmethod
-    def LogRentalPriceRequest(vin):
+    def log_rental_price_request(vin):
         pass
 
     @staticmethod
-    def LogRentalPriceFailedRequest(vin):
+    def log_rental_price_failed_request(vin):
         pass
 
     @staticmethod
-    def LogRentalPriceAdded(vin, price):
+    def log_rental_price_added(vin, price):
         pass
 
     @staticmethod
-    def LogRentalPriceFailAdded(vin):
+    def log_rental_price_fail_added(vin):
         pass
 
     @staticmethod
-    def LogStatusChange(vin, status):
+    def log_status_change(vin, status):
         pass
 
     @staticmethod
-    def LogGetStatusRequest(vin, status):
+    def log_get_status_request(vin, status):
         pass
 
     @staticmethod
-    def LogMaintenanceTableAdd(vin):
+    def log_maintenance_table_add(vin):
         pass
 
     @staticmethod
-    def LogMaintenanceTableRemove(vin, start_time, end_time, service_performed):
+    def log_maintenance_table_remove(vin, start_time, end_time, service_performed):
         pass
 
     @staticmethod
-    def LogCarAddedToRentedTable(vin, start_date, end_date):
+    def log_car_added_to_rented_table(vin, start_date, end_date):
         pass
 
     @staticmethod
-    def LogCarRemovedFromRentedTable(vin):
+    def log_car_removed_from_rented_table(vin):
         pass

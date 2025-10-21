@@ -14,7 +14,7 @@ class CarsDatabase:
 
     # Description: Adds a car to the master table in the 'cars.db' database
     @staticmethod
-    def AddNewCarToTable(make, model, year, vin):
+    def add_new_car_to_table(make, model, year, vin):
         con = sqlite3.connect(CarsDatabase.database)
 
         database_logger.DatabaseLogger.LogCarAddToMasterTable(make, model, year, vin)
@@ -27,7 +27,7 @@ class CarsDatabase:
     
     # Description: Gets all car data from the master table in the 'cars.db' database and returns a sqlite object
     @staticmethod
-    def GetAllCarsFromMasterTable():
+    def get_all_cars_from_master_table():
         con = sqlite3.connect(CarsDatabase.database)
 
         data = con.execute("SELECT * FROM master_table")
@@ -38,14 +38,14 @@ class CarsDatabase:
 
     # Description: Returns true if the database exists, otherwise returns false
     @staticmethod
-    def CheckIfDatabaseExists():
+    def check_if_database_exists():
         return os.path.exists(CarsDatabase.database)
 
     # *** RATING MANAGER ***
 
     # Description: Returns a sqlite object containing all rating data given a vin; Returns nothing if there are no ratings
     @staticmethod
-    def GetAllRatings(vin):
+    def get_all_ratings(vin):
         con = sqlite3.connect(CarsDatabase.database)
 
         database_logger.DatabaseLogger.LogRatingRequest(vin)
@@ -64,7 +64,7 @@ class CarsDatabase:
 
     # Description: Adds a rating and a comment to a unique table for the vin; Creates a new table if the vin doesn't exist in the rating_master table
     @staticmethod
-    def AddNewRatingAndComment(vin, rating, comment):
+    def add_new_rating_and_comment(vin, rating, comment):
         con = sqlite3.connect(CarsDatabase.database)
 
         date_time = datetime.date.fromtimestamp(time.time()).isoformat()
@@ -81,7 +81,7 @@ class CarsDatabase:
 
     # Description: Adds a rental price to a vin if the vin doesn't exist in the table
     @staticmethod
-    def AddRentalPriceToTable(vin, price):
+    def add_rental_price_to_table(vin, price):
         con = sqlite3.connect(CarsDatabase.database)
 
         con.execute("CREATE TABLE IF NOT EXISTS rental_price_table (vin TEXT, rental_price TEXT)")
@@ -100,7 +100,7 @@ class CarsDatabase:
 
     # Description: Gets a rental price from the table given a vin number; Returns nothing if the vin doesn't exist
     @staticmethod
-    def GetRentalPriceFromTable(vin):
+    def get_rental_price_from_table(vin):
         con = sqlite3.connect(CarsDatabase.database)
 
         exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
@@ -115,7 +115,7 @@ class CarsDatabase:
 
     # Description: Gets all rental prices and vins from the rental_price_table table as a sqlite object
     @staticmethod
-    def GetAllRentalPricesFromTable():
+    def get_all_rental_prices_from_table():
         con = sqlite3.connect(CarsDatabase.database)
 
         allPrices = con.execute("SELECT * FROM rental_price_table")
@@ -126,7 +126,7 @@ class CarsDatabase:
 
     # Description: Sets a new price to an existing vin in the rental_price_table table. Returns if the vin doesn't exist
     @staticmethod
-    def UpdateRentalPriceInTable(vin, new_price):
+    def update_rental_price_in_table(vin, new_price):
         con = sqlite3.connect(CarsDatabase.database)
 
         exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
@@ -139,40 +139,40 @@ class CarsDatabase:
 
     #STATUS MANAGER
     @staticmethod
-    def SetStatusToTable(vin, status):
+    def set_status_to_table(vin, status):
         pass
 
     @staticmethod
-    def GetStatusFromTable(vin):
+    def get_status_from_table(vin):
         pass
 
     #RENTED CAR MANAGER
     @staticmethod
-    def AddCarToRentedTable(vin, start_time, end_time):
+    def add_car_to_rented_table(vin, start_time, end_time):
         pass
 
     @staticmethod
-    def RemoveCarFromRentedTable(vin):
+    def remove_car_from_rented_table(vin):
         pass
 
     #MAINTENANCE MANAGER
     @staticmethod
-    def MoveCarToMaintenanceTable(vin):
+    def move_car_to_maintenance_table(vin):
         pass
 
     @staticmethod
-    def SetTimeInMaintenance(vin, time_in):
+    def set_time_in_maintenance(vin, time_in):
         pass
 
     @staticmethod
-    def SetTimeOutMaintenance(vin, time_out):
+    def set_time_out_maintenance(vin, time_out):
         pass
 
     @staticmethod
-    def SetServicePerformedMaintenance(vin, service_performed):
+    def set_service_performed_maintenance(vin, service_performed):
         pass
 
     @staticmethod
-    def WriteToMaintenanceLogTable(vin, time_in, time_out, service_performed):
+    def write_to_maintenance_log_table(vin, time_in, time_out, service_performed):
         pass
 

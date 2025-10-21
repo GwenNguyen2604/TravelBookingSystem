@@ -25,8 +25,8 @@ This project involves the end-to-end development of a digital platform for Manta
 
 ## 🔌 Installation Steps
 
-1. **Install Dependencies**
-    Install [node.js] (https://nodejs.org/en/download)
+1. **Install Dependencies**  
+    Install [node.js](https://nodejs.org/en/download)  
     Check if installed in terminal: 
     ```bash
     node -v
@@ -39,7 +39,7 @@ This project involves the end-to-end development of a digital platform for Manta
    sudo npm install -g serve
    ```
 
-3. **Run the Server**
+3. **Run the Server**  
     From the root, run:
    ```bash
    serve .

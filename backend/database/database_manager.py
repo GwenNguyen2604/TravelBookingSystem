@@ -195,7 +195,8 @@ def move_car_between_tables_util(source_table, dest_table, car_vin):
     #check if the car exists in the source table
     check = con.execute(f"SELECT vin FROM {source_table} WHERE vin = ?", (car_vin,))
 
-    if check.fetchall() == []: return
+    if check.fetchall() == []:
+        return
 
     #Creates destination table if it doesn't exist
     con.execute(f"""CREATE TABLE IF NOT EXISTS {dest_table} (
@@ -244,10 +245,10 @@ def get_all_cars_with_filter_util(filter_field, filter_value):
     """
 
     con = sqlite3.connect(DB_FILE)
-    allCars = con.execute(f"SELECT * FROM {CARS_TABLE} WHERE {filter_field} = ?",
+    all_cars = con.execute(f"SELECT * FROM {CARS_TABLE} WHERE {filter_field} = ?",
                           (filter_value,))
     con.commit()
-    return allCars
+    return all_cars
 
 
 # Name: AddColumnToCarsTable

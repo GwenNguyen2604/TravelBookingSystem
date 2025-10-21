@@ -1,6 +1,8 @@
 """
     This module duplicates database
 """
+
+
 class DatabaseDuplicator:
     """
     This class duplicates database

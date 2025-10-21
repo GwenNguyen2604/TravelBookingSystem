@@ -4,6 +4,7 @@
 import datetime
 import time
 
+
 class DatabaseLogger:
     """
     This class manage logging
@@ -78,7 +79,12 @@ class DatabaseLogger:
         """
 
     @staticmethod
-    def log_maintenance_table_remove(vin, start_time, end_time, service_performed):
+    def log_maintenance_table_remove(
+        vin,
+        start_time,
+        end_time,
+        service_performed
+    ):
         """
         // Function description
         """

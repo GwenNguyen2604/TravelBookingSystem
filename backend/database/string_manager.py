@@ -1,6 +1,8 @@
 """
     This module manage string
 """
+
+
 class StringManager:
     """
     This class manage string

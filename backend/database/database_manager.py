@@ -7,10 +7,12 @@ import database_logger
 import datetime
 import time
 
+
 class CarsDatabase:
     """
     This class is the car database class
     """
+
     database = 'cars.db'
 
     def __init__(self):
@@ -25,22 +27,33 @@ class CarsDatabase:
         """
         con = sqlite3.connect(CarsDatabase.database)
 
-        database_logger.DatabaseLogger.log_car_add_to_master_table(make, model, year, vin)
+        database_logger.DatabaseLogger.log_car_add_to_master_table(
+            make,
+            model,
+            year,
+            vin
+        )
 
-        con.execute("""CREATE TABLE IF NOT EXISTS master_table (
-                        make TEXT, model TEXT, year INTEGER, vin TEXT)
+        con.execute("""
+                        CREATE TABLE IF NOT EXISTS master_table (
+                            make TEXT,
+                            model TEXT,
+                            year INTEGER,
+                            vin TEXT)
                     """)
 
-        con.execute("INSERT INTO cars (make, model, year, vin) VALUES (?, ?, ?, ?)",
-                    (make, model, year, vin,))
+        con.execute("""
+                        INSERT INTO cars (make, model, year, vin)
+                        VALUES (?, ?, ?, ?)
+                    """, (make, model, year, vin,))
 
         con.commit()
-
 
     @staticmethod
     def get_all_cars_from_master_table():
         """
-        Description: Gets all car data from the master table in the 'cars.db' database
+        Description: Gets all car data from the master table in the
+                     'cars.db' database
                      returns a sqlite object
         """
         con = sqlite3.connect(CarsDatabase.database)
@@ -51,99 +64,115 @@ class CarsDatabase:
 
         return data
 
-
     @staticmethod
     def check_if_database_exists():
         """
-        Description: Returns true if the database exists, otherwise returns false
+        Description: Returns true if the database exists,
+                     otherwise returns false
         """
         return os.path.exists(CarsDatabase.database)
-
-
     # *** RATING MANAGER ***
 
     @staticmethod
     def get_all_ratings(vin):
         """
-        Description: eturns a sqlite object containing all rating data given a vin;
+        Description: returns a sqlite object containing all rating data
+                     given a vin;
                      Returns nothing if there are no ratings
         """
         con = sqlite3.connect(CarsDatabase.database)
 
         database_logger.DatabaseLogger.log_rating_request(vin)
 
-        exists = con.execute("SELECT * FROM rating_master WHERE vin = ?", (vin,))
+        exists = con.execute("""
+                                SELECT *
+                                FROM rating_master WHERE vin = ?
+                             """, (vin,))
 
         if exists.arraysize == 0:
             database_logger.DatabaseLogger.log_failed_rating_request(vin)
             return None
 
-        rating_data = con.execute("SELECT * FROM ?_rating_comment_table", (vin,))
+        rating_data = con.execute("""
+                                    SELECT *
+                                    FROM ?_rating_comment_table
+                                  """, (vin,))
 
         con.commit()
 
         return rating_data
 
-
     @staticmethod
     def add_new_rating_and_comment(vin, rating, comment):
         """
         Description: Adds a rating and a comment to a unique table for the vin;
-                     Creates a new table if the vin doesn't exist in the rating_master table
+                     Creates a new table if the vin doesn't exist
+                     in the rating_master table
         """
         con = sqlite3.connect(CarsDatabase.database)
 
         date_time = datetime.date.fromtimestamp(time.time()).isoformat()
 
         con.execute("""
-            CREATE TABLE IF NOT EXISTS ?_rating_comment_table (
-                rating TEXT,
-                comment TEXT,
-                datetime TEXT
-            )
-            """, (vin,)
-        )
+                        CREATE TABLE IF NOT EXISTS ?_rating_comment_table (
+                            rating TEXT,
+                            comment TEXT,
+                            datetime TEXT
+                        )
+                    """, (vin,))
 
         con.execute("""
-            INSERT INTO ?_rating_comment_table (
-                rating,
-                comment,
-                datetime
-            ) VALUES (?, ?, ?)""",
-            (vin, rating, comment, date_time,)
-        )
+                        INSERT INTO ?_rating_comment_table (
+                            rating,
+                            comment,
+                            datetime
+                        )
+                        VALUES (?, ?, ?)
+                    """, (vin, rating, comment, date_time,))
 
         database_logger.DatabaseLogger.log_rating_added_to_rating_table(
             vin, rating, comment, date_time
         )
 
         con.commit()
-
-
     # *** RENTAL PRICE MANAGER ***
 
     @staticmethod
     def add_rental_price_to_table(vin, price):
         """
-        Description: Adds a rental price to a vin if the vin doesn't exist in the table
+        Description: Adds a rental price to a vin
+                     if the vin doesn't exist in the table
         """
         con = sqlite3.connect(CarsDatabase.database)
 
-        con.execute("CREATE TABLE IF NOT EXISTS rental_price_table (vin TEXT, rental_price TEXT)")
+        con.execute("""
+                        CREATE TABLE IF NOT EXISTS rental_price_table (
+                            vin TEXT,
+                            rental_price TEXT
+                        )
+                    """)
 
-        exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
+        exists = con.execute("""
+                                SELECT *
+                                FROM rental_price_table
+                                WHERE vin = ?
+                             """, (vin,))
 
         if exists.arraysize != 0:
             database_logger.DatabaseLogger.log_rental_price_fail_added(vin)
             return
 
-        con.execute("INSERT INTO rental_price_table (vin, rental_price) VALUES (?, ?)",
-                    (vin, price,))
+        con.execute("""
+                        INSERT INTO rental_price_table (
+                            vin,
+                            rental_price
+                        )
+                        VALUES (?, ?)
+                    """, (vin, price,))
 
         database_logger.DatabaseLogger.log_rental_price_added(vin, price)
 
         con.commit()
-
 
     @staticmethod
     def get_rental_price_from_table(vin):
@@ -153,22 +182,30 @@ class CarsDatabase:
         """
         con = sqlite3.connect(CarsDatabase.database)
 
-        exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
+        exists = con.execute("""
+                                SELECT *
+                                FROM rental_price_table
+                                WHERE vin = ?
+                             """, (vin,))
 
         if exists.arraysize == 0:
             return None
 
-        price = con.execute("SELECT rental_price FROM rental_price_table WHERE vin = ?", (vin,))
+        price = con.execute("""
+                                SELECT rental_price
+                                FROM rental_price_table
+                                WHERE vin = ?
+                            """, (vin,))
 
         con.commit()
 
         return price
 
-
     @staticmethod
     def get_all_rental_prices_from_table():
         """
-        Description: Gets all rental prices and vins from the rental_price_table as a sqlite object
+        Description: Gets all rental prices and vins from the
+                     rental_price_table as a sqlite object
         """
         con = sqlite3.connect(CarsDatabase.database)
 
@@ -178,26 +215,32 @@ class CarsDatabase:
 
         return all_prices
 
-
     @staticmethod
     def update_rental_price_in_table(vin, new_price):
         """
-        Description: Sets a new price to an existing vin in the rental_price_table table.
-                     Returns if the vin doesn't exist
+        Description: Sets a new price to an existing vin in the
+                     rental_price_table. Returns if the vin doesn't exist
         """
         con = sqlite3.connect(CarsDatabase.database)
 
-        exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
+        exists = con.execute("""
+                                SELECT *
+                                FROM rental_price_table
+                                WHERE vin = ?
+                             """, (vin,))
 
         if exists.arraysize == 0:
             return
 
-        con.execute("UPDATE rental_price_table SET rental_price = ? WHERE vin = ?",
-                    (new_price, vin,))
+        con.execute("""
+                        UPDATE rental_price_table
+                        SET rental_price = ?
+                        WHERE vin = ?
+                    """, (new_price, vin,))
 
         con.commit()
 
-    #STATUS MANAGER
+    # STATUS MANAGER
     @staticmethod
     def set_status_to_table(vin, status):
         """
@@ -210,7 +253,7 @@ class CarsDatabase:
         // Function description
         """
 
-    #RENTED CAR MANAGER
+    # RENTED CAR MANAGER
     @staticmethod
     def add_car_to_rented_table(vin, start_time, end_time):
         """
@@ -223,7 +266,7 @@ class CarsDatabase:
         // Function description
         """
 
-    #MAINTENANCE MANAGER
+    # MAINTENANCE MANAGER
     @staticmethod
     def move_car_to_maintenance_table(vin):
         """
@@ -249,7 +292,12 @@ class CarsDatabase:
         """
 
     @staticmethod
-    def write_to_maintenance_log_table(vin, time_in, time_out, service_performed):
+    def write_to_maintenance_log_table(
+        vin,
+        time_in,
+        time_out,
+        service_performed
+    ):
         """
         // Function description
         """

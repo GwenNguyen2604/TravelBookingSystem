@@ -1,3 +1,6 @@
+"""
+    This module...
+"""
 import sqlite3
 
 # Connect to the database
@@ -10,7 +13,7 @@ cursor = conn.cursor()
    # brand TEXT,
    # model TEXT,
   #  year INTEGER,
-   # vin TEXT,  
+   # vin TEXT,
  #   UNIQUE(brand, model, year, vin)
 #)
 #""")
@@ -42,5 +45,3 @@ for row in rows:
 
 # 6. Close the connection
 conn.close()
-
-

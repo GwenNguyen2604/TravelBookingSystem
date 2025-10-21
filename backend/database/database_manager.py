@@ -1,194 +1,178 @@
 import sqlite3
 import os
+import database_logger
+import datetime
+import time
 
-#Name: CheckIfDatabaseExists
-#Description: Returns true if the database exists, false otherwise
-def CheckIfDatabaseExists():
-    return os.path.exists('car_Rental.db')
+class CarsDatabase:
+    database = 'cars.db'
 
-#Name: WriteNewCarToTable
-#Description: Creates a new car entry to the table in the database
-def WriteNewCarToTable(brand_name, model_name, model_year, car_vin):
-    con = sqlite3.connect('car_Rental.db')
+    def __init__(self):
+        pass
 
-    con.execute("INSERT INTO cars (brand, model, year, vin) VALUES (?, ?, ?, ?)", (brand_name, model_name, model_year, car_vin))
+    # *** MASTER TABLE ***
 
-    con.commit()
+    # Description: Adds a car to the master table in the 'cars.db' database
+    @staticmethod
+    def add_new_car_to_table(make, model, year, vin):
+        con = sqlite3.connect(CarsDatabase.database)
 
-#Name: GetAllCarsFromTable
-#Description: Gets the data of the cars in the database
-def GetAllCarsFromTable():
-    con = sqlite3.connect('car_Rental.db')
+        database_logger.DatabaseLogger.LogCarAddToMasterTable(make, model, year, vin)
 
-    carData = con.execute("SELECT * FROM cars")
+        con.execute("CREATE TABLE IF NOT EXISTS master_table (make TEXT, model TEXT, year INTEGER, vin TEXT)")
+
+        con.execute("INSERT INTO cars (make, model, year, vin) VALUES (?, ?, ?, ?)", (make, model, year, vin,))
+
+        con.commit()
     
-<<<<<<< Updated upstream
-    print("*** cars table ***")
-    data = carData.fetchall()
-    for row in data:
-        print(row)
+    # Description: Gets all car data from the master table in the 'cars.db' database and returns a sqlite object
+    @staticmethod
+    def get_all_cars_from_master_table():
+        con = sqlite3.connect(CarsDatabase.database)
 
-    print("\n*** maint_cars table ***")
-    maintcarsData = con.execute("SELECT * FROM maint_cars")
-    d = maintcarsData.fetchall()
-    for i in d:
-        print(i)
+        data = con.execute("SELECT * FROM master_table")
 
-    con.commit()
-=======
-    # print("*** cars table ***")
-    # data = carData.fetchall()
-    # for row in data:
-    #     print(row)
+        con.commit()
 
-    # print("\n*** maint_cars table ***")
-    # maintcarsData = con.execute("SELECT * FROM maint_cars")
-    # d = maintcarsData.fetchall()
-    # for i in d:
-    #     print(i)
+        return data
 
-    # con.commit()
->>>>>>> Stashed changes
+    # Description: Returns true if the database exists, otherwise returns false
+    @staticmethod
+    def check_if_database_exists():
+        return os.path.exists(CarsDatabase.database)
 
-    return carData
-    
-#Name: MoveCarToMaintenanceTable
-#Description: Moves a car from the cars table to the maintenance table
-def MoveCarToMaintenanceTable(car_vin):
-    con = sqlite3.connect('car_Rental.db')
+    # *** RATING MANAGER ***
 
-    #First check if the car exists in the cars table
-    check = con.execute("SELECT vin FROM cars WHERE vin = ?", (car_vin,))
+    # Description: Returns a sqlite object containing all rating data given a vin; Returns nothing if there are no ratings
+    @staticmethod
+    def get_all_ratings(vin):
+        con = sqlite3.connect(CarsDatabase.database)
 
-    if (check.fetchall() == []): return
+        database_logger.DatabaseLogger.LogRatingRequest(vin)
 
-    #Creates a new table if maint_cars doesn't exist
-    con.execute("CREATE TABLE IF NOT EXISTS maint_cars (brand TEXT, model TEXT, year INTEGER, vin TEXT)")
+        exists = con.execute("SELECT * FROM rating_master WHERE vin = ?", (vin,))
 
-    con.execute("INSERT INTO maint_cars SELECT * FROM cars WHERE vin = ?", (car_vin,))
+        if (exists.arraysize == 0): 
+            database_logger.DatabaseLogger.LogFailedRatingRequest(vin)
+            return
 
-    con.execute("DELETE FROM cars WHERE vin = ?", (car_vin,))
+        ratingData = con.execute("SELECT * FROM ?_rating_comment_table", (vin,))
 
-    con.commit()
+        con.commit()
 
-#Name: MoveMaintCarToCarsTable
-#Description: Moves a car from the maintenance table to the cars table
-def MoveMaintCarToCarsTable(car_vin):
-    con = sqlite3.connect('car_Rental.db')
+        return ratingData
 
-    check = con.execute("SELECT vin FROM maint_cars WHERE vin = ?", (car_vin,))
+    # Description: Adds a rating and a comment to a unique table for the vin; Creates a new table if the vin doesn't exist in the rating_master table
+    @staticmethod
+    def add_new_rating_and_comment(vin, rating, comment):
+        con = sqlite3.connect(CarsDatabase.database)
 
-    if (check.fetchall() == []): return
+        date_time = datetime.date.fromtimestamp(time.time()).isoformat()
 
-    con.execute("CREATE TABLE IF NOT EXISTS cars (brand TEXT, model TEXT, year INTEGER, vin TEXT)")
+        con.execute("CREATE TABLE IF NOT EXISTS ?_rating_comment_table (rating TEXT, comment TEXT, datetime TEXT)", (vin,))
 
-    con.execute("INSERT INTO cars SELECT * FROM maint_cars WHERE vin = ?", (car_vin,))
+        con.execute("INSERT INTO ?_rating_comment_table (rating, comment, datetime) VALUES (?, ?, ?)", (vin, rating, comment, date_time,))
 
-    con.execute("DELETE FROM maint_cars WHERE vin = ?", (car_vin,))
+        database_logger.DatabaseLogger.LogRatingAddedToRatingTable(vin, rating, comment, date_time)
 
-    con.commit()
+        con.commit()
 
-#Name: GetAllVinsGivenBrand
-#Description: Returns a sql object of all vins given a brand parameter from the cars table
-def GetAllVinsGivenBrand(brand_name):
-    con = sqlite3.connect('car_Rental.db')
+    # *** RENTAL PRICE MANAGER ***
 
-    allCars = con.execute("SELECT vin FROM cars WHERE brand = ?", (brand_name,))
+    # Description: Adds a rental price to a vin if the vin doesn't exist in the table
+    @staticmethod
+    def add_rental_price_to_table(vin, price):
+        con = sqlite3.connect(CarsDatabase.database)
 
-    con.commit()
+        con.execute("CREATE TABLE IF NOT EXISTS rental_price_table (vin TEXT, rental_price TEXT)")
 
-    return allCars
+        exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
 
-#Name: GetAllVinsGivenModel
-#Description: Returns a sql object of all vins given a model parameter from the cars table
-def GetAllVinsGivenModel(model_name):
-    con = sqlite3.connect('car_Rental.db')
+        if (exists.arraysize != 0): 
+            database_logger.DatabaseLogger.LogRentalPriceFailAdded(vin)
+            return
 
-    allCars = con.execute("SELECT vin FROM cars WHERE model = ?", (model_name,))
+        con.execute("INSERT INTO rental_price_table (vin, rental_price) VALUES (?, ?)", (vin, price,))
 
-    con.commit()
+        database_logger.DatabaseLogger.LogRentalPriceAdded(vin, price)
 
-    return allCars
+        con.commit()
 
-#Name: GetAllVinsGivenYear
-#Description: Returns a sql object of all vins given a year parameter from the cars table
-def GetAllVinsGivenYear(year_num):
-    con = sqlite3.connect('car_Rental.db')
+    # Description: Gets a rental price from the table given a vin number; Returns nothing if the vin doesn't exist
+    @staticmethod
+    def get_rental_price_from_table(vin):
+        con = sqlite3.connect(CarsDatabase.database)
 
-    allCars = con.execute("SELECT vin FROM cars WHERE year = ?", (year_num,))
+        exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
 
-    con.commit()
-    
-    return allCars
+        if (exists.arraysize == 0): return
 
-#Name: GetAllCarDataGivenBrand
-#Description: Returns a sql object of all car data given the brand from the cars table
-def GetAllCarDataGivenBrand(brand_name):
-    con = sqlite3.connect('car_Rental.db')
+        price = con.execute("SELECT rental_price FROM rental_price_table WHERE vin = ?", (vin,))
 
-    allCars = con.execute("SELECT * FROM cars WHERE brand = ?", (brand_name,))
+        con.commit()
 
-    con.commit()
+        return price
 
-    return allCars
+    # Description: Gets all rental prices and vins from the rental_price_table table as a sqlite object
+    @staticmethod
+    def get_all_rental_prices_from_table():
+        con = sqlite3.connect(CarsDatabase.database)
 
-#Name: GetAllCarDataGivenModel
-#Description: Returns a sql object of all car data given the model from the cars table
-def GetAllCarDataGivenModel(model_name):
-    con = sqlite3.connect('car_Rental.db')
+        allPrices = con.execute("SELECT * FROM rental_price_table")
 
-    allCars = con.execute("SELECT * FROM cars WHERE model = ?", (model_name,))
+        con.commit()
 
-    con.commit()
+        return allPrices
 
-    return allCars
+    # Description: Sets a new price to an existing vin in the rental_price_table table. Returns if the vin doesn't exist
+    @staticmethod
+    def update_rental_price_in_table(vin, new_price):
+        con = sqlite3.connect(CarsDatabase.database)
 
-#Name: GetAllCarDataGivenYear
-def GetAllCarDataGivenYear(year_num):
-    con = sqlite3.connect('car_Rental.db')
+        exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
 
-    allCars = con.execute("SELECT * FROM cars WHERE year = ?", (year_num,))
+        if (exists.arraysize == 0): return
 
-    con.commit()
+        con.execute("UPDATE rental_price_table SET rental_price = ? WHERE vin = ?", (new_price, vin,))
 
-    return allCars
+        con.commit()
 
-#Name: AddColumnToCarsTable
-#Description: Adds a vin column, data type TEXT to the cars table
-#Note: Run this function if the database has not been updated with a new column for the vin
-<<<<<<< Updated upstream
-#def AddColumnToCarsTable():
-    #con = sqlite3.connect('car_Rental.db')
+    #STATUS MANAGER
+    @staticmethod
+    def set_status_to_table(vin, status):
+        pass
 
-    #con.execute("ALTER TABLE cars ADD vin TEXT")
+    @staticmethod
+    def get_status_from_table(vin):
+        pass
 
-    #con.commit()
-=======
-def AddColumnToCarsTable():
-    con = sqlite3.connect('car_Rental.db')
+    #RENTED CAR MANAGER
+    @staticmethod
+    def add_car_to_rented_table(vin, start_time, end_time):
+        pass
 
-    con.execute("ALTER TABLE cars ADD vin TEXT")
+    @staticmethod
+    def remove_car_from_rented_table(vin):
+        pass
 
-    con.commit()
+    #MAINTENANCE MANAGER
+    @staticmethod
+    def move_car_to_maintenance_table(vin):
+        pass
 
-#Name: GetAllCarsAsCSV
-#Description: Gets all cars in the cars table and returns them as a CSV string
-#Note: The string will have to be processed by the caller; Format: brand, model, year, vin, --> Repeat for all cars
-def GetAllCarsAsCSV():
-    csv_string = ""
+    @staticmethod
+    def set_time_in_maintenance(vin, time_in):
+        pass
 
-    con = sqlite3.connect('car_Rental.db')
+    @staticmethod
+    def set_time_out_maintenance(vin, time_out):
+        pass
 
-    allCars = con.execute("SELECT * FROM cars")
+    @staticmethod
+    def set_service_performed_maintenance(vin, service_performed):
+        pass
 
-    data = allCars.fetchall()
+    @staticmethod
+    def write_to_maintenance_log_table(vin, time_in, time_out, service_performed):
+        pass
 
-    for c in data:
-        csv_string += c
-
-    con.commit()
-    
-    return csv_string
-
-print(GetAllCarsAsCSV())
->>>>>>> Stashed changes

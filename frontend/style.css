@@ -48,10 +48,10 @@ h1, .button {
   margin: 0;
   padding: 0 20px;
   display: flex;
-  justify-content: flex-end; /* right-align right-side content */
-  align-items: center;       /* vertical center */
+  justify-content: flex-end;
+  align-items: center;
   box-sizing: border-box;
-  position: relative;        /* for absolute positioning of logo */
+  position: relative;
 }
 
 /* Logo container (left side) */
@@ -65,16 +65,15 @@ h1, .button {
   transform: translateY(-50%);
 }
 
-/* Logo image: size relative to banner height so it fits */
+/* Logo images */
 .logo-image {
-  height: 80%; /* 80% of the banner height */
+  height: 80%;
   width: auto;
-  max-height: 60px; /* prevent overly large images on very tall viewports */
+  max-height: 60px;
 }
 
-/* Logo name image: slightly smaller */
 .logo-name-image {
-  height: 55%; /* 55% of the banner height */
+  height: 55%;
   width: auto;
   max-height: 40px;
 }
@@ -83,14 +82,14 @@ h1, .button {
 .banner-right {
   display: flex;
   align-items: center;
-  gap: 40px; /* space between text links and buttons */
+  gap: 40px;
 }
 
 /* Text links container */
 .banner-links {
   display: flex;
   align-items: center;
-  gap: 40px;  /* space between Vehicles / Location / Support */
+  gap: 40px;
 }
 
 /* Text-only links with animated underline */
@@ -127,7 +126,7 @@ h1, .button {
 
 /* Hero image container */
 .hero-image {
-  position: relative; /* allows positioning text on top */
+  position: relative;
 }
 
 .hero-image img {
@@ -140,14 +139,14 @@ h1, .button {
 /* Text overlay */
 .hero-text {
   position: absolute;
-  top: 22%;             /* vertically center */
-  left: 50%;            /* horizontally center */
+  top: 22%;
+  left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Alegreya Sans SC', Arial, sans-serif;
-  font-size: 5.3rem;      /* adjust size as needed */
+  font-size: 5.3rem;
   font-weight: 400;
   text-align: center;
-  white-space: nowrap;  /* prevents line breaks */
+  white-space: nowrap;
 }
 
 /* Color styling for individual words */
@@ -159,42 +158,39 @@ h1, .button {
   color: #F5F5F5;
 }
 
-/* Booking form overlay on top of hero image */
+/* Booking form overlay */
 .booking-form {
-  position: absolute;       /* float on top of image */
-  bottom: 16%;              /* distance from bottom of hero image */
-  left: 50%;                /* center horizontally */
+  position: absolute;
+  bottom: 16%;
+  left: 50%;
   transform: translateX(-50%);
-  
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  background-color: rgba(255, 255, 255, 0.428); /*semi-transparent white */
+  background-color: rgba(255, 255, 255, 0.428);
   padding: 20px;
   border-radius: 30px;
   max-width: 1000px;
   width: 90%;
-  z-index: 2;               /* ensures it sits above the image */
+  z-index: 2;
 }
-
 
 /* Row container inside the form */
 .booking-row {
-  
   display: flex;
   gap: 20px;
   width: 100%;
-  flex-wrap: wrap;  /* allows wrapping on smaller screens */
+  flex-wrap: wrap;
 }
 
 /* Make location items wider */
 .location-item {
-  flex: 2 1 300px;  /* grow twice as wide as normal items, min width 300px */
+  flex: 2 1 300px;
 }
 
 /* Normal input items (dates/times) */
 .booking-item {
-  flex: 1 1 150px;  /* default size */
+  flex: 1 1 150px;
   display: flex;
   flex-direction: column;
 }
@@ -209,16 +205,15 @@ h1, .button {
 .booking-item select {
   padding: 12px 12px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: white;
-  font-size: 1rem;
-  font-family: 'Ysabeau', Arial, sans-serif; /* ✅ match your site font */
-  color: #555; /* ✅ slightly lighter shade than black */
+  font-size: 0.9rem;
+  font-family: 'Ysabeau', Arial, sans-serif;
+  color: #555;
 }
 
-/* Optional: lighter placeholder text */
 .booking-item select:invalid {
-  color: #999;  /* placeholder color for <select> */
+  color: #999;
 }
 
 .booking-item input::placeholder {
@@ -227,14 +222,13 @@ h1, .button {
 }
 
 .booking-item select {
-  appearance: none;          /* removes native arrow styling */
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><polyline points="1,1 6,6 11,1" fill="none" stroke="gray" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat right 12px center;
   background-size: 12px 8px;
-  padding-right: 36px;        /* ✅ gives space so text doesn’t hit the arrow */
+  padding-right: 36px;
 }
-
 
 .booking-item input:focus,
 .booking-item select:focus {
@@ -242,45 +236,46 @@ h1, .button {
   outline: none;
 }
 
-/* Button stays full width below form */
+/* Search button */
 .search-button {
   background-color: #4B6697;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
-  margin: 20px auto 0 auto; /* top margin 20px, horizontal margins auto */
-  width: 10%;                /* keeps it 20% wide */
+  margin: 20px auto 0 auto;
+  width: 10%;
   cursor: pointer;
-  display: block;            /* needed for margin auto to work */
-  border: #4B6697;         /* border color of search button*/
+  display: block;
+  border: #4B6697;
 }
 
 .search-button:hover {
   background-color: #34507a;
 }
 
+/* Featured Brands Section */
 .featured-brands {
-  margin: 20px 20px;              /* space outside the grey box */
-  padding: 25px 25px 40px 25px;   /* top, right, bottom, left */
-  background-color: #6a799527;    /* very light grey */
+  margin: 20px 20px;
+  padding: 25px 25px 40px 25px;
+  background-color: #6a799527;
   border-radius: 10px;
-  text-align: left;               /* title stays left-aligned */
+  text-align: left;
 }
 
 .featured-title {
   font-family: 'Ysabeau SC', Arial, sans-serif;
   font-weight: 100;
   font-size: 2rem;
-  margin: 0 0 20px 0;       /* 20px space below the title */
-  padding: 0;               /* no padding */
+  margin: 0 0 20px 0;
+  padding: 0;
   opacity: 0;
-  transform: translateY(20px);  /* start slightly lower */
+  transform: translateY(20px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
 .featured-title.visible {
   opacity: 1;
-  transform: translateY(0);     /* moves up into place */
+  transform: translateY(0);
 }
 
 /* Brand rows */
@@ -289,9 +284,8 @@ h1, .button {
   transform: translateY(30px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   margin-bottom: 40px;
-
-  display: flex;             /* use flex for alignment */
-  justify-content: center;   /* center the images horizontally */
+  display: flex;
+  justify-content: center;
 }
 
 .brand-row.visible {
@@ -301,6 +295,117 @@ h1, .button {
 
 .brand-row img {
   width: 80%;
-  max-width: 1000px;
+  max-width: 2000px;
   height: auto;
 }
+
+.brand-row:nth-of-type(2) {
+  margin-left: -30px;
+  max-width: 5400px;
+}
+
+/* Choices.js styling */
+.booking-item input[type="date"] {
+  text-align: left;
+}
+
+.booking-item .choices {
+  width: 100% !important;
+}
+
+.booking-item .choices__inner {
+  min-height: 45px !important;
+  height: 45px !important;
+  padding: 6px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  text-align: left !important;
+  box-sizing: border-box !important;
+}
+
+.booking-item .choices__placeholder {
+  line-height: normal !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.choices__list--dropdown .choices__item {
+  padding: 6px 12px !important;
+  font-size: 0.9rem !important;
+  background-color: white !important;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+  background-color: #4B6697 !important;
+  color: white !important;
+}
+
+/* Testimonials Section */
+.testimonials-title {
+  font-family: 'Ysabeau SC', Arial, sans-serif;
+  font-weight: 100;
+  font-size: 2rem;
+  margin: 20px 0px 0px 40px;
+  padding: 0;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.testimonials-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.testimonial-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+  margin-bottom: 40px;
+}
+
+.testimonials-subtitle {
+  font-family: 'Ysabeau', Arial, sans-serif;
+  font-style: italic;
+  color: #777;
+  font-size: 1.1rem;
+  margin: 4px 40px 0 40px;   /* top right bottom left */
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+
+.testimonials-subtitle.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.testimonial-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 90px;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+.testimonial-img {
+  flex: 0 0 auto;       /* don’t stretch or shrink */
+  width: auto;           /* natural width */
+  max-width: 350px;      /* cap the width */
+  height: auto;          /* maintain aspect ratio */
+  object-fit: contain;   /* keep image proportions */
+  opacity: 0;
+  transform: translateY(20px) translateX(-20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* when visible */
+.testimonial-img.visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0);
+}
+

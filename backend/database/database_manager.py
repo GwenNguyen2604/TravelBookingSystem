@@ -1,3 +1,6 @@
+"""
+    This module manage car database
+"""
 import sqlite3
 import os
 import database_logger
@@ -12,9 +15,11 @@ class CarsDatabase:
 
     # *** MASTER TABLE ***
 
-    # Description: Adds a car to the master table in the 'cars.db' database
     @staticmethod
     def add_new_car_to_table(make, model, year, vin):
+        """
+        Description: Adds a car to the master table in the 'cars.db' database
+        """
         con = sqlite3.connect(CarsDatabase.database)
 
         database_logger.DatabaseLogger.LogCarAddToMasterTable(make, model, year, vin)
@@ -24,10 +29,13 @@ class CarsDatabase:
         con.execute("INSERT INTO cars (make, model, year, vin) VALUES (?, ?, ?, ?)", (make, model, year, vin,))
 
         con.commit()
-    
-    # Description: Gets all car data from the master table in the 'cars.db' database and returns a sqlite object
+
+
     @staticmethod
     def get_all_cars_from_master_table():
+        """
+        Description: Gets all car data from the master table in the 'cars.db' database and returns a sqlite object
+        """
         con = sqlite3.connect(CarsDatabase.database)
 
         data = con.execute("SELECT * FROM master_table")
@@ -36,23 +44,30 @@ class CarsDatabase:
 
         return data
 
-    # Description: Returns true if the database exists, otherwise returns false
+
     @staticmethod
     def check_if_database_exists():
+        """
+        Description: Returns true if the database exists, otherwise returns false
+        """
         return os.path.exists(CarsDatabase.database)
+
 
     # *** RATING MANAGER ***
 
-    # Description: Returns a sqlite object containing all rating data given a vin; Returns nothing if there are no ratings
     @staticmethod
     def get_all_ratings(vin):
+        """
+        Description: eturns a sqlite object containing all rating data given a vin;
+                     Returns nothing if there are no ratings
+        """
         con = sqlite3.connect(CarsDatabase.database)
 
         database_logger.DatabaseLogger.LogRatingRequest(vin)
 
         exists = con.execute("SELECT * FROM rating_master WHERE vin = ?", (vin,))
 
-        if (exists.arraysize == 0): 
+        if (exists.arraysize == 0):
             database_logger.DatabaseLogger.LogFailedRatingRequest(vin)
             return
 
@@ -62,9 +77,13 @@ class CarsDatabase:
 
         return ratingData
 
-    # Description: Adds a rating and a comment to a unique table for the vin; Creates a new table if the vin doesn't exist in the rating_master table
+
     @staticmethod
     def add_new_rating_and_comment(vin, rating, comment):
+        """
+        Description: Adds a rating and a comment to a unique table for the vin;
+                     Creates a new table if the vin doesn't exist in the rating_master table
+        """
         con = sqlite3.connect(CarsDatabase.database)
 
         date_time = datetime.date.fromtimestamp(time.time()).isoformat()
@@ -77,18 +96,21 @@ class CarsDatabase:
 
         con.commit()
 
+
     # *** RENTAL PRICE MANAGER ***
 
-    # Description: Adds a rental price to a vin if the vin doesn't exist in the table
     @staticmethod
     def add_rental_price_to_table(vin, price):
+        """
+        Description: Adds a rental price to a vin if the vin doesn't exist in the table
+        """
         con = sqlite3.connect(CarsDatabase.database)
 
         con.execute("CREATE TABLE IF NOT EXISTS rental_price_table (vin TEXT, rental_price TEXT)")
 
         exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
 
-        if (exists.arraysize != 0): 
+        if (exists.arraysize != 0):
             database_logger.DatabaseLogger.LogRentalPriceFailAdded(vin)
             return
 
@@ -98,9 +120,13 @@ class CarsDatabase:
 
         con.commit()
 
+
     # Description: Gets a rental price from the table given a vin number; Returns nothing if the vin doesn't exist
     @staticmethod
     def get_rental_price_from_table(vin):
+        """
+        Description: Adds a rental price to a vin if the vin doesn't exist in the table
+        """
         con = sqlite3.connect(CarsDatabase.database)
 
         exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
@@ -113,9 +139,12 @@ class CarsDatabase:
 
         return price
 
-    # Description: Gets all rental prices and vins from the rental_price_table table as a sqlite object
+
     @staticmethod
     def get_all_rental_prices_from_table():
+        """
+        Description: Gets all rental prices and vins from the rental_price_table table as a sqlite object
+        """
         con = sqlite3.connect(CarsDatabase.database)
 
         allPrices = con.execute("SELECT * FROM rental_price_table")
@@ -124,9 +153,13 @@ class CarsDatabase:
 
         return allPrices
 
-    # Description: Sets a new price to an existing vin in the rental_price_table table. Returns if the vin doesn't exist
+
     @staticmethod
     def update_rental_price_in_table(vin, new_price):
+        """
+        Description: Sets a new price to an existing vin in the rental_price_table table.
+                     Returns if the vin doesn't exist
+        """
         con = sqlite3.connect(CarsDatabase.database)
 
         exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
@@ -140,39 +173,66 @@ class CarsDatabase:
     #STATUS MANAGER
     @staticmethod
     def set_status_to_table(vin, status):
+        """
+        // Function description
+        """
         pass
 
     @staticmethod
     def get_status_from_table(vin):
+        """
+        // Function description
+        """
         pass
 
     #RENTED CAR MANAGER
     @staticmethod
     def add_car_to_rented_table(vin, start_time, end_time):
+        """
+        // Function description
+        """
         pass
 
     @staticmethod
     def remove_car_from_rented_table(vin):
+        """
+        // Function description
+        """
         pass
 
     #MAINTENANCE MANAGER
     @staticmethod
     def move_car_to_maintenance_table(vin):
+        """
+        // Function description
+        """
         pass
 
     @staticmethod
     def set_time_in_maintenance(vin, time_in):
+        """
+        // Function description
+        """
         pass
 
     @staticmethod
     def set_time_out_maintenance(vin, time_out):
+        """
+        // Function description
+        """
         pass
 
     @staticmethod
     def set_service_performed_maintenance(vin, service_performed):
+        """
+        // Function description
+        """
         pass
 
     @staticmethod
     def write_to_maintenance_log_table(vin, time_in, time_out, service_performed):
+        """
+        // Function description
+        """
         pass
 

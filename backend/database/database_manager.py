@@ -1,5 +1,5 @@
 """
-    This module manage car database
+    This module manages database
 """
 import sqlite3
 import os
@@ -156,7 +156,7 @@ class CarsDatabase:
         exists = con.execute("SELECT * FROM rental_price_table WHERE vin = ?", (vin,))
 
         if exists.arraysize == 0:
-            return
+            return None
 
         price = con.execute("SELECT rental_price FROM rental_price_table WHERE vin = ?", (vin,))
 

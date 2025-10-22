@@ -5,10 +5,11 @@ import sqlite3
 import datetime
 
 class DatabaseLogger:
-    data_logs = "data_log.db"
     """
     This class manage logging
     """
+    data_logs = "data_log.db"
+    
     def __init__(self):
         pass
 

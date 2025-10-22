@@ -105,7 +105,7 @@ class CarsDatabase:
         """
         con = sqlite3.connect(CarsDatabase.database)
 
-        date_time = datetime.date.fromtimestamp(time.time()).isoformat()
+        date_time = datetime.datetime.now().isoformat()
 
         con.execute("""
                         CREATE TABLE IF NOT EXISTS ?_rating_comment_table (

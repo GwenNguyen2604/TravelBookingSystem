@@ -1,11 +1,11 @@
 """
     This module manage logs
 """
+import sqlite3
 import datetime
-import time
-
 
 class DatabaseLogger:
+    data_logs = "data_log.db"
     """
     This class manage logging
     """
@@ -13,11 +13,37 @@ class DatabaseLogger:
         pass
 
     @staticmethod
-    def log_car_add_to_master_table(make, model, year, vin):
+    def log_car_add_to_master_table(func):
         """
-        // Function description
+        Description: Function decorator for CarsDatabase.add_new_car_to_table;
+        Creates a log in the backup_master_table table in the data_log.db
+        database in the (make, model, year, vin, datetime, action_description)
+        format
         """
+        def wrapper(*args):
+            logger = sqlite3.connect(DatabaseLogger.data_logs)
 
+            logger.execute("""CREATE TABLE IF NOT EXISTS backup_master_table (
+                           make TEXT,
+                           model TEXT,
+                           year INTEGER,
+                           vin TEXT,
+                           datetime TEXT,
+                           action_description TEXT)
+            """)
+
+            log_time = datetime.datetime.now().isoformat()
+
+            logger.execute("""INSERT INTO backup_master_table
+                        (make, model, year, vin, datetime, action_description)
+                           VALUES (?, ?, ?, ?, ?, ?)
+            """, (*args, log_time, "Add new car to master table",))
+
+            logger.commit()
+
+            return func(*args)
+        return wrapper
+    
     @staticmethod
     def log_rating_added_to_rating_table(vin, rating, comment, date_time):
         """

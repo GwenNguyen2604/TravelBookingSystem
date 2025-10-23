@@ -235,6 +235,7 @@ class CarsDatabase:
         con.commit()
 
     # STATUS MANAGER
+    @database_logger.DatabaseLogger.log_new_status_add
     @staticmethod
     def add_new_status_to_table(vin, status):
         """

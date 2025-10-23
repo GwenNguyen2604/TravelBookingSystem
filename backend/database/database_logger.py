@@ -19,7 +19,7 @@ class DatabaseLogger:
         Description: Function decorator for CarsDatabase.add_new_car_to_table;
         Creates a log in the backup_master_table table in the data_log.db
         database in the (make, model, year, vin, datetime, action_description)
-        format
+        format.
         """
         def wrapper(*args):
             logger = sqlite3.connect(DatabaseLogger.data_logs)
@@ -88,16 +88,91 @@ class DatabaseLogger:
         """
 
     @staticmethod
-    def log_status_change(vin, status):
+    def log_new_status_add(func):
         """
-        // Function description
+        Description: Function decorator for add_new_status_to_table in the
+        CarsDatabase class. Creates a log in the backup_status_table table
+        in the data_log.db database in the
+        (vin, status, datetime, action_description) format.
         """
+        def wrapper(*args):
+            logger = sqlite3.connect(DatabaseLogger.data_logs)
+            
+            logger.execute(""" CREATE TABLE IF NOT EXISTS backup_status_table (
+                           vin TEXT,
+                           status TEXT,
+                           datetime TEXT,
+                           action_description TEXT
+            )""")
+
+            log_time = datetime.datetime.now().isoformat()
+
+            logger.execute("""INSERT INTO backup_status_table
+            (vin, status, datetime, action_description) VALUES
+            (?, ?, ?, ?) """, (*args, log_time, "New status added to table"))
+
+            logger.commit()
+
+            return func(*args)
+        return wrapper
 
     @staticmethod
-    def log_get_status_request(vin, status):
+    def log_status_change(func):
         """
-        // Function description
+        Description: Function decorator for set_status_to_table in the
+        CarsDatabase class. Creates a log in the backup_status_table in
+        the data_log.db database in the 
+        (vin, status, datetime, action_description) format.
         """
+        def wrapper(*args):
+            logger = sqlite3.connect(DatabaseLogger.data_logs)
+
+            logger.execute("""CREATE TABLE IF NOT EXISTS backup_status_table (
+                           vin TEXT,
+                           status TEXT,
+                           datetime TEXT,
+                           action_description TEXT
+            )""")
+
+            log_time = datetime.datetime.now().isoformat()
+
+            logger.execute("""INSERT INTO backup_status_table
+            (vin, status, datetime, action_description) VALUES
+            (?, ?, ?, ?)""", (*args, log_time, "status changed"))
+
+            logger.commit()
+
+            return func(*args)
+        return wrapper
+
+    @staticmethod
+    def log_get_status_request(func):
+        """
+        Description: Function decorator for get_status_from_table in the
+        CarsDatabase class. Creates a log in the backup_status_table in the
+        data_log.db database in the (vin, status, datetime, action_description)
+        format.
+        """
+        def wrapper(*args):
+            logger = sqlite3.connect(DatabaseLogger.data_logs)
+
+            logger.execute("""CREATE TABLE IF NOT EXISTS backup_status_table (
+                           vin TEXT,
+                           status TEXT,
+                           datetime TEXT,
+                           action_description TEXT
+            )""")
+
+            log_time = datetime.datetime.now().isoformat()
+
+            logger.execute("""INSERT INTO backup_status_table
+            (vin, status, datetime, action_description) VALUES
+            (?, ?, ?, ?)""", (*args, log_time, "status of vin requested"))
+            
+            logger.commit()
+
+            return func(*args)
+        return wrapper
 
     @staticmethod
     def log_maintenance_table_add(vin):

@@ -259,6 +259,7 @@ class CarsDatabase:
 
         con.commit()
 
+    @database_logger.DatabaseLogger.log_status_change
     @staticmethod
     def set_status_to_table(vin, status):
         """
@@ -277,6 +278,7 @@ class CarsDatabase:
 
         con.commit()
 
+    @database_logger.DatabaseLogger.log_get_status_request
     @staticmethod
     def get_status_from_table(vin):
         """

@@ -46,10 +46,34 @@ class DatabaseLogger:
         return wrapper
     
     @staticmethod
-    def log_rating_added_to_rating_table(vin, rating, comment, date_time):
+    def log_rating_added_to_rating_table(func):
         """
-        // Function description
+        Description: Function decorator for add_new_rating_and_comment in the
+        CarsDatabase class. Creates a log in the rating_comment_table in the
+        data_log.db database in the 
+        (vin, rating, comment, date_time, action_description) format.
         """
+        def wrapper(*args):
+            logger = sqlite3.connect(DatabaseLogger.data_logs)
+
+            logger.execute("""CREATE TABLE IF NOT EXISTS rating_comment_table (
+                           vin TEXT,
+                           rating TEXT,
+                           comment TEXT,
+                           datetime TEXT,
+                           action_description TEXT
+            )""")    
+
+            log_time = datetime.datetime.now().isoformat()
+
+            logger.execute("""INSERT INTO rating_comment_table 
+            (vin, rating, comment, datetime, action_description) VALUES
+            (?, ?, ?, ?, ?)""", (*args, log_time, "rating and comment added"))
+
+            logger.commit()
+            
+            return func(*args)
+        return wrapper  
 
     @staticmethod
     def log_rating_request(vin):

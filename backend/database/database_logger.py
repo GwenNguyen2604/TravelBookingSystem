@@ -192,7 +192,7 @@ class DatabaseLogger:
             logger.execute("""INSERT INTO backup_status_table
             (vin, status, datetime, action_description) VALUES
             (?, ?, ?, ?)""", (*args, log_time, "status of vin requested"))
-            
+
             logger.commit()
 
             return func(*args)
@@ -216,13 +216,62 @@ class DatabaseLogger:
         """
 
     @staticmethod
-    def log_car_added_to_rented_table(vin, start_date, end_date):
+    def log_car_added_to_rented_table(func):
         """
-        // Function description
+        Description: Function decorator for add_car_to_rented_table
+        in the DatabaseManager class. Creates a log in the 
+        backup_rented_table in the data_log.db database in the
+        (vin, start_date, end_date, datetime, action_description)
+        format.
         """
+        def wrapper(*args):
+            logger = sqlite3.connect(DatabaseLogger.data_logs)
+
+            logger.execute("""CREATE TABLE IF NOT EXISTS backup_rented_table (
+                           vin TEXT,
+                           start_time TEXT,
+                           end_time TEXT,
+                           datetime TEXT,
+                           action_description TEXT
+            )""")
+
+            log_time = datetime.datetime.now().isoformat()
+
+            logger.execute("""INSERT INTO backup_rented_table
+            (vin, start_time, end_time, datetime, action_description) VALUES
+            (?, ?, ?, ?, ?)""", (*args, log_time, "Car added to rented table"))
+
+            logger.commit()
+
+            return func(*args)
+        return wrapper
 
     @staticmethod
-    def log_car_removed_from_rented_table(vin):
+    def log_car_removed_from_rented_table(func):
         """
-        // Function description
+        Description: Function decorator for remove_car_from_rented_table
+        in the DatabaseManager class. Creates a log in the rented_table
+        in the data_log.db database in the (vin, datetime, action_description)
+        format.
         """
+        def wrapper(*args):
+            logger = sqlite3.connect(DatabaseLogger.data_logs)
+
+            logger.execute("""CREATE NEW TABLE IF NOT EXISTS backup_rented_table (
+                            vin TEXT,
+                            start_time TEXT,
+                            end_time TEXT,
+                            datetime TEXT,
+                            action_description TEXT
+            )""")
+
+            log_time = datetime.datetime.now().isoformat()
+
+            logger.execute("""INSERT INTO backup_rented_table 
+            (vin, datetime, action_description) VALUES 
+            (?, ?, ?)""", (*args, log_time, "Car removed from rented table"))
+
+            logger.commit()
+            
+            return func(*args)
+        return wrapper

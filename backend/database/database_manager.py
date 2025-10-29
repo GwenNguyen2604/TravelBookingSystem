@@ -234,7 +234,7 @@ class CarsDatabase:
 
         con.commit()
 
-    # STATUS MANAGER
+    # *** STATUS MANAGER ***
     @database_logger.DatabaseLogger.log_new_status_add
     @staticmethod
     def add_new_status_to_table(vin, status):
@@ -294,18 +294,42 @@ class CarsDatabase:
 
         return status
     
-    # RENTED CAR MANAGER
+    # *** RENTED CAR MANAGER ***
     @staticmethod
     def add_car_to_rented_table(vin, start_time, end_time):
         """
-        // Function description
+        Description: Adds a car to the rented table;
+        The car will not added if it already exists in the table
         """
+        con = sqlite3.connect("cars.db")
+
+        con.execute("""CREATE TABLE IF NOT EXISTS rented_table(
+                    vin TEXT,
+                    start_time TEXT,
+                    end_time TEXT
+        )""")
+
+        con.execute("""INSERT INTO rented_table (vin, start_time, end_time)
+        SELECT (?, ?, ?) WHERE NOT EXISTS (SELECT 1 FROM rented_table
+        WHERE vin = ?)""", (vin, start_time, end_time, vin,))
+
+        con.commit()
 
     @staticmethod
     def remove_car_from_rented_table(vin):
         """
-        // Function description
+        Description: Removes car from the rented_table table;
+        Does not remove if the car doesn't exist in the table
         """
+        con = sqlite3.connect("cars.db")
+
+        try:
+            con.execute("""DELETE * FROM rented_table
+                        WHERE vin = ?""", (vin,))
+        except:
+            print("WARNING: Attempted deletion from nonexistent rented_table")
+    
+        con.commit()
 
     # MAINTENANCE MANAGER
     @staticmethod

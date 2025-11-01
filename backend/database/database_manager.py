@@ -3,9 +3,8 @@
 """
 import sqlite3
 import os
-import database_logger
 import datetime
-import time
+import database_logger
 
 
 class CarsDatabase:
@@ -20,19 +19,13 @@ class CarsDatabase:
 
     # *** MASTER TABLE ***
 
+    @database_logger.DatabaseLogger.log_car_add_to_master_table
     @staticmethod
     def add_new_car_to_table(make, model, year, vin):
         """
         Description: Adds a car to the master table in the 'cars.db' database
         """
         con = sqlite3.connect(CarsDatabase.database)
-
-        database_logger.DatabaseLogger.log_car_add_to_master_table(
-            make,
-            model,
-            year,
-            vin
-        )
 
         con.execute("""
                         CREATE TABLE IF NOT EXISTS master_table (
@@ -43,7 +36,7 @@ class CarsDatabase:
                     """)
 
         con.execute("""
-                        INSERT INTO cars (make, model, year, vin)
+                        INSERT INTO master_table (make, model, year, vin)
                         VALUES (?, ?, ?, ?)
                     """, (make, model, year, vin,))
 
@@ -71,6 +64,7 @@ class CarsDatabase:
                      otherwise returns false
         """
         return os.path.exists(CarsDatabase.database)
+    
     # *** RATING MANAGER ***
 
     @staticmethod
@@ -111,7 +105,7 @@ class CarsDatabase:
         """
         con = sqlite3.connect(CarsDatabase.database)
 
-        date_time = datetime.date.fromtimestamp(time.time()).isoformat()
+        date_time = datetime.datetime.now().isoformat()
 
         con.execute("""
                         CREATE TABLE IF NOT EXISTS ?_rating_comment_table (
@@ -240,31 +234,102 @@ class CarsDatabase:
 
         con.commit()
 
-    # STATUS MANAGER
+    # *** STATUS MANAGER ***
+    @database_logger.DatabaseLogger.log_new_status_add
+    @staticmethod
+    def add_new_status_to_table(vin, status):
+        """
+        Description: Adds a new vin to the table and sets the status;
+        Returns if the vin already exists in the table
+        """
+        con = sqlite3.connect(CarsDatabase.database)
+
+        con.execute("""CREATE TABLE IF NOT EXISTS status_table (
+                    vin TEXT,
+                    status TEXT
+        )""")
+
+        exists = con.execute("""SELECT * FROM status_table WHERE vin = ?"""
+        , (vin,))
+        
+        if (exists.arraysize != 0): return
+
+        con.execute("""INSERT INTO status_table (vin, status) VALUES (?, ?)
+        """, (vin, status,))
+
+        con.commit()
+
+    @database_logger.DatabaseLogger.log_status_change
     @staticmethod
     def set_status_to_table(vin, status):
         """
-        // Function description
+        Description: Sets the status of a vin in the status table;
+        Does nothing if the vin doesn't exist
         """
+        con = sqlite3.connect(CarsDatabase.database)
 
+        con.execute("""CREATE TABLE IF NOT EXISTS status_table (
+                    vin TEXT,
+                    status TEXT
+        )""")
+
+        con.execute("""UPDATE status_table SET status = ? WHERE vin = ?
+        """, (status, vin,))
+
+        con.commit()
+
+    @database_logger.DatabaseLogger.log_get_status_request
     @staticmethod
     def get_status_from_table(vin):
         """
-        // Function description
+        Description: Gets the status of a vin from the status table;
+        Returns a sqlite object containing the status
         """
+        con = sqlite3.connect(CarsDatabase.database)
 
-    # RENTED CAR MANAGER
+        status = con.execute("SELECT status FROM status_table WHERE vin = ?"
+        ,(vin,))
+
+        con.commit()
+
+        return status
+    
+    # *** RENTED CAR MANAGER ***
     @staticmethod
     def add_car_to_rented_table(vin, start_time, end_time):
         """
-        // Function description
+        Description: Adds a car to the rented table;
+        The car will not added if it already exists in the table
         """
+        con = sqlite3.connect("cars.db")
+
+        con.execute("""CREATE TABLE IF NOT EXISTS rented_table(
+                    vin TEXT,
+                    start_time TEXT,
+                    end_time TEXT
+        )""")
+
+        con.execute("""INSERT INTO rented_table (vin, start_time, end_time)
+        SELECT (?, ?, ?) WHERE NOT EXISTS (SELECT 1 FROM rented_table
+        WHERE vin = ?)""", (vin, start_time, end_time, vin,))
+
+        con.commit()
 
     @staticmethod
     def remove_car_from_rented_table(vin):
         """
-        // Function description
+        Description: Removes car from the rented_table table;
+        Does not remove if the car doesn't exist in the table
         """
+        con = sqlite3.connect("cars.db")
+
+        try:
+            con.execute("""DELETE * FROM rented_table
+                        WHERE vin = ?""", (vin,))
+        except:
+            print("WARNING: Attempted deletion from nonexistent rented_table")
+    
+        con.commit()
 
     # MAINTENANCE MANAGER
     @staticmethod

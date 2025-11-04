@@ -1,20 +1,41 @@
+// ------------------ Mobile Menu Toggle ------------------
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+
+if (mobileMenuBtn && mobileMenu) {
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+      mobileMenu.classList.add('hidden');
+    }
+  });
+}
+
 // ------------------ Date Handling ------------------
 const pickupDateInput = document.getElementById('pickup-date');
 const dropoffDateInput = document.getElementById('dropoff-date');
 const today = new Date().toISOString().split('T')[0];
-pickupDateInput.min = today;
-dropoffDateInput.min = today;
 
-pickupDateInput.addEventListener('change', function () {
-  dropoffDateInput.min = this.value;
-  if (dropoffDateInput.value && dropoffDateInput.value < this.value) {
-    dropoffDateInput.value = '';
-  }
-});
+if (pickupDateInput && dropoffDateInput) {
+  pickupDateInput.min = today;
+  dropoffDateInput.min = today;
+
+  pickupDateInput.addEventListener('change', function () {
+    dropoffDateInput.min = this.value;
+    if (dropoffDateInput.value && dropoffDateInput.value < this.value) {
+      dropoffDateInput.value = '';
+    }
+  });
+}
 
 // ------------------ Time Handling ------------------
 function populateTimes(selectId, intervalMinutes = 30) {
   const select = document.getElementById(selectId);
+  if (!select) return;
 
   for (let hour = 8; hour <= 22; hour++) {
     for (let min = 0; min < 60; min += intervalMinutes) {
@@ -31,36 +52,66 @@ function populateTimes(selectId, intervalMinutes = 30) {
   }
 }
 
-// Populate times first
+// Populate times
 populateTimes("pickup-time");
 populateTimes("dropoff-time");
 
 // ------------------ Initialize Choices.js ------------------
-// Locations
-const pickupLocChoice = new Choices('#pickup-location', { 
-  searchEnabled: false, 
-  itemSelectText: '', 
-  shouldSort: false 
-});
-const dropoffLocChoice = new Choices('#dropoff-location', { 
-  searchEnabled: false, 
-  itemSelectText: '', 
-  shouldSort: false 
+let pickupLocChoice, dropoffLocChoice, pickupTimeChoice, dropoffTimeChoice;
+
+// Only initialize Choices.js on larger screens
+function initializeChoices() {
+  const isDesktop = window.innerWidth >= 768;
+  
+  if (isDesktop) {
+    // Initialize if not already initialized
+    if (!pickupLocChoice && document.getElementById('pickup-location')) {
+      pickupLocChoice = new Choices('#pickup-location', { 
+        searchEnabled: false, 
+        itemSelectText: '', 
+        shouldSort: false 
+      });
+    }
+    
+    if (!dropoffLocChoice && document.getElementById('dropoff-location')) {
+      dropoffLocChoice = new Choices('#dropoff-location', { 
+        searchEnabled: false, 
+        itemSelectText: '', 
+        shouldSort: false 
+      });
+    }
+    
+    if (!pickupTimeChoice && document.getElementById('pickup-time')) {
+      pickupTimeChoice = new Choices('#pickup-time', { 
+        searchEnabled: false, 
+        itemSelectText: '', 
+        shouldSort: false 
+      });
+    }
+    
+    if (!dropoffTimeChoice && document.getElementById('dropoff-time')) {
+      dropoffTimeChoice = new Choices('#dropoff-time', { 
+        searchEnabled: false, 
+        itemSelectText: '', 
+        shouldSort: false 
+      });
+    }
+  }
+}
+
+// Initialize on load
+initializeChoices();
+
+// Reinitialize on resize (with debounce)
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    initializeChoices();
+  }, 250);
 });
 
-// Times
-const pickupTimeChoice = new Choices('#pickup-time', { 
-  searchEnabled: false, 
-  itemSelectText: '', 
-  shouldSort: false 
-});
-const dropoffTimeChoice = new Choices('#dropoff-time', { 
-  searchEnabled: false, 
-  itemSelectText: '', 
-  shouldSort: false 
-});
-
-// ------------------ Force dropdown height ------------------
+// ------------------ Dropdown Height Management ------------------
 function forceDropdownHeight() {
   const allDropdowns = document.querySelectorAll('.choices__list--dropdown');
   allDropdowns.forEach(dropdown => {
@@ -91,29 +142,8 @@ setTimeout(forceDropdownHeight, 50);
 setTimeout(forceDropdownHeight, 200);
 setTimeout(forceDropdownHeight, 500);
 
-[pickupLocChoice, dropoffLocChoice, pickupTimeChoice, dropoffTimeChoice].forEach(choice => {
-  choice.passedElement.element.addEventListener('showDropdown', function() {
-    setTimeout(function() {
-      const dropdown = document.querySelector('.choices__list--dropdown.is-active');
-      if (dropdown) {
-        dropdown.style.setProperty('max-height', '180px', 'important');
-        dropdown.style.setProperty('overflow-y', 'auto', 'important');
-        dropdown.style.setProperty('overflow-x', 'hidden', 'important');
-      }
-      const allParents = dropdown.closest('.choices');
-      if (allParents) {
-        allParents.style.setProperty('overflow', 'visible', 'important');
-        const inner = allParents.querySelector('.choices__inner');
-        if (inner) inner.style.setProperty('overflow', 'hidden', 'important');
-      }
-    }, 10);
-  });
-});
-
-// ------------------ Featured Brands + Testimonials Animation ------------------
-const animatedElements = document.querySelectorAll(
-  '.featured-title, .brand-row, .testimonials-title, .testimonials-subtitle'
-);
+// ------------------ Scroll Animations ------------------
+const animatedElements = document.querySelectorAll('.fade-in-up');
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
@@ -122,12 +152,12 @@ const observer = new IntersectionObserver(entries => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.3 });
 
 animatedElements.forEach(el => observer.observe(el));
 
 // ------------------ Testimonial Images Fade In ------------------
-const testimonialImages = document.querySelectorAll('.testimonial-img');
+const testimonialImages = document.querySelectorAll('.testimonial-fade');
 
 const testimonialObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
@@ -136,10 +166,45 @@ const testimonialObserver = new IntersectionObserver(entries => {
       testimonialObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.3 });
 
-// Apply staggered delay via JS
+// Apply staggered delay
 testimonialImages.forEach((img, index) => {
   img.style.transitionDelay = `${index * 0.2}s`;
   testimonialObserver.observe(img);
 });
+
+// ------------------ Search Button Functionality ------------------
+const searchButton = document.querySelector('.bg-manta-blue');
+if (searchButton) {
+  searchButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    // Get form values
+    const pickupLoc = document.getElementById('pickup-location').value;
+    const dropoffLoc = document.getElementById('dropoff-location').value;
+    const pickupDate = document.getElementById('pickup-date').value;
+    const pickupTime = document.getElementById('pickup-time').value;
+    const dropoffDate = document.getElementById('dropoff-date').value;
+    const dropoffTime = document.getElementById('dropoff-time').value;
+    
+    // Basic validation
+    if (!pickupLoc || !dropoffLoc || !pickupDate || !pickupTime || !dropoffDate || !dropoffTime) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    // Here you would typically redirect to a results page or make an API call
+    console.log('Search parameters:', {
+      pickupLoc,
+      dropoffLoc,
+      pickupDate,
+      pickupTime,
+      dropoffDate,
+      dropoffTime
+    });
+    
+    // For now, just show an alert
+    alert('Search functionality would be implemented here');
+  });
+}

@@ -2,60 +2,169 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manta - Car Rental Service</title>
 
-  <!-- Regular Ysabeau -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Ysabeau SC Semibold -->
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
-
-  <!-- Alegreya Sans SC -->
   <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'ysabeau': ['Ysabeau', 'Arial', 'sans-serif'],
+            'ysabeau-sc': ['Ysabeau SC', 'Arial', 'sans-serif'],
+            'alegreya-sc': ['Alegreya Sans SC', 'Arial', 'sans-serif'],
+          },
+          colors: {
+            'manta-blue': '#4B6697',
+            'manta-banner': '#6D7C97',
+          }
+        }
+      }
+    }
+  </script>
 
   <!-- Choices.js CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+
+  <style>
+    body {
+      font-family: 'Ysabeau', Arial, sans-serif;
+    }
+
+    /* Animation classes */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .testimonial-fade {
+      opacity: 0;
+      transform: translateY(20px) translateX(-20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .testimonial-fade.visible {
+      opacity: 1;
+      transform: translateY(0) translateX(0);
+    }
+
+    /* Underline animation for nav links */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background-color: black;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Choices.js custom styling */
+    .choices__inner {
+      min-height: 45px !important;
+      padding: 12px !important;
+      border-radius: 0.375rem !important;
+      border: 1px solid #d1d5db !important;
+    }
+
+    .choices__list--dropdown .choices__item--selectable.is-highlighted {
+      background-color: #4B6697 !important;
+      color: white !important;
+    }
+
+    .choices__list--dropdown {
+      max-height: 180px !important;
+      overflow-y: auto !important;
+    }
+  </style>
 </head>
-<body>
+<body class="m-0 p-0">
   <!-- Banner -->
-  <div class="home-banner">
-    <a href="homepage.html" class="banner-logo">
-      <img src="images/manta.png" alt="Logo" class="logo-image">
-      <img src="images/mantaname.png" alt="Logo Name" class="logo-name-image">
+  <header class="bg-manta-banner h-20 lg:h-24 w-full px-4 md:px-8 flex items-center justify-between relative">
+    <!-- Logo -->
+    <a href="homepage.html" class="flex items-center gap-2 md:gap-3">
+      <img src="images/manta.png" alt="Manta Logo" class="h-10 md:h-14 lg:h-16 w-auto">
+      <img src="images/mantaname.png" alt="Manta" class="h-7 md:h-9 lg:h-10 w-auto">
     </a>
 
-    <div class="banner-right">
-      <div class="banner-links">
-        <a href="vehicles.html" class="text-link">Vehicles</a>
-        <a href="location.html" class="text-link">Locations</a>
-        <a href="support.html" class="text-link">Support</a>
-      </div>
-      <div class="banner-buttons">
-        <a href="signin.html" class="button sign-in">Sign In</a>
-        <a href="register.html" class="button register">Register</a>
-      </div>
-    </div>
-  </div>
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="lg:hidden text-black p-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
 
-  <!-- Hero image -->
-  <div class="hero-image">
-    <img src="images/car.png" alt="Hero Image">
-    <div class="hero-text">
-      <span class="blue">Unlock</span>
-      <span class="blue">a</span>
-      <span class="white">Smoother</span>
-      <span class="blue">Ride</span>
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-8 xl:gap-12">
+      <!-- Text Links -->
+      <div class="flex items-center gap-8 xl:gap-10">
+        <a href="vehicles.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg hover:text-manta-blue transition-colors">Vehicles</a>
+        <a href="location.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg hover:text-manta-blue transition-colors">Locations</a>
+        <a href="support.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg hover:text-manta-blue transition-colors">Support</a>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center gap-3">
+        <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm hover:bg-manta-blue hover:text-white transition-all">Sign In</a>
+        <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-manta-blue transition-all">Register</a>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 right-0 bg-manta-banner shadow-lg z-50">
+      <nav class="flex flex-col p-4 gap-4">
+        <a href="vehicles.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Vehicles</a>
+        <a href="location.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Locations</a>
+        <a href="support.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Support</a>
+        <div class="flex flex-col gap-2 mt-2">
+          <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm text-center">Sign In</a>
+          <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm text-center">Register</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative h-[500px] md:h-[600px] lg:h-[80vh]">
+    <img src="images/car.png" alt="Hero Car" class="w-full h-full object-cover">
+    
+    <!-- Hero Text -->
+    <div class="absolute top-[15%] md:top-[20%] left-1/2 transform -translate-x-1/2 text-center whitespace-nowrap">
+      <h1 class="font-alegreya-sc text-3xl md:text-5xl lg:text-7xl xl:text-8xl font-normal">
+        <span class="text-manta-blue">Unlock</span>
+        <span class="text-manta-blue"> a</span>
+        <span class="text-white"> Smoother</span>
+        <span class="text-manta-blue"> Ride</span>
+      </h1>
     </div>
 
-    <!-- Booking form overlay -->
-    <div class="booking-form">
-      <!-- Top row: Locations -->
-      <div class="booking-row">
-        <div class="booking-item location-item">
-          <label for="pickup-location">Pickup Location</label>
-          <select id="pickup-location">
+    <!-- Booking Form -->
+    <div class="absolute bottom-[5%] md:bottom-[8%] lg:bottom-[10%] left-1/2 transform -translate-x-1/2 w-[95%] md:w-[90%] lg:w-[85%] max-w-5xl bg-white/40 backdrop-blur-sm p-4 md:p-6 rounded-3xl">
+      <!-- Location Row -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div class="flex flex-col">
+          <label for="pickup-location" class="mb-2 font-semibold text-gray-800 text-sm md:text-base">Pickup Location</label>
+          <select id="pickup-location" class="p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base">
             <option value="" disabled selected>Select pickup location</option>
             <option value="Los Angeles, CA">Los Angeles, CA</option>
             <option value="San Francisco, CA">San Francisco, CA</option>
@@ -70,9 +179,9 @@
           </select>
         </div>
 
-        <div class="booking-item location-item">
-          <label for="dropoff-location">Dropoff Location</label>
-          <select id="dropoff-location">
+        <div class="flex flex-col">
+          <label for="dropoff-location" class="mb-2 font-semibold text-gray-800 text-sm md:text-base">Dropoff Location</label>
+          <select id="dropoff-location" class="p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base">
             <option value="" disabled selected>Select dropoff location</option>
             <option value="Los Angeles, CA">Los Angeles, CA</option>
             <option value="San Francisco, CA">San Francisco, CA</option>
@@ -88,78 +197,102 @@
         </div>
       </div>
 
-      <!-- Bottom row: Dates and Times -->
-      <div class="booking-row">
-        <div class="booking-item">
-          <label for="pickup-date">Pickup Date</label>
-          <input type="date" id="pickup-date">
+      <!-- Date & Time Row -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4">
+        <div class="flex flex-col">
+          <label for="pickup-date" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm">Pickup Date</label>
+          <input type="date" id="pickup-date" class="p-2 md:p-3 border border-gray-300 rounded-md bg-white text-xs md:text-sm">
         </div>
 
-        <div class="booking-item">
-          <label for="pickup-time">Pickup Time</label>
-          <select id="pickup-time">
-            <option value="" disabled selected>Select pickup time</option>
+        <div class="flex flex-col">
+          <label for="pickup-time" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm">Pickup Time</label>
+          <select id="pickup-time" class="p-2 md:p-3 border border-gray-300 rounded-md bg-white text-xs md:text-sm">
+            <option value="" disabled selected>Select time</option>
           </select>
         </div>
 
-        <div class="booking-item">
-          <label for="dropoff-date">Dropoff Date</label>
-          <input type="date" id="dropoff-date">
+        <div class="flex flex-col">
+          <label for="dropoff-date" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm">Dropoff Date</label>
+          <input type="date" id="dropoff-date" class="p-2 md:p-3 border border-gray-300 rounded-md bg-white text-xs md:text-sm">
         </div>
 
-        <div class="booking-item">
-          <label for="dropoff-time">Dropoff Time</label>
-          <select id="dropoff-time">
-            <option value="" disabled selected>Select dropoff time</option>
+        <div class="flex flex-col">
+          <label for="dropoff-time" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm">Dropoff Time</label>
+          <select id="dropoff-time" class="p-2 md:p-3 border border-gray-300 rounded-md bg-white text-xs md:text-sm">
+            <option value="" disabled selected>Select time</option>
           </select>
         </div>
       </div>
 
-      <button class="button search-button">Search</button>
+      <!-- Search Button -->
+      <button class="w-full md:w-auto md:min-w-[200px] bg-manta-blue text-white px-6 py-3 rounded-lg font-ysabeau-sc font-semibold hover:bg-blue-800 transition-all mx-auto block text-sm md:text-base">
+        Search
+      </button>
     </div>
-  </div>
+  </section>
 
   <!-- Featured Brands Section -->
-  <section class="featured-brands">
-    <h2 class="featured-title">Featured Brands</h2>
-    <div class="brand-row">
-      <img src="images/firstbrandrow.png" alt="Brands Row 1" class="brand-logo">
+  <section class="mx-4 md:mx-6 lg:mx-8 my-6 md:my-8 p-6 md:p-8 lg:p-10 bg-manta-banner/15 rounded-xl">
+    <h2 class="fade-in-up font-ysabeau-sc font-light text-2xl md:text-3xl lg:text-4xl mb-6 md:mb-8 text-left">Featured Brands</h2>
+    
+    <div class="fade-in-up mb-8 md:mb-12 flex justify-center">
+      <img src="images/firstbrandrow.png" alt="Brand Logos Row 1" class="w-full md:w-4/5 lg:w-3/4 max-w-4xl h-auto">
     </div>
-    <div class="brand-row">
-      <img src="images/secondbrandrow.png" alt="Brands Row 2" class="brand-logo">
+    
+    <div class="fade-in-up flex justify-center md:ml-[-30px]">
+      <img src="images/secondbrandrow.png" alt="Brand Logos Row 2" class="w-full md:w-4/5 lg:w-3/4 max-w-4xl h-auto">
     </div>
   </section>
 
   <!-- Testimonials Section -->
-<section class="testimonials">
-  <h2 class="testimonials-title">Testimonials</h2>
-  <p class="testimonials-subtitle">Effortless. Proven.</p>
-  <div class="testimonial-row">
-    <!-- Individual testimonials -->
-  <img class="testimonial-img" src="images/testimonial1.png" alt="Testimonial 1">
-  <img class="testimonial-img" src="images/testimonial2.png" alt="Testimonial 2">
-  <img class="testimonial-img" src="images/testimonial3.png" alt="Testimonial 3">
-  </div>
+  <section class="px-4 md:px-8 lg:px-10 py-6 md:py-8">
+    <h2 class="fade-in-up font-ysabeau-sc font-light text-2xl md:text-3xl lg:text-4xl mb-2 text-left">Testimonials</h2>
+    <p class="fade-in-up font-ysabeau italic text-gray-600 text-base md:text-lg mb-8 md:mb-10 text-left">Effortless. Proven.</p>
+    
+    <div class="flex flex-col md:flex-row flex-wrap gap-6 md:gap-12 lg:gap-20 justify-center items-center md:items-start">
+      <img class="testimonial-fade w-full md:w-auto md:max-w-[300px] lg:max-w-[350px] h-auto" src="images/testimonial1.png" alt="Testimonial 1">
+      <img class="testimonial-fade w-full md:w-auto md:max-w-[300px] lg:max-w-[350px] h-auto" src="images/testimonial2.png" alt="Testimonial 2">
+      <img class="testimonial-fade w-full md:w-auto md:max-w-[300px] lg:max-w-[350px] h-auto" src="images/testimonial3.png" alt="Testimonial 3">
+    </div>
+  </section>
 
-</section>
+  <!-- Footer -->
+  <footer class="bg-manta-banner mt-12 md:mt-16 relative">
+    <div class="h-[200px] md:h-[250px] relative px-4 md:px-8">
+      <!-- Footer Logo and Links Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 lg:gap-12 py-6 md:py-8 max-w-6xl">
+        <!-- Logo Column -->
+        <div class="col-span-2 md:col-span-1">
+          <img src="images/footerlogo.png" alt="Manta Logo" class="w-48 md:w-56 lg:w-64 h-auto">
+        </div>
 
-<footer class="footer">
-  <img src="images/footerlogo.png" alt="Logo" class="footer-logo">
-  <img src="images/customersupport.png" alt="CustomerSupport" class="customer-support">
-  <img src="images/aboutus.png" alt="AboutUs" class="about-us">
-  <img src="images/carsales.png" alt="CarSales" class="car-sales">
-</footer>
+        <!-- Customer Support -->
+        <div>
+          <img src="images/customersupport.png" alt="Customer Support" class="w-40 md:w-48 lg:w-56 h-auto">
+        </div>
 
-<section class = "finalfooter">
-  <h2 class="copyright">©2025 Manta Inc.</h2>
-</section>
+        <!-- About Us -->
+        <div>
+          <img src="images/aboutus.png" alt="About Us" class="w-32 md:w-40 lg:w-48 h-auto">
+        </div>
 
+        <!-- Car Sales -->
+        <div>
+          <img src="images/carsales.png" alt="Car Sales" class="w-36 md:w-44 lg:w-52 h-auto">
+        </div>
+      </div>
+    </div>
+  </footer>
 
+  <!-- Copyright Section -->
+  <section class="bg-white py-2 px-4 md:px-8">
+    <p class="font-ysabeau-sc text-xs md:text-sm text-left">©2025 Manta Inc.</p>
+  </section>
 
   <!-- Choices.js -->
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-  <!-- Your custom JavaScript -->
+  <!-- Custom JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>

@@ -175,36 +175,65 @@ testimonialImages.forEach((img, index) => {
 });
 
 // ------------------ Search Button Functionality ------------------
-const searchButton = document.querySelector('.bg-manta-blue');
-if (searchButton) {
-  searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    
-    // Get form values
-    const pickupLoc = document.getElementById('pickup-location').value;
-    const dropoffLoc = document.getElementById('dropoff-location').value;
-    const pickupDate = document.getElementById('pickup-date').value;
-    const pickupTime = document.getElementById('pickup-time').value;
-    const dropoffDate = document.getElementById('dropoff-date').value;
-    const dropoffTime = document.getElementById('dropoff-time').value;
-    
-    // Basic validation
-    if (!pickupLoc || !dropoffLoc || !pickupDate || !pickupTime || !dropoffDate || !dropoffTime) {
-      alert('Please fill in all fields');
-      return;
-    }
-    
-    // Here you would typically redirect to a results page or make an API call
-    console.log('Search parameters:', {
-      pickupLoc,
-      dropoffLoc,
-      pickupDate,
-      pickupTime,
-      dropoffDate,
-      dropoffTime
+document.addEventListener('DOMContentLoaded', function() {
+  const searchButton = document.querySelector('button.bg-manta-banner');
+  
+  console.log('Search button found:', searchButton);
+  
+  if (searchButton) {
+    searchButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      console.log('Search button clicked!');
+      
+      // Get form values
+      const pickupLoc = document.getElementById('pickup-location').value;
+      const dropoffLoc = document.getElementById('dropoff-location').value;
+      const pickupDate = document.getElementById('pickup-date').value;
+      const pickupTime = document.getElementById('pickup-time').value;
+      const dropoffDate = document.getElementById('dropoff-date').value;
+      const dropoffTime = document.getElementById('dropoff-time').value;
+      
+      console.log('Form values:', { pickupLoc, dropoffLoc, pickupDate, pickupTime, dropoffDate, dropoffTime });
+      
+      // Basic validation
+      if (!pickupLoc || !dropoffLoc || !pickupDate || !pickupTime || !dropoffDate || !dropoffTime) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      // Format dates for display
+      const formatDate = (dateStr, timeStr) => {
+        const date = new Date(dateStr + 'T' + timeStr);
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        
+        const dayName = days[date.getDay()];
+        const monthName = months[date.getMonth()];
+        const day = date.getDate();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const hour12 = hours % 12 || 12;
+        const minuteStr = minutes.toString().padStart(2, '0');
+        
+        return `${dayName}, ${monthName} ${day}, ${hour12}:${minuteStr} ${ampm}`;
+      };
+      
+      // Build query string
+      const params = new URLSearchParams({
+        pickupLocation: pickupLoc,
+        dropoffLocation: dropoffLoc,
+        pickupDate: formatDate(pickupDate, pickupTime),
+        dropoffDate: formatDate(dropoffDate, dropoffTime)
+      });
+      
+      console.log('Redirecting to:', `car_select.html?${params.toString()}`);
+      
+      // Redirect to car select page
+      window.location.href = `car_select.html?${params.toString()}`;
     });
-    
-    // For now, just show an alert
-    alert('Search functionality would be implemented here');
-  });
-}
+  } else {
+    console.error('Search button not found!');
+  }
+});

@@ -15,21 +15,22 @@ if (mobileMenuBtn && mobileMenu) {
 }
 
 // ------------------ Sample Vehicle Data ------------------
-// This will be replaced with backend database
 const sampleVehicles = [
   {
     id: 1,
     name: "BMW 3 Series",
     brand: "bmw",
     model: "3-series",
+    year: 2024,
     price: 89.00,
-    image: null // Will use placeholder
+    image: null
   },
   {
     id: 2,
     name: "Mercedes C-Class",
     brand: "mercedes",
     model: "c-class",
+    year: 2024,
     price: 95.00,
     image: null
   },
@@ -38,6 +39,7 @@ const sampleVehicles = [
     name: "Tesla Model 3",
     brand: "tesla",
     model: "model-3",
+    year: 2023,
     price: 110.00,
     image: null
   },
@@ -46,6 +48,7 @@ const sampleVehicles = [
     name: "Audi A4",
     brand: "audi",
     model: "a4",
+    year: 2024,
     price: 92.00,
     image: null
   },
@@ -54,6 +57,7 @@ const sampleVehicles = [
     name: "Lexus ES",
     brand: "lexus",
     model: "es",
+    year: 2023,
     price: 88.00,
     image: null
   },
@@ -62,6 +66,7 @@ const sampleVehicles = [
     name: "Toyota Camry",
     brand: "toyota",
     model: "camry",
+    year: 2024,
     price: 65.00,
     image: null
   },
@@ -70,6 +75,7 @@ const sampleVehicles = [
     name: "Honda Accord",
     brand: "honda",
     model: "accord",
+    year: 2023,
     price: 62.00,
     image: null
   },
@@ -78,6 +84,7 @@ const sampleVehicles = [
     name: "Kia K5",
     brand: "kia",
     model: "k5",
+    year: 2024,
     price: 58.00,
     image: null
   },
@@ -86,14 +93,68 @@ const sampleVehicles = [
     name: "Hyundai Sonata",
     brand: "hyundai",
     model: "sonata",
+    year: 2023,
     price: 60.00,
     image: null
   }
 ];
 
-// Store all vehicles
 let allVehicles = [...sampleVehicles];
 let filteredVehicles = [...sampleVehicles];
+
+// ------------------ Get Search Parameters ------------------
+function getSearchParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  console.log('URL:', window.location.href);
+  console.log('URL Search:', window.location.search);
+  console.log('All URL params:', Array.from(urlParams.entries()));
+  
+  const params = {
+    pickupLocation: urlParams.get('pickupLocation') || 'Los Angeles, CA',
+    dropoffLocation: urlParams.get('dropoffLocation') || 'Los Angeles, CA',
+    pickupDate: urlParams.get('pickupDate') || 'Tue, Nov 4, 12:00 PM',
+    dropoffDate: urlParams.get('dropoffDate') || 'Wed, Nov 5, 12:00 PM'
+  };
+  
+  console.log('Parsed params:', params);
+  
+  return params;
+}
+
+// ------------------ Update Progress Section ------------------
+function updateProgressSection() {
+  const params = getSearchParams();
+  
+  console.log('Updating progress section with:', params);
+  
+  // Update pickup date display
+  const pickupDisplay = document.getElementById('pickup-date-display');
+  if (pickupDisplay) {
+    pickupDisplay.textContent = params.pickupDate;
+    console.log('Updated pickup display to:', params.pickupDate);
+  } else {
+    console.error('pickup-date-display element not found!');
+  }
+  
+  // Update dropoff date display
+  const dropoffDisplay = document.getElementById('dropoff-date-display');
+  if (dropoffDisplay) {
+    dropoffDisplay.textContent = params.dropoffDate;
+    console.log('Updated dropoff display to:', params.dropoffDate);
+  } else {
+    console.error('dropoff-date-display element not found!');
+  }
+  
+  // Update location display (assuming same location for both)
+  const locationDisplay = document.getElementById('location-display');
+  if (locationDisplay) {
+    locationDisplay.textContent = params.pickupLocation;
+    console.log('Updated location display to:', params.pickupLocation);
+  } else {
+    console.error('location-display element not found!');
+  }
+}
 
 // ------------------ Render Vehicles ------------------
 function renderVehicles(vehicles) {
@@ -137,21 +198,23 @@ function renderVehicles(vehicles) {
 // ------------------ Filter Functionality ------------------
 const brandFilter = document.getElementById('brand-filter');
 const modelFilter = document.getElementById('model-filter');
+const yearFilter = document.getElementById('year-filter');
 
 function applyFilters() {
   const selectedBrand = brandFilter.value;
   const selectedModel = modelFilter.value;
+  const selectedYear = yearFilter.value;
 
   filteredVehicles = allVehicles.filter(vehicle => {
     const brandMatch = !selectedBrand || vehicle.brand === selectedBrand;
     const modelMatch = !selectedModel || vehicle.model === selectedModel;
-    return brandMatch && modelMatch;
+    const yearMatch = !selectedYear || vehicle.year.toString() === selectedYear;
+    return brandMatch && modelMatch && yearMatch;
   });
 
   renderVehicles(filteredVehicles);
 }
 
-// Update models based on selected brand
 function updateModelOptions() {
   const selectedBrand = brandFilter.value;
   modelFilter.innerHTML = '<option value="">All Models</option>';
@@ -178,40 +241,19 @@ function updateModelOptions() {
 
 brandFilter.addEventListener('change', updateModelOptions);
 modelFilter.addEventListener('change', applyFilters);
+yearFilter.addEventListener('change', applyFilters);
 
 // ------------------ Vehicle Selection ------------------
 function selectVehicle(vehicleId) {
   const vehicle = allVehicles.find(v => v.id === vehicleId);
   
-  // Store selected vehicle in sessionStorage
   sessionStorage.setItem('selectedVehicle', JSON.stringify(vehicle));
   
-  // TODO: Navigate to next step (vehicle details or checkout)
   console.log('Selected vehicle:', vehicle);
   alert(`You selected: ${vehicle.name}\nPrice: $${vehicle.price.toFixed(2)}/day\n\nNext step: Review and Reserve page will be implemented here.`);
   
-  // In production, you would redirect to the next page:
+  // In production, redirect to next page:
   // window.location.href = 'review-reservation.html';
-}
-
-// ------------------ Get Search Parameters ------------------
-function getSearchParams() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return {
-    pickupLocation: urlParams.get('pickupLocation') || 'Los Angeles, CA',
-    dropoffLocation: urlParams.get('dropoffLocation') || 'Los Angeles, CA',
-    pickupDate: urlParams.get('pickupDate') || 'Tue, Nov 4, 12:00 PM',
-    dropoffDate: urlParams.get('dropoffDate') || 'Wed, Nov 5, 12:00 PM'
-  };
-}
-
-// Update progress section with search params
-function updateProgressSection() {
-  const params = getSearchParams();
-  
-  // You can update the progress section dynamically here if needed
-  // For now, it's hardcoded in the HTML
-  console.log('Search parameters:', params);
 }
 
 // ------------------ Initialize ------------------
@@ -219,37 +261,3 @@ document.addEventListener('DOMContentLoaded', () => {
   updateProgressSection();
   renderVehicles(filteredVehicles);
 });
-
-// ------------------ Backend Integration Notes ------------------
-/*
-When you connect your backend database, replace the sampleVehicles array with an API call:
-
-async function fetchVehicles() {
-  try {
-    const response = await fetch('/api/vehicles');
-    const data = await response.json();
-    allVehicles = data;
-    filteredVehicles = data;
-    renderVehicles(filteredVehicles);
-  } catch (error) {
-    console.error('Error fetching vehicles:', error);
-  }
-}
-
-Then call fetchVehicles() on page load instead of using sampleVehicles.
-
-Expected API response format:
-[
-  {
-    id: 1,
-    name: "BMW 3 Series",
-    brand: "bmw",
-    model: "3-series",
-    price: 89.00,
-    image: "https://your-cdn.com/images/bmw-3-series.jpg",
-    features: ["Automatic", "5 Seats", "Premium Sound"],
-    available: true
-  },
-  ...
-]
-*/

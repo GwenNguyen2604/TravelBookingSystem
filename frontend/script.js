@@ -186,13 +186,27 @@ document.addEventListener('DOMContentLoaded', function() {
       
       console.log('Search button clicked!');
       
-      // Get form values
-      const pickupLoc = document.getElementById('pickup-location').value;
-      const dropoffLoc = document.getElementById('dropoff-location').value;
+      // Get form values - handle both regular select and Choices.js
+      let pickupLoc = document.getElementById('pickup-location').value;
+      let dropoffLoc = document.getElementById('dropoff-location').value;
       const pickupDate = document.getElementById('pickup-date').value;
-      const pickupTime = document.getElementById('pickup-time').value;
+      let pickupTime = document.getElementById('pickup-time').value;
       const dropoffDate = document.getElementById('dropoff-date').value;
-      const dropoffTime = document.getElementById('dropoff-time').value;
+      let dropoffTime = document.getElementById('dropoff-time').value;
+      
+      // If Choices.js is initialized, get values from there
+      if (pickupLocChoice) {
+        pickupLoc = pickupLocChoice.getValue(true);
+      }
+      if (dropoffLocChoice) {
+        dropoffLoc = dropoffLocChoice.getValue(true);
+      }
+      if (pickupTimeChoice) {
+        pickupTime = pickupTimeChoice.getValue(true);
+      }
+      if (dropoffTimeChoice) {
+        dropoffTime = dropoffTimeChoice.getValue(true);
+      }
       
       console.log('Form values:', { pickupLoc, dropoffLoc, pickupDate, pickupTime, dropoffDate, dropoffTime });
       
@@ -220,15 +234,24 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${dayName}, ${monthName} ${day}, ${hour12}:${minuteStr} ${ampm}`;
       };
       
+      const formattedPickupDate = formatDate(pickupDate, pickupTime);
+      const formattedDropoffDate = formatDate(dropoffDate, dropoffTime);
+      
       // Build query string
       const params = new URLSearchParams({
         pickupLocation: pickupLoc,
         dropoffLocation: dropoffLoc,
-        pickupDate: formatDate(pickupDate, pickupTime),
-        dropoffDate: formatDate(dropoffDate, dropoffTime)
+        pickupDate: formattedPickupDate,
+        dropoffDate: formattedDropoffDate
       });
       
       console.log('Redirecting to:', `car_select.html?${params.toString()}`);
+      console.log('Params being sent:', {
+        pickupLocation: pickupLoc,
+        dropoffLocation: dropoffLoc,
+        pickupDate: formattedPickupDate,
+        dropoffDate: formattedDropoffDate
+      });
       
       // Redirect to car select page
       window.location.href = `car_select.html?${params.toString()}`;

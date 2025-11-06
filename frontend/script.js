@@ -174,45 +174,92 @@ testimonialImages.forEach((img, index) => {
   testimonialObserver.observe(img);
 });
 
+// ------------------ Helper function to get select value ------------------
+function getSelectValue(elementId, choicesInstance) {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    console.error(`Element ${elementId} not found`);
+    return '';
+  }
+  
+  // If Choices.js is initialized for this element, use it
+  if (choicesInstance && typeof choicesInstance.getValue === 'function') {
+    const value = choicesInstance.getValue(true);
+    console.log(`Got value from Choices.js for ${elementId}:`, value);
+    return value;
+  }
+  
+  // Otherwise use the native select value
+  const value = element.value;
+  console.log(`Got native value for ${elementId}:`, value);
+  return value;
+}
+
 // ------------------ Search Button Functionality ------------------
 document.addEventListener('DOMContentLoaded', function() {
-  const searchButton = document.querySelector('button.bg-manta-banner');
+  console.log('=== DOM LOADED - Looking for search button ===');
+  
+  // Use the ID selector
+  const searchButton = document.getElementById('search-btn');
   
   console.log('Search button found:', searchButton);
+  console.log('Button element:', searchButton ? 'EXISTS' : 'NOT FOUND');
   
   if (searchButton) {
-    searchButton.addEventListener('click', (e) => {
+    console.log('✓ Attaching click event to search button');
+    searchButton.addEventListener('click', function(e) {
       e.preventDefault();
+      e.stopPropagation();
       
-      console.log('Search button clicked!');
+      console.log('=== SEARCH BUTTON CLICKED ===');
+      console.log('Event prevented:', e.defaultPrevented);
       
-      // Get form values - handle both regular select and Choices.js
-      let pickupLoc = document.getElementById('pickup-location').value;
-      let dropoffLoc = document.getElementById('dropoff-location').value;
-      const pickupDate = document.getElementById('pickup-date').value;
-      let pickupTime = document.getElementById('pickup-time').value;
-      const dropoffDate = document.getElementById('dropoff-date').value;
-      let dropoffTime = document.getElementById('dropoff-time').value;
+      // Get raw element references
+      const pickupLocEl = document.getElementById('pickup-location');
+      const dropoffLocEl = document.getElementById('dropoff-location');
+      const pickupDateEl = document.getElementById('pickup-date');
+      const pickupTimeEl = document.getElementById('pickup-time');
+      const dropoffDateEl = document.getElementById('dropoff-date');
+      const dropoffTimeEl = document.getElementById('dropoff-time');
       
-      // If Choices.js is initialized, get values from there
-      if (pickupLocChoice) {
-        pickupLoc = pickupLocChoice.getValue(true);
-      }
-      if (dropoffLocChoice) {
-        dropoffLoc = dropoffLocChoice.getValue(true);
-      }
-      if (pickupTimeChoice) {
-        pickupTime = pickupTimeChoice.getValue(true);
-      }
-      if (dropoffTimeChoice) {
-        dropoffTime = dropoffTimeChoice.getValue(true);
-      }
+      console.log('Elements found:', {
+        pickupLocEl: !!pickupLocEl,
+        dropoffLocEl: !!dropoffLocEl,
+        pickupDateEl: !!pickupDateEl,
+        pickupTimeEl: !!pickupTimeEl,
+        dropoffDateEl: !!dropoffDateEl,
+        dropoffTimeEl: !!dropoffTimeEl
+      });
       
-      console.log('Form values:', { pickupLoc, dropoffLoc, pickupDate, pickupTime, dropoffDate, dropoffTime });
+      // Get form values using helper function
+      const pickupLoc = getSelectValue('pickup-location', pickupLocChoice);
+      const dropoffLoc = getSelectValue('dropoff-location', dropoffLocChoice);
+      const pickupDate = pickupDateEl ? pickupDateEl.value : '';
+      const pickupTime = getSelectValue('pickup-time', pickupTimeChoice);
+      const dropoffDate = dropoffDateEl ? dropoffDateEl.value : '';
+      const dropoffTime = getSelectValue('dropoff-time', dropoffTimeChoice);
+      
+      console.log('Form values:', { 
+        pickupLoc, 
+        dropoffLoc, 
+        pickupDate, 
+        pickupTime, 
+        dropoffDate, 
+        dropoffTime 
+      });
       
       // Basic validation
       if (!pickupLoc || !dropoffLoc || !pickupDate || !pickupTime || !dropoffDate || !dropoffTime) {
         alert('Please fill in all fields');
+        console.log('Validation failed - missing fields');
+        console.log('Missing:', {
+          pickupLoc: !pickupLoc,
+          dropoffLoc: !dropoffLoc,
+          pickupDate: !pickupDate,
+          pickupTime: !pickupTime,
+          dropoffDate: !dropoffDate,
+          dropoffTime: !dropoffTime
+        });
         return;
       }
       
@@ -237,26 +284,28 @@ document.addEventListener('DOMContentLoaded', function() {
       const formattedPickupDate = formatDate(pickupDate, pickupTime);
       const formattedDropoffDate = formatDate(dropoffDate, dropoffTime);
       
-      // Build query string
-      const params = new URLSearchParams({
+      console.log('Formatted dates:', {
+        formattedPickupDate,
+        formattedDropoffDate
+      });
+      
+      // Store in sessionStorage instead of URL params (more reliable)
+      const searchData = {
         pickupLocation: pickupLoc,
         dropoffLocation: dropoffLoc,
         pickupDate: formattedPickupDate,
         dropoffDate: formattedDropoffDate
-      });
+      };
       
-      console.log('Redirecting to:', `car_select.html?${params.toString()}`);
-      console.log('Params being sent:', {
-        pickupLocation: pickupLoc,
-        dropoffLocation: dropoffLoc,
-        pickupDate: formattedPickupDate,
-        dropoffDate: formattedDropoffDate
-      });
+      console.log('Storing data in sessionStorage:', searchData);
+      sessionStorage.setItem('rentalSearchData', JSON.stringify(searchData));
       
-      // Redirect to car select page
-      window.location.href = `car_select.html?${params.toString()}`;
+      console.log('=== REDIRECTING ===');
+      
+      // Simple redirect without query params
+      window.location.href = 'car_select.html';
     });
   } else {
-    console.error('Search button not found!');
+    console.error('❌ Search button NOT found! Cannot attach event listener.');
   }
 });

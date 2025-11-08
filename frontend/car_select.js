@@ -107,44 +107,28 @@ function getSearchParams() {
   try {
     console.log('=== GETTING SEARCH PARAMETERS ===');
     
-    // First try sessionStorage
+    // Get data from sessionStorage
     const storedData = sessionStorage.getItem('rentalSearchData');
-    console.log('SessionStorage data:', storedData);
+    console.log('Raw sessionStorage data:', storedData);
     
-    if (storedData) {
-      const data = JSON.parse(storedData);
-      console.log('Parsed sessionStorage data:', data);
+    if (!storedData) {
+      console.warn('No data found in sessionStorage');
       return {
-        pickupLocation: data.pickupLocation || 'Not specified',
-        dropoffLocation: data.dropoffLocation || 'Not specified',
-        pickupDate: data.pickupDate || 'Not specified',
-        dropoffDate: data.dropoffDate || 'Not specified'
+        pickupLocation: 'Not specified',
+        dropoffLocation: 'Not specified',
+        pickupDate: 'Not specified',
+        dropoffDate: 'Not specified'
       };
     }
     
-    // Fallback to URL parameters if sessionStorage is empty
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    console.log('Full URL:', window.location.href);
-    console.log('Query String:', window.location.search);
-    
-    const pickupLocation = urlParams.get('pickupLocation');
-    const dropoffLocation = urlParams.get('dropoffLocation');
-    const pickupDate = urlParams.get('pickupDate');
-    const dropoffDate = urlParams.get('dropoffDate');
-    
-    console.log('URL params:', {
-      pickupLocation,
-      dropoffLocation,
-      pickupDate,
-      dropoffDate
-    });
+    const params = JSON.parse(storedData);
+    console.log('Parsed params:', params);
     
     return {
-      pickupLocation: pickupLocation || 'Not specified',
-      dropoffLocation: dropoffLocation || 'Not specified',
-      pickupDate: pickupDate || 'Not specified',
-      dropoffDate: dropoffDate || 'Not specified'
+      pickupLocation: params.pickupLocation || 'Not specified',
+      dropoffLocation: params.dropoffLocation || 'Not specified',
+      pickupDate: params.pickupDate || 'Not specified',
+      dropoffDate: params.dropoffDate || 'Not specified'
     };
   } catch (error) {
     console.error('Error getting search params:', error);
@@ -162,6 +146,7 @@ function updateProgressSection() {
   try {
     console.log('=== UPDATING PROGRESS SECTION ===');
     const params = getSearchParams();
+    console.log('Params to display:', params);
     
     // Update pickup date
     const pickupDisplay = document.getElementById('pickup-date-display');
@@ -169,7 +154,7 @@ function updateProgressSection() {
       pickupDisplay.textContent = params.pickupDate;
       console.log('✓ Updated pickup date:', params.pickupDate);
     } else {
-      console.error('pickup-date-display element not found');
+      console.error('pickup-date-display element not found!');
     }
     
     // Update dropoff date
@@ -178,16 +163,25 @@ function updateProgressSection() {
       dropoffDisplay.textContent = params.dropoffDate;
       console.log('✓ Updated dropoff date:', params.dropoffDate);
     } else {
-      console.error('dropoff-date-display element not found');
+      console.error('dropoff-date-display element not found!');
     }
     
-    // Update location
-    const locationDisplay = document.getElementById('location-display');
-    if (locationDisplay) {
-      locationDisplay.textContent = params.pickupLocation;
-      console.log('✓ Updated location:', params.pickupLocation);
+    // Update pickup location
+    const pickupLocationDisplay = document.getElementById('pickup-location-display');
+    if (pickupLocationDisplay) {
+      pickupLocationDisplay.textContent = params.pickupLocation;
+      console.log('✓ Updated pickup location:', params.pickupLocation);
     } else {
-      console.error('location-display element not found');
+      console.error('pickup-location-display element not found!');
+    }
+    
+    // Update dropoff location
+    const dropoffLocationDisplay = document.getElementById('dropoff-location-display');
+    if (dropoffLocationDisplay) {
+      dropoffLocationDisplay.textContent = params.dropoffLocation;
+      console.log('✓ Updated dropoff location:', params.dropoffLocation);
+    } else {
+      console.error('dropoff-location-display element not found!');
     }
     
     console.log('=== PROGRESS SECTION UPDATED ===');
@@ -199,6 +193,9 @@ function updateProgressSection() {
 // ------------------ Render Vehicles ------------------
 function renderVehicles(vehicles) {
   try {
+    console.log('=== RENDERING VEHICLES ===');
+    console.log('Number of vehicles to render:', vehicles.length);
+    
     const grid = document.getElementById('vehicle-grid');
     
     if (!grid) {

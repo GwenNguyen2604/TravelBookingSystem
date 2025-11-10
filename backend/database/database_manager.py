@@ -96,6 +96,7 @@ class CarsDatabase:
 
         return rating_data
 
+    @database_logger.DatabaseLogger.log_rating_added_to_rating_table
     @staticmethod
     def add_new_rating_and_comment(vin, rating, comment):
         """
@@ -295,6 +296,7 @@ class CarsDatabase:
         return status
     
     # *** RENTED CAR MANAGER ***
+    @database_logger.DatabaseLogger.log_car_added_to_rented_table
     @staticmethod
     def add_car_to_rented_table(vin, start_time, end_time):
         """
@@ -315,6 +317,7 @@ class CarsDatabase:
 
         con.commit()
 
+    @database_logger.DatabaseLogger.log_car_removed_from_rented_table
     @staticmethod
     def remove_car_from_rented_table(vin):
         """

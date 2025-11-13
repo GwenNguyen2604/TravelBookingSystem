@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leave a Review - Manta Car Rental</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'ysabeau': ['Ysabeau', 'Arial', 'sans-serif'],
+            'ysabeau-sc': ['Ysabeau SC', 'Arial', 'sans-serif'],
+            'alegreya-sc': ['Alegreya Sans SC', 'Arial', 'sans-serif'],
+          },
+          colors: {
+            'manta-blue': '#4B6697',
+            'manta-banner': '#6D7C97',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Ysabeau', Arial, sans-serif;
+    }
+
+    /* Underline animation for nav links */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background-color: black;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Star rating styles */
+    .star-rating {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 2rem;
+    }
+
+    .star {
+      cursor: pointer;
+      color: #d1d5db;
+      transition: color 0.2s ease;
+    }
+
+    .star:hover,
+    .star.active {
+      color: #fbbf24;
+    }
+
+    .star:hover ~ .star {
+      color: #d1d5db;
+    }
+  </style>
+</head>
+<body class="m-0 p-0 bg-gray-50">
+  <!-- Banner -->
+  <header class="bg-manta-banner h-20 lg:h-24 w-full px-4 md:px-8 flex items-center justify-between relative">
+    <!-- Logo -->
+    <a href="homepage.html" class="flex items-center gap-2 md:gap-3">
+      <img src="images/manta.png" alt="Manta Logo" class="h-10 md:h-14 lg:h-16 w-auto">
+      <img src="images/mantaname.png" alt="Manta" class="h-7 md:h-9 lg:h-10 w-auto">
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="lg:hidden text-black p-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-8 xl:gap-12">
+      <!-- Text Links -->
+      <div class="flex items-center gap-8 xl:gap-10">
+        <a href="vehicles.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Vehicles</a>
+        <a href="location.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Locations</a>
+        <a href="support.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Support</a>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center gap-3">
+        <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm hover:bg-manta-blue hover:text-white transition-all">Sign In</a>
+        <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-manta-blue transition-all">Register</a>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 right-0 bg-manta-banner shadow-lg z-50">
+      <nav class="flex flex-col p-4 gap-4">
+        <a href="vehicles.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Vehicles</a>
+        <a href="location.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Locations</a>
+        <a href="support.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Support</a>
+        <div class="flex flex-col gap-2 mt-2">
+          <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm text-center">Sign In</a>
+          <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm text-center">Register</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-4 md:px-8 py-12 md:py-16">
+    <!-- Page Title -->
+    <h1 class="font-alegreya-sc text-3xl md:text-4xl lg:text-5xl font-normal mb-3 text-center">Leave a Review</h1>
+    <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-12 text-center">Share your experience with Manta</p>
+
+    <!-- Review Form -->
+    <div class="bg-white rounded-lg shadow-md p-6 md:p-8 lg:p-10">
+      <!-- Name -->
+      <div class="mb-6">
+        <label for="reviewer-name" class="block font-ysabeau-sc font-semibold mb-2 text-sm md:text-base">Your Name</label>
+        <input 
+          type="text" 
+          id="reviewer-name" 
+          placeholder="Enter your name" 
+          class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue"
+        >
+      </div>
+
+      <!-- Email -->
+      <div class="mb-6">
+        <label for="reviewer-email" class="block font-ysabeau-sc font-semibold mb-2 text-sm md:text-base">Email Address</label>
+        <input 
+          type="email" 
+          id="reviewer-email" 
+          placeholder="Enter your email" 
+          class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue"
+        >
+      </div>
+
+      <!-- Rating -->
+      <div class="mb-6">
+        <label class="block font-ysabeau-sc font-semibold mb-3 text-sm md:text-base">Your Rating</label>
+        <div class="star-rating" id="star-rating">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+        <input type="hidden" id="rating-value" value="0">
+      </div>
+
+      <!-- Rental Details (Optional) -->
+      <div class="mb-6">
+        <label for="rental-details" class="block font-ysabeau-sc font-semibold mb-2 text-sm md:text-base">Rental Details <span class="font-normal text-gray-500">(Optional)</span></label>
+        <input 
+          type="text" 
+          id="rental-details" 
+          placeholder="e.g., BMW 3 Series - Los Angeles, November 2025" 
+          class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue"
+        >
+      </div>
+
+      <!-- Review Title -->
+      <div class="mb-6">
+        <label for="review-title" class="block font-ysabeau-sc font-semibold mb-2 text-sm md:text-base">Review Title</label>
+        <input 
+          type="text" 
+          id="review-title" 
+          placeholder="Summarize your experience" 
+          class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue"
+        >
+      </div>
+
+      <!-- Review Text -->
+      <div class="mb-8">
+        <label for="review-text" class="block font-ysabeau-sc font-semibold mb-2 text-sm md:text-base">Your Review</label>
+        <textarea 
+          id="review-text" 
+          rows="6" 
+          placeholder="Tell us about your experience with Manta..." 
+          class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <button 
+          type="button" 
+          id="submit-review" 
+          class="w-full sm:w-auto bg-manta-banner text-white px-8 py-3 rounded-lg font-ysabeau-sc font-semibold hover:bg-manta-blue transition-all text-sm md:text-base"
+        >
+          Submit Review
+        </button>
+        <a 
+          href="homepage.html" 
+          class="w-full sm:w-auto bg-white text-black border-2 border-gray-300 px-8 py-3 rounded-lg font-ysabeau-sc font-semibold hover:border-manta-blue hover:text-manta-blue transition-all text-center text-sm md:text-base"
+        >
+          Cancel
+        </a>
+      </div>
+    </div>
+  </main>
+
+    <!-- Footer -->
+  <footer class="bg-manta-banner">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+        <!-- Logo -->
+        <div class="flex items-start">
+          <img src="images/manta.png" alt="Manta Logo" class="h-16 md:h-20 w-auto">
+        </div>
+
+        <!-- Customer Support -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Customer Support</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Contact Us</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Accident Report</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Get a Receipt</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Vehicle Theft Report</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Policies</a></li>
+          </ul>
+        </div>
+
+        <!-- Manta -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Manta</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Our Goal</a></li>
+            <li><a href="leave-review.html" class="font-ysabeau text-black hover:text-white transition-colors">Feedback</a></li>
+          </ul>
+        </div>
+
+        <!-- Car Sales -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Car Sales</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Buy a Car</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Sell a Car</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Finance a Car</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Copyright Section -->
+  <section class="bg-white py-3 px-4 md:px-8">
+    <p class="font-ysabeau-sc text-xs md:text-sm text-left">©2025 Manta Inc.</p>
+  </section>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    // Star Rating Functionality
+    const stars = document.querySelectorAll('.star');
+    const ratingValue = document.getElementById('rating-value');
+    let selectedRating = 0;
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.getAttribute('data-value'));
+        ratingValue.value = selectedRating;
+        updateStars();
+      });
+
+      star.addEventListener('mouseenter', () => {
+        const hoverValue = parseInt(star.getAttribute('data-value'));
+        stars.forEach((s, index) => {
+          if (index < hoverValue) {
+            s.classList.add('active');
+          } else {
+            s.classList.remove('active');
+          }
+        });
+      });
+    });
+
+    document.querySelector('.star-rating').addEventListener('mouseleave', () => {
+      updateStars();
+    });
+
+    function updateStars() {
+      stars.forEach((star, index) => {
+        if (index < selectedRating) {
+          star.classList.add('active');
+        } else {
+          star.classList.remove('active');
+        }
+      });
+    }
+
+    // Submit Review (placeholder functionality)
+    document.getElementById('submit-review').addEventListener('click', () => {
+      const name = document.getElementById('reviewer-name').value;
+      const email = document.getElementById('reviewer-email').value;
+      const rating = ratingValue.value;
+      const title = document.getElementById('review-title').value;
+      const reviewText = document.getElementById('review-text').value;
+
+      if (!name || !email || rating === '0' || !title || !reviewText) {
+        alert('Please fill in all required fields and provide a rating.');
+        return;
+      }
+
+      alert('Thank you for your review! Your feedback helps us improve our service.');
+      // In a real implementation, this would send the data to a server
+      window.location.href = 'homepage.html';
+    });
+  </script>
+</body>
+</html>

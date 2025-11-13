@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search Results - Manta Car Rental</title>
+  <title>Support - Manta Car Rental</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
@@ -52,18 +52,9 @@
     .nav-link:hover::after {
       width: 100%;
     }
-
-    /* Custom select arrow */
-    select {
-      appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><polyline points="1,1 6,6 11,1" fill="none" stroke="gray" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 12px 8px;
-    }
   </style>
 </head>
-<body class="m-0 p-0 bg-gray-50">
+<body class="m-0 p-0 bg-white">
   <!-- Banner -->
   <header class="bg-manta-banner h-20 lg:h-24 w-full px-4 md:px-8 flex items-center justify-between relative">
     <!-- Logo -->
@@ -109,118 +100,28 @@
     </div>
   </header>
 
-  <!-- Progress Steps -->
-  <section class="bg-white border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 md:px-8 py-6">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <!-- Rental Details -->
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex flex-col flex-1">
-            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Rental Details</h3>
-            <p id="pickup-date-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
-            <p id="dropoff-date-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
-          </div>
-          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </div>
-
-        <!-- Pick Up and Return -->
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex flex-col flex-1">
-            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Pick Up and Return</h3>
-            <p id="pickup-location-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
-            <p id="dropoff-location-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
-          </div>
-          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </div>
-
-        <!-- Vehicle -->
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex flex-col flex-1">
-            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Vehicle</h3>
-            <p class="text-xs md:text-sm text-gray-600">Select</p>
-          </div>
-          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </div>
-
-        <!-- Review and Reserve -->
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex flex-col flex-1">
-            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Review and Reserve</h3>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 md:px-8 py-8">
-    <!-- Page Title -->
-    <h1 class="font-alegreya-sc text-3xl md:text-4xl lg:text-5xl font-normal mb-8">Choose a Vehicle</h1>
+  <main class="min-h-[70vh] flex flex-col items-center justify-center px-4 py-16 md:py-24">
+    <!-- Heading -->
+    <h1 class="font-ysabeau text-2xl md:text-3xl lg:text-4xl text-center mb-12 md:mb-16">Need assistance? We're here to help.</h1>
 
-    <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Sidebar Filters -->
-      <aside class="lg:w-64 flex-shrink-0">
-        <div class="bg-white rounded-lg p-6 shadow-sm sticky top-4">
-          <h2 class="font-ysabeau-sc font-semibold text-lg mb-6 pb-2 border-b-2 border-black">Filter By</h2>
-          
-          <!-- Brand Filter -->
-          <div class="mb-6">
-            <label for="brand-filter" class="block font-ysabeau font-semibold mb-2 text-sm">Brand</label>
-            <select id="brand-filter" class="w-full p-3 pr-10 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue">
-              <option value="">All Brands</option>
-              <option value="bmw">BMW</option>
-              <option value="infiniti">Infiniti</option>
-              <option value="mercedes">Mercedes</option>
-              <option value="tesla">Tesla</option>
-              <option value="audi">Audi</option>
-              <option value="lexus">Lexus</option>
-              <option value="toyota">Toyota</option>
-              <option value="honda">Honda</option>
-              <option value="kia">Kia</option>
-              <option value="hyundai">Hyundai</option>
-            </select>
-          </div>
+    <!-- Support Icon -->
+    <div class="mb-12 md:mb-16">
+      <img src="images/customerservicepic.png" alt="Customer Service" class="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain">
+    </div>
 
-          <!-- Model Filter -->
-          <div class="mb-6">
-            <label for="model-filter" class="block font-ysabeau font-semibold mb-2 text-sm">Model</label>
-            <select id="model-filter" class="w-full p-3 pr-10 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue">
-              <option value="">All Models</option>
-              <!-- Models will be populated dynamically -->
-            </select>
-          </div>
-
-          <!-- Year Filter -->
-          <div class="mb-6">
-            <label for="year-filter" class="block font-ysabeau font-semibold mb-2 text-sm">Year</label>
-            <select id="year-filter" class="w-full p-3 pr-10 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue">
-              <option value="">All Years</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              <option value="2021">2021</option>
-              <option value="2020">2020</option>
-            </select>
-          </div>
-        </div>
-      </aside>
-
-      <!-- Vehicle Grid -->
-      <div class="flex-1">
-        <div id="vehicle-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          <!-- Vehicles will be populated by JavaScript -->
-        </div>
-      </div>
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row gap-6 md:gap-8">
+      <button class="font-ysabeau-sc font-semibold bg-gray-300 text-black px-8 py-3 rounded-lg text-base md:text-lg hover:bg-gray-400 transition-all">
+        Live Chat
+      </button>
+      <button class="font-ysabeau-sc font-semibold bg-gray-300 text-black px-8 py-3 rounded-lg text-base md:text-lg hover:bg-gray-400 transition-all">
+        Call Us
+      </button>
     </div>
   </main>
 
-  <!-- Footer -->
+    <!-- Footer -->
   <footer class="bg-manta-banner">
     <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
@@ -261,7 +162,6 @@
           </ul>
         </div>
       </div>
-
     </div>
   </footer>
 
@@ -270,6 +170,31 @@
     <p class="font-ysabeau-sc text-xs md:text-sm text-left">©2025 Manta Inc.</p>
   </section>
 
-  <script src="car_select.js"></script>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    // Button click handlers (placeholder)
+    document.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', () => {
+        const action = button.textContent.trim();
+        alert(`${action} feature will be implemented here.`);
+      });
+    });
+  </script>
 </body>
 </html>

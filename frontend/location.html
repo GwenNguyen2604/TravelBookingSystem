@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search Results - Manta Car Rental</title>
+  <title>Our Locations - Manta Car Rental</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
@@ -52,18 +52,9 @@
     .nav-link:hover::after {
       width: 100%;
     }
-
-    /* Custom select arrow */
-    select {
-      appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"><polyline points="1,1 6,6 11,1" fill="none" stroke="gray" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 12px 8px;
-    }
   </style>
 </head>
-<body class="m-0 p-0 bg-gray-50">
+<body class="m-0 p-0 bg-white">
   <!-- Banner -->
   <header class="bg-manta-banner h-20 lg:h-24 w-full px-4 md:px-8 flex items-center justify-between relative">
     <!-- Logo -->
@@ -109,116 +100,102 @@
     </div>
   </header>
 
-  <!-- Progress Steps -->
-  <section class="bg-white border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 md:px-8 py-6">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <!-- Rental Details -->
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex flex-col flex-1">
-            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Rental Details</h3>
-            <p id="pickup-date-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
-            <p id="dropoff-date-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
+  <!-- Hero Section -->
+  <section class="bg-gray-100 px-4 md:px-8 lg:px-16 py-12 md:py-16">
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+      <!-- Car Image -->
+      <div class="w-full lg:w-5/12">
+        <div class="relative">
+          <!-- Blue background offset behind -->
+          <div class="absolute -bottom-8 -right-8 w-full h-full bg-manta-banner rounded-3xl"></div>
+          <!-- Main image container -->
+          <div class="relative bg-gray-200 rounded-3xl overflow-hidden" style="aspect-ratio: 4/3;">
+            <img src="images/bencar.png" alt="Manta Car" class="w-full h-full object-cover">
           </div>
-          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
         </div>
+      </div>
 
-        <!-- Pick Up and Return -->
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex flex-col flex-1">
-            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Pick Up and Return</h3>
-            <p id="pickup-location-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
-            <p id="dropoff-location-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
-          </div>
-          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </div>
-
-        <!-- Vehicle -->
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex flex-col flex-1">
-            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Vehicle</h3>
-            <p class="text-xs md:text-sm text-gray-600">Select</p>
-          </div>
-          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </div>
-
-        <!-- Review and Reserve -->
-        <div class="flex items-start gap-2 md:gap-4">
-          <div class="flex flex-col flex-1">
-            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Review and Reserve</h3>
-          </div>
-        </div>
+      <!-- Text Content -->
+      <div class="w-full lg:w-7/12 text-center lg:text-left px-10 md:px-12 lg:px-20">
+        <h1 class="font-alegreya-sc text-4xl md:text-5xl lg:text-6xl font-normal mb-4">OUR LOCATIONS</h1>
+        <p class="font-ysabeau text-gray-700 text-lg md:text-xl">Explore our locations and start your trip today.</p>
       </div>
     </div>
   </section>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 md:px-8 py-8">
-    <!-- Page Title -->
-    <h1 class="font-alegreya-sc text-3xl md:text-4xl lg:text-5xl font-normal mb-8">Choose a Vehicle</h1>
+  <!-- Locations Section -->
+  <section class="px-4 md:px-8 lg:px-16 py-12 md:py-16">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="font-ysabeau-sc text-2xl md:text-3xl font-semibold mb-8 md:mb-12">Locations in CA</h2>
 
-    <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Sidebar Filters -->
-      <aside class="lg:w-64 flex-shrink-0">
-        <div class="bg-white rounded-lg p-6 shadow-sm sticky top-4">
-          <h2 class="font-ysabeau-sc font-semibold text-lg mb-6 pb-2 border-b-2 border-black">Filter By</h2>
-          
-          <!-- Brand Filter -->
-          <div class="mb-6">
-            <label for="brand-filter" class="block font-ysabeau font-semibold mb-2 text-sm">Brand</label>
-            <select id="brand-filter" class="w-full p-3 pr-10 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue">
-              <option value="">All Brands</option>
-              <option value="bmw">BMW</option>
-              <option value="infiniti">Infiniti</option>
-              <option value="mercedes">Mercedes</option>
-              <option value="tesla">Tesla</option>
-              <option value="audi">Audi</option>
-              <option value="lexus">Lexus</option>
-              <option value="toyota">Toyota</option>
-              <option value="honda">Honda</option>
-              <option value="kia">Kia</option>
-              <option value="hyundai">Hyundai</option>
-            </select>
-          </div>
-
-          <!-- Model Filter -->
-          <div class="mb-6">
-            <label for="model-filter" class="block font-ysabeau font-semibold mb-2 text-sm">Model</label>
-            <select id="model-filter" class="w-full p-3 pr-10 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue">
-              <option value="">All Models</option>
-              <!-- Models will be populated dynamically -->
-            </select>
-          </div>
-
-          <!-- Year Filter -->
-          <div class="mb-6">
-            <label for="year-filter" class="block font-ysabeau font-semibold mb-2 text-sm">Year</label>
-            <select id="year-filter" class="w-full p-3 pr-10 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue">
-              <option value="">All Years</option>
-              <option value="2024">2024</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              <option value="2021">2021</option>
-              <option value="2020">2020</option>
-            </select>
-          </div>
+      <!-- Locations Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+        <!-- Los Angeles -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">Los Angeles</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">1245 S Marengo Ave<br>Los Angeles, CA 90019</p>
         </div>
-      </aside>
 
-      <!-- Vehicle Grid -->
-      <div class="flex-1">
-        <div id="vehicle-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          <!-- Vehicles will be populated by JavaScript -->
+        <!-- San Francisco -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">San Francisco</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">2180 Harrison St<br>San Francisco, CA 94110</p>
+        </div>
+
+        <!-- San Diego -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">San Diego</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">1642 Kettner Blvd<br>San Diego, CA 92101</p>
+        </div>
+
+        <!-- Anaheim -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">Anaheim</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">785 W Katella Ave<br>Anaheim, CA 92802</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-12">
+        <!-- Sacramento -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">Sacramento</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">402 Capitol Mall<br>Sacramento, CA 95814</p>
+        </div>
+
+        <!-- San Jose -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">San Jose</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">1200 Almaden Blvd<br>San Jose, CA 95110</p>
+        </div>
+
+        <!-- Oakland -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">Oakland</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">501 Broadway<br>Oakland, CA 94607</p>
+        </div>
+
+        <!-- Palm Springs -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">Palm Springs</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">220 E Palm Canyon<br>Palm Springs, CA 92262</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+        <!-- Fresno -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">Fresno</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">815 E Shaw Ave<br>Fresno, CA 93710</p>
+        </div>
+
+        <!-- Santa Barbara -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg md:text-xl font-semibold mb-2">Santa Barbara</h3>
+          <p class="font-ysabeau text-gray-700 text-sm md:text-base">430 State St<br>Santa Barbara, CA 93101</p>
         </div>
       </div>
     </div>
-  </main>
+  </section>
 
   <!-- Footer -->
   <footer class="bg-manta-banner">
@@ -261,7 +238,6 @@
           </ul>
         </div>
       </div>
-
     </div>
   </footer>
 
@@ -270,6 +246,22 @@
     <p class="font-ysabeau-sc text-xs md:text-sm text-left">©2025 Manta Inc.</p>
   </section>
 
-  <script src="car_select.js"></script>
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    }
+  </script>
 </body>
 </html>

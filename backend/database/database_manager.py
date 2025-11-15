@@ -362,6 +362,8 @@ class CarsDatabase:
                     (?, ?, ?, ?)
         """, (vin, "", "", "",))
 
+        CarsDatabase.set_status_to_table(vin, "MAINTENANCE")
+
         con.commit()
 
     @staticmethod
@@ -466,9 +468,26 @@ class CarsDatabase:
         does not exist in the maintenance table, then the function
         will return. The write_to_maintenance_log_table function
         will be called during the execution of this function.
+        Sets the status of the car from MAINTENANCE to AVAILABLE
         """
         con = sqlite3.connect(CarsDatabase.database)
 
+        time_in = con.execute("""SELECT time_in FROM maintenance_table 
+        WHERE vin = ?""", (vin,))
+
+        time_out = con.execute("""SELECT time_out FROM maintenance_table
+        WHERE vin = ?""", (vin,))
+
+        service_performed = con.execute("""SELECT service_performed FROM
+        maintenance_table WHERE vin = ?""", (vin,))
+
+        CarsDatabase.write_to_maintenance_log_table(vin, time_in, 
+                                                time_out, service_performed)
+        
+        con.execute("""DELETE FROM maintenance_table WHERE
+        vin = ?""", (vin,))
+
+        CarsDatabase.set_status_to_table(vin, "AVAILABLE")
 
         con.commit()
 

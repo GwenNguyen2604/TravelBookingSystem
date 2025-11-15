@@ -4,11 +4,23 @@ Do not import this file anywhere unless to test the database management modules.
 Do not call the functions contained within this file elsewhere outside of this file.
 """
 import sqlite3
+import unittest
 import database_manager
 # import database_duplicator
 
 cars_database = "cars.db"
 logger_database = "data_log.db"
+
+class DatabaseManagerTester(unittest.TestCase):
+    """
+    Unit Tests for the DatabaseManager class
+    """
+    def test_add_new_car_to_table(self):
+        """
+        Tests if a new car was successfully added to the master table
+        in the cars.db database.
+        """
+        
 
 # Test the output of adding a new car to the database
 def test_add_new_car():
@@ -60,5 +72,5 @@ def test_add_status():
 
     logger.commit()
 # test_add_new_car()
-test_add_status()
+test_add_status()     
 

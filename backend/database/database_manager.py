@@ -155,7 +155,7 @@ class CarsDatabase:
 
         if exists.arraysize != 0:
             database_logger.DatabaseLogger.log_rental_price_fail_added(vin)
-            return
+            return None
 
         con.execute("""
                         INSERT INTO rental_price_table (
@@ -338,26 +338,94 @@ class CarsDatabase:
     @staticmethod
     def move_car_to_maintenance_table(vin):
         """
-        // Function description
+        Description: Adds a car to the maintenance table and
+        sets the status of the car to MAINTENANCE;
+        Does not add if the car already exists in the table
         """
+        con = sqlite3.connect(CarsDatabase.database)
+
+        con.execute("""CREATE TABLE IF NOT EXISTS maintenance_table (
+                    vin TEXT,
+                    time_in TEXT,
+                    time_out TEXT
+                    service_performed TEXT
+        )""")
+
+        exists = con.execute("""SELECT * FROM maintenance_table WHERE vin = ?
+        """, (vin,))
+
+        if (exists.arraysize != 0):
+            return None
+        
+        con.execute("""INSERT INTO maintenance_table 
+                    (vin, time_in, time_out, service_performed) VALUES
+                    (?, ?, ?, ?)
+        """, (vin, "", "", "",))
+
+        con.commit()
 
     @staticmethod
     def set_time_in_maintenance(vin, time_in):
         """
-        // Function description
+        Description: Sets the time_in value of a car in the
+        maintenance table.
+        Ensure that the time_in value is in the ISO 8601
+        format for datetime.
         """
+        con = sqlite3.connect(CarsDatabase.database)
+
+        con.execute("""CREATE TABLE IF NOT EXISTS maintenance_table (
+                    vin TEXT,
+                    time_in TEXT,
+                    time_out TEXT,
+                    service_performed TEXT
+        )""")
+        
+        con.execute("""UPDATE maintenance_table SET time_in = ?
+        WHERE vin = ?""", (time_in, vin,))
+
+        con.commit()
 
     @staticmethod
     def set_time_out_maintenance(vin, time_out):
         """
-        // Function description
+        Description: Sets the time_out value of a car in the
+        maintenance table.
         """
+        con = sqlite3.connect(CarsDatabase.database)
+
+        con.execute("""CREATE TABLE IF NOT EXISTS maintenance_table (
+                    vin TEXT,
+                    time_in TEXT,
+                    time_out TEXT,
+                    service_performed TEXT
+        )""")
+
+        con.execute("""UPDATE maintenance_table SET time_out = ?
+                    WHERE vin = ?""", (time_out, vin,))
+        
+        con.commit()
 
     @staticmethod
     def set_service_performed_maintenance(vin, service_performed):
         """
-        // Function description
+        Description: Sets the service_performed value of a car in
+        the maintenance table.
         """
+        con = sqlite3.connect(CarsDatabase.database)
+
+        con.execute("""CREATE TABLE IF NOT EXISTS maintenance_table (
+                    vin TEXT,
+                    time_in TEXT,
+                    time_out TEXT,
+                    service_performed TEXT
+        )""")
+
+        con.execute("""UPDATE maintenance_table
+                    SET service_performed = ?
+                    WHERE vin = ?""", (service_performed, vin,))
+        
+        con.commit()
 
     @staticmethod
     def write_to_maintenance_log_table(
@@ -367,5 +435,40 @@ class CarsDatabase:
         service_performed
     ):
         """
-        // Function description
+        Description: Upon removal of a car from the maintenance table,
+        this function will be called and write all values of the entry
+        to a unique log table belonging to the vin in the cars.db
+        database for maintenance logging.
         """
+        con = sqlite3.connect(CarsDatabase.database)
+
+        log_time = datetime.datetime.now().isoformat()
+
+        con.execute("""CREATE TABLE IF NOT EXISTS ?_maint_log_table (
+                    vin TEXT,
+                    time_in TEXT,
+                    time_out TEXT,
+                    service_performed TEXT,
+                    datetime TEXT
+        )""", (vin,))
+
+        con.execute("""INSERT INTO ?_maint_log_table
+                    (vin, time_in, time_out, service_performed, datetime)
+                    VALUES (?, ?, ?, ?, ?)
+        """, (vin, vin, time_in, time_out, service_performed, log_time))
+
+        con.commit()
+
+    @staticmethod
+    def remove_car_from_maintenance(vin):
+        """
+        Description: Removes a car from the maintenance table. If the car
+        does not exist in the maintenance table, then the function
+        will return. The write_to_maintenance_log_table function
+        will be called during the execution of this function.
+        """
+        con = sqlite3.connect(CarsDatabase.database)
+
+
+        con.commit()
+

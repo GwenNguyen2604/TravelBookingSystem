@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Manta Car Rental</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'ysabeau': ['Ysabeau', 'Arial', 'sans-serif'],
+            'ysabeau-sc': ['Ysabeau SC', 'Arial', 'sans-serif'],
+            'alegreya-sc': ['Alegreya Sans SC', 'Arial', 'sans-serif'],
+          },
+          colors: {
+            'manta-blue': '#4B6697',
+            'manta-banner': '#6D7C97',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Ysabeau', Arial, sans-serif;
+    }
+
+    /* Underline animation for nav links */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background-color: black;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Hide number input spinners */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  </style>
+</head>
+<body class="m-0 p-0 bg-gray-50">
+  <!-- Banner -->
+  <header class="bg-manta-banner h-20 lg:h-24 w-full px-4 md:px-8 flex items-center justify-between relative">
+    <!-- Logo -->
+    <a href="homepage.html" class="flex items-center gap-2 md:gap-3">
+      <img src="images/manta.png" alt="Manta Logo" class="h-10 md:h-14 lg:h-16 w-auto">
+      <img src="images/mantaname.png" alt="Manta" class="h-7 md:h-9 lg:h-10 w-auto">
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="lg:hidden text-black p-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-8 xl:gap-12">
+      <!-- Text Links -->
+      <div class="flex items-center gap-8 xl:gap-10">
+        <a href="vehicles.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Vehicles</a>
+        <a href="location.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Locations</a>
+        <a href="support.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Support</a>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center gap-3">
+        <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm hover:bg-manta-blue hover:text-white transition-all">Sign In</a>
+        <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-manta-blue transition-all">Register</a>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 right-0 bg-manta-banner shadow-lg z-50">
+      <nav class="flex flex-col p-4 gap-4">
+        <a href="vehicles.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Vehicles</a>
+        <a href="location.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Locations</a>
+        <a href="support.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Support</a>
+        <div class="flex flex-col gap-2 mt-2">
+          <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm text-center">Sign In</a>
+          <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm text-center">Register</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Progress Steps -->
+  <section class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <!-- Rental Details -->
+        <div class="flex items-start gap-2 md:gap-4">
+          <div class="flex flex-col flex-1">
+            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Rental Details</h3>
+            <p id="pickup-date-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
+            <p id="dropoff-date-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
+          </div>
+          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </div>
+
+        <!-- Pick Up and Return -->
+        <div class="flex items-start gap-2 md:gap-4">
+          <div class="flex flex-col flex-1">
+            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Pick Up and Return</h3>
+            <p id="pickup-location-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
+            <p id="dropoff-location-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
+          </div>
+          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </div>
+
+        <!-- Vehicle -->
+        <div class="flex items-start gap-2 md:gap-4">
+          <div class="flex flex-col flex-1">
+            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1">Vehicle</h3>
+            <p id="vehicle-name-display" class="text-xs md:text-sm text-gray-600">Loading...</p>
+          </div>
+          <svg class="hidden md:block w-5 h-5 text-gray-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </div>
+
+        <!-- Review and Reserve -->
+        <div class="flex items-start gap-2 md:gap-4">
+          <div class="flex flex-col flex-1">
+            <h3 class="font-ysabeau-sc font-semibold text-sm md:text-base mb-1 text-manta-blue">Review and Reserve</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 md:px-8 py-8">
+    <!-- Page Title -->
+    <h1 class="font-alegreya-sc text-3xl md:text-4xl lg:text-5xl font-normal mb-8">Complete Your Reservation</h1>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Left Column - Forms -->
+      <div class="flex-1 space-y-6">
+        <!-- Personal Information -->
+        <div class="bg-white rounded-lg p-6 shadow-sm">
+          <h2 class="font-ysabeau-sc font-semibold text-xl mb-6 pb-2 border-b-2 border-black">Personal Information</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="first-name" class="block font-ysabeau font-semibold mb-2 text-sm">First Name</label>
+              <input type="text" id="first-name" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+            <div>
+              <label for="last-name" class="block font-ysabeau font-semibold mb-2 text-sm">Last Name</label>
+              <input type="text" id="last-name" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+            <div>
+              <label for="email" class="block font-ysabeau font-semibold mb-2 text-sm">Email</label>
+              <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+            <div>
+              <label for="phone" class="block font-ysabeau font-semibold mb-2 text-sm">Phone Number</label>
+              <input type="tel" id="phone" placeholder="(555) 123-4567" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Driver Information -->
+        <div class="bg-white rounded-lg p-6 shadow-sm">
+          <h2 class="font-ysabeau-sc font-semibold text-xl mb-6 pb-2 border-b-2 border-black">Driver Information</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="license-number" class="block font-ysabeau font-semibold mb-2 text-sm">Driver's License Number</label>
+              <input type="text" id="license-number" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+            <div>
+              <label for="license-state" class="block font-ysabeau font-semibold mb-2 text-sm">License State</label>
+              <select id="license-state" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+                <option value="">Select State</option>
+                <option value="CA">California</option>
+                <option value="NY">New York</option>
+                <option value="TX">Texas</option>
+                <option value="FL">Florida</option>
+              </select>
+            </div>
+            <div>
+              <label for="date-of-birth" class="block font-ysabeau font-semibold mb-2 text-sm">Date of Birth</label>
+              <input type="date" id="date-of-birth" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="bg-white rounded-lg p-6 shadow-sm">
+          <h2 class="font-ysabeau-sc font-semibold text-xl mb-6 pb-2 border-b-2 border-black">Payment Information</h2>
+          
+          <div class="space-y-4">
+            <div>
+              <label for="card-number" class="block font-ysabeau font-semibold mb-2 text-sm">Card Number</label>
+              <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+            
+            <div>
+              <label for="cardholder-name" class="block font-ysabeau font-semibold mb-2 text-sm">Cardholder Name</label>
+              <input type="text" id="cardholder-name" placeholder="Name on card" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="expiry-date" class="block font-ysabeau font-semibold mb-2 text-sm">Expiry Date</label>
+                <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+              </div>
+              <div>
+                <label for="cvv" class="block font-ysabeau font-semibold mb-2 text-sm">CVV</label>
+                <input type="text" id="cvv" placeholder="123" maxlength="4" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+              </div>
+            </div>
+
+            <div>
+              <label for="billing-zip" class="block font-ysabeau font-semibold mb-2 text-sm">Billing Zip Code</label>
+              <input type="text" id="billing-zip" placeholder="12345" maxlength="5" class="w-full p-3 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:border-manta-blue" required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Summary -->
+      <aside class="lg:w-96 flex-shrink-0">
+        <div class="bg-white rounded-lg p-6 shadow-sm sticky top-4">
+          <h2 class="font-ysabeau-sc font-semibold text-xl mb-6 pb-2 border-b-2 border-black">Reservation Summary</h2>
+          
+          <!-- Vehicle Info -->
+          <div class="mb-6">
+            <div class="bg-gray-200 h-48 rounded-md flex items-center justify-center mb-4">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <h3 id="summary-vehicle-name" class="font-ysabeau-sc font-semibold text-lg mb-2">Loading...</h3>
+            <p class="text-sm text-gray-600 mb-1"><span class="font-semibold">Pick Up:</span> <span id="summary-pickup-location">Loading...</span></p>
+            <p class="text-sm text-gray-600 mb-1"><span class="font-semibold">Return:</span> <span id="summary-dropoff-location">Loading...</span></p>
+            <p class="text-sm text-gray-600 mb-1"><span class="font-semibold">Dates:</span> <span id="summary-dates">Loading...</span></p>
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="border-t border-gray-200 pt-4 space-y-3">
+            <div class="flex justify-between text-sm">
+              <span class="font-ysabeau">Daily Rate</span>
+              <span id="daily-rate" class="font-ysabeau-sc font-semibold">$0.00</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="font-ysabeau">Number of Days</span>
+              <span id="num-days" class="font-ysabeau-sc font-semibold">0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="font-ysabeau">Subtotal</span>
+              <span id="subtotal" class="font-ysabeau-sc font-semibold">$0.00</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="font-ysabeau">Taxes & Fees</span>
+              <span id="taxes" class="font-ysabeau-sc font-semibold">$0.00</span>
+            </div>
+            <div class="border-t border-gray-300 pt-3 flex justify-between">
+              <span class="font-ysabeau-sc font-bold text-lg">Total</span>
+              <span id="total" class="font-ysabeau-sc font-bold text-lg text-manta-blue">$0.00</span>
+            </div>
+          </div>
+
+          <!-- Complete Reservation Button -->
+          <button id="complete-reservation" class="w-full mt-6 bg-manta-banner text-white font-ysabeau-sc font-semibold px-6 py-3 rounded-lg hover:bg-manta-blue transition-all text-base">
+            Complete Reservation
+          </button>
+
+          <p class="text-xs text-gray-500 mt-4 text-center font-ysabeau">By completing this reservation, you agree to our Terms & Conditions</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-manta-banner mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+        <!-- Logo -->
+        <div class="flex items-start">
+          <img src="images/manta.png" alt="Manta Logo" class="h-16 md:h-20 w-auto">
+        </div>
+
+        <!-- Customer Support -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Customer Support</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Contact Us</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Accident Report</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Get a Receipt</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Vehicle Theft Report</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Policies</a></li>
+          </ul>
+        </div>
+
+        <!-- Manta -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Manta</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Our Goal</a></li>
+            <li><a href="leave-review.html" class="font-ysabeau text-black hover:text-white transition-colors">Feedback</a></li>
+          </ul>
+        </div>
+
+        <!-- Car Sales -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Car Sales</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Buy a Car</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Sell a Car</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Finance a Car</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Copyright Section -->
+  <section class="bg-white py-3 px-4 md:px-8">
+    <p class="font-ysabeau-sc text-xs md:text-sm text-left">©2025 Manta Inc.</p>
+  </section>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    // Load reservation data
+    function loadReservationData() {
+      try {
+        // Get rental search data
+        const searchData = JSON.parse(sessionStorage.getItem('rentalSearchData') || '{}');
+        const vehicleData = JSON.parse(sessionStorage.getItem('selectedVehicle') || '{}');
+
+        // Update progress section
+        document.getElementById('pickup-date-display').textContent = searchData.pickupDate || 'Not specified';
+        document.getElementById('dropoff-date-display').textContent = searchData.dropoffDate || 'Not specified';
+        document.getElementById('pickup-location-display').textContent = searchData.pickupLocation || 'Not specified';
+        document.getElementById('dropoff-location-display').textContent = searchData.dropoffLocation || 'Not specified';
+        document.getElementById('vehicle-name-display').textContent = vehicleData.name || 'Not specified';
+
+        // Update summary section
+        document.getElementById('summary-vehicle-name').textContent = vehicleData.name || 'Vehicle Not Selected';
+        document.getElementById('summary-pickup-location').textContent = searchData.pickupLocation || 'Not specified';
+        document.getElementById('summary-dropoff-location').textContent = searchData.dropoffLocation || 'Not specified';
+        
+        const datesText = `${searchData.pickupDate || 'N/A'} - ${searchData.dropoffDate || 'N/A'}`;
+        document.getElementById('summary-dates').textContent = datesText;
+
+        // Calculate pricing (simplified)
+        const dailyRate = vehicleData.price || 0;
+        const numDays = 3; // Placeholder - would calculate from actual dates
+        const subtotal = dailyRate * numDays;
+        const taxes = subtotal * 0.15; // 15% tax
+        const total = subtotal + taxes;
+
+        document.getElementById('daily-rate').textContent = `$${dailyRate.toFixed(2)}`;
+        document.getElementById('num-days').textContent = numDays;
+        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('taxes').textContent = `$${taxes.toFixed(2)}`;
+        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+
+      } catch (error) {
+        console.error('Error loading reservation data:', error);
+      }
+    }
+
+    // Format card number input
+    document.getElementById('card-number').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s/g, '');
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+      e.target.value = formattedValue;
+    });
+
+    // Format expiry date input
+    document.getElementById('expiry-date').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      }
+      e.target.value = value;
+    });
+
+    // Format phone number
+    document.getElementById('phone').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 6) {
+        value = '(' + value.slice(0, 3) + ') ' + value.slice(3, 6) + '-' + value.slice(6, 10);
+      } else if (value.length >= 3) {
+        value = '(' + value.slice(0, 3) + ') ' + value.slice(3);
+      }
+      e.target.value = value;
+    });
+
+    // Only allow numbers in CVV and billing zip
+    document.getElementById('cvv').addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/\D/g, '');
+    });
+
+    document.getElementById('billing-zip').addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/\D/g, '');
+    });
+
+    // Complete reservation
+    document.getElementById('complete-reservation').addEventListener('click', function() {
+      // Basic validation
+      const requiredFields = [
+        'first-name', 'last-name', 'email', 'phone',
+        'license-number', 'license-state', 'date-of-birth',
+        'card-number', 'cardholder-name', 'expiry-date', 'cvv', 'billing-zip'
+      ];
+
+      let isValid = true;
+      for (const fieldId of requiredFields) {
+        const field = document.getElementById(fieldId);
+        if (!field.value.trim()) {
+          isValid = false;
+          field.classList.add('border-red-500');
+        } else {
+          field.classList.remove('border-red-500');
+        }
+      }
+
+      // Validate card number (16 digits)
+      const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+      if (cardNumber.length !== 16) {
+        isValid = false;
+        document.getElementById('card-number').classList.add('border-red-500');
+      }
+
+      // Validate expiry date (MM/YY format)
+      const expiryDate = document.getElementById('expiry-date').value;
+      if (!/^\d{2}\/\d{2}$/.test(expiryDate)) {
+        isValid = false;
+        document.getElementById('expiry-date').classList.add('border-red-500');
+      }
+
+      // Validate CVV (3-4 digits)
+      const cvv = document.getElementById('cvv').value;
+      if (cvv.length < 3 || cvv.length > 4) {
+        isValid = false;
+        document.getElementById('cvv').classList.add('border-red-500');
+      }
+
+      // Validate zip code (5 digits)
+      const zip = document.getElementById('billing-zip').value;
+      if (zip.length !== 5) {
+        isValid = false;
+        document.getElementById('billing-zip').classList.add('border-red-500');
+      }
+
+      if (!isValid) {
+        alert('Please fill in all required fields correctly.');
+        return;
+      }
+
+      // If validation passes, store reservation data and redirect to confirmation
+      const reservationData = {
+        firstName: document.getElementById('first-name').value,
+        lastName: document.getElementById('last-name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        completedAt: new Date().toISOString()
+      };
+      
+      sessionStorage.setItem('reservationData', JSON.stringify(reservationData));
+      
+      // Redirect to confirmation page
+      window.location.href = 'confirmation.html';
+    });
+
+    // Load data on page load
+    document.addEventListener('DOMContentLoaded', loadReservationData);
+  </script>
+</body>
+</html>

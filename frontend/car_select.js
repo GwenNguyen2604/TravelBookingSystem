@@ -304,12 +304,23 @@ function selectVehicle(vehicleId) {
   try {
     const vehicle = allVehicles.find(v => v.id === vehicleId);
     
+    if (!vehicle) {
+      console.error('Vehicle not found!');
+      alert('Error: Vehicle not found. Please try again.');
+      return;
+    }
+    
+    // Store selected vehicle in sessionStorage
     sessionStorage.setItem('selectedVehicle', JSON.stringify(vehicle));
     
     console.log('Selected vehicle:', vehicle);
-    alert(`You selected: ${vehicle.name}\nPrice: $${vehicle.price.toFixed(2)}/day\n\nNext step: Review and Reserve page will be implemented here.`);
+    console.log('Redirecting to checkout page...');
+    
+    // Redirect to checkout page
+    window.location.href = 'checkout.html';
   } catch (error) {
     console.error('Error selecting vehicle:', error);
+    alert('An error occurred. Please try again.');
   }
 }
 

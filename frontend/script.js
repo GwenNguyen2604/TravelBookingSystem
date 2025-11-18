@@ -289,12 +289,17 @@ document.addEventListener('DOMContentLoaded', function() {
         formattedDropoffDate
       });
       
-      // Store in sessionStorage instead of URL params (more reliable)
+      // Store in sessionStorage with both raw and formatted dates
       const searchData = {
         pickupLocation: pickupLoc,
         dropoffLocation: dropoffLoc,
         pickupDate: formattedPickupDate,
-        dropoffDate: formattedDropoffDate
+        dropoffDate: formattedDropoffDate,
+        // Store raw date/time values for accurate calculation
+        pickupDateRaw: pickupDate,
+        pickupTimeRaw: pickupTime,
+        dropoffDateRaw: dropoffDate,
+        dropoffTimeRaw: dropoffTime
       };
       
       console.log('Storing data in sessionStorage:', searchData);
@@ -306,6 +311,6 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.href = 'car_select.html';
     });
   } else {
-    console.error('❌ Search button NOT found! Cannot attach event listener.');
+    console.error('✗ Search button NOT found! Cannot attach event listener.');
   }
 });

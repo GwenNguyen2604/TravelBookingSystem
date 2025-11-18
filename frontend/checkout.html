@@ -273,7 +273,7 @@
           <div class="border-t border-gray-200 pt-4 space-y-3">
             <div class="flex justify-between text-sm">
               <span class="font-ysabeau">Daily Rate</span>
-              <span id="daily-rate" class="font-ysabeau-sc font-semibold">$0.00</span>
+              <span class="font-ysabeau-sc font-semibold">$<span id="daily-rate">0.00</span></span>
             </div>
             <div class="flex justify-between text-sm">
               <span class="font-ysabeau">Number of Days</span>
@@ -281,15 +281,15 @@
             </div>
             <div class="flex justify-between text-sm">
               <span class="font-ysabeau">Subtotal</span>
-              <span id="subtotal" class="font-ysabeau-sc font-semibold">$0.00</span>
+              <span class="font-ysabeau-sc font-semibold">$<span id="subtotal">0.00</span></span>
             </div>
             <div class="flex justify-between text-sm">
               <span class="font-ysabeau">Taxes & Fees</span>
-              <span id="taxes" class="font-ysabeau-sc font-semibold">$0.00</span>
+              <span class="font-ysabeau-sc font-semibold">$<span id="taxes">0.00</span></span>
             </div>
             <div class="border-t border-gray-300 pt-3 flex justify-between">
               <span class="font-ysabeau-sc font-bold text-lg">Total</span>
-              <span id="total" class="font-ysabeau-sc font-bold text-lg text-manta-blue">$0.00</span>
+              <span class="font-ysabeau-sc font-bold text-lg text-manta-blue">$<span id="total">0.00</span></span>
             </div>
           </div>
 
@@ -370,6 +370,35 @@
       });
     }
 
+    // Calculate number of days between two dates using raw date values
+    function calculateDaysFromRaw(pickupDateRaw, pickupTimeRaw, dropoffDateRaw, dropoffTimeRaw) {
+      try {
+        // Create date objects from raw values (format: "2024-11-18" and "14:00")
+        const pickupDateTime = new Date(pickupDateRaw + 'T' + pickupTimeRaw);
+        const dropoffDateTime = new Date(dropoffDateRaw + 'T' + dropoffTimeRaw);
+
+        console.log('Pickup datetime:', pickupDateTime);
+        console.log('Dropoff datetime:', dropoffDateTime);
+
+        if (isNaN(pickupDateTime.getTime()) || isNaN(dropoffDateTime.getTime())) {
+          console.error('Invalid dates');
+          return 1;
+        }
+
+        // Calculate difference in milliseconds
+        const diffTime = Math.abs(dropoffDateTime - pickupDateTime);
+        // Convert to days and round up (minimum 1 day)
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        console.log('Number of days calculated:', diffDays);
+        
+        return diffDays > 0 ? diffDays : 1;
+      } catch (error) {
+        console.error('Error calculating days:', error);
+        return 1;
+      }
+    }
+
     // Load reservation data
     function loadReservationData() {
       try {
@@ -392,18 +421,34 @@
         const datesText = `${searchData.pickupDate || 'N/A'} - ${searchData.dropoffDate || 'N/A'}`;
         document.getElementById('summary-dates').textContent = datesText;
 
-        // Calculate pricing (simplified)
+        // Calculate pricing with accurate number of days
         const dailyRate = vehicleData.price || 0;
-        const numDays = 3; // Placeholder - would calculate from actual dates
+        
+        // Try to use raw date values for accurate calculation
+        let numDays = 1;
+        if (searchData.pickupDateRaw && searchData.pickupTimeRaw && 
+            searchData.dropoffDateRaw && searchData.dropoffTimeRaw) {
+          numDays = calculateDaysFromRaw(
+            searchData.pickupDateRaw, 
+            searchData.pickupTimeRaw, 
+            searchData.dropoffDateRaw, 
+            searchData.dropoffTimeRaw
+          );
+        }
+        
         const subtotal = dailyRate * numDays;
         const taxes = subtotal * 0.15; // 15% tax
         const total = subtotal + taxes;
 
-        document.getElementById('daily-rate').textContent = `$${dailyRate.toFixed(2)}`;
+        document.getElementById('daily-rate').textContent = `${dailyRate.toFixed(2)}`;
         document.getElementById('num-days').textContent = numDays;
-        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-        document.getElementById('taxes').textContent = `$${taxes.toFixed(2)}`;
-        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)}`;
+        document.getElementById('taxes').textContent = `${taxes.toFixed(2)}`;
+        document.getElementById('total').textContent = `${total.toFixed(2)}`;
+
+        // Store the calculated total for the confirmation page
+        sessionStorage.setItem('calculatedTotal', total.toFixed(2));
+        sessionStorage.setItem('numDays', numDays);
 
       } catch (error) {
         console.error('Error loading reservation data:', error);

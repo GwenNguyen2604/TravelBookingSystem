@@ -174,37 +174,143 @@ testimonialImages.forEach((img, index) => {
   testimonialObserver.observe(img);
 });
 
-// ------------------ Search Button Functionality ------------------
-const searchButton = document.querySelector('.bg-manta-blue');
-if (searchButton) {
-  searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    
-    // Get form values
-    const pickupLoc = document.getElementById('pickup-location').value;
-    const dropoffLoc = document.getElementById('dropoff-location').value;
-    const pickupDate = document.getElementById('pickup-date').value;
-    const pickupTime = document.getElementById('pickup-time').value;
-    const dropoffDate = document.getElementById('dropoff-date').value;
-    const dropoffTime = document.getElementById('dropoff-time').value;
-    
-    // Basic validation
-    if (!pickupLoc || !dropoffLoc || !pickupDate || !pickupTime || !dropoffDate || !dropoffTime) {
-      alert('Please fill in all fields');
-      return;
-    }
-    
-    // Here you would typically redirect to a results page or make an API call
-    console.log('Search parameters:', {
-      pickupLoc,
-      dropoffLoc,
-      pickupDate,
-      pickupTime,
-      dropoffDate,
-      dropoffTime
-    });
-    
-    // For now, just show an alert
-    alert('Search functionality would be implemented here');
-  });
+// ------------------ Helper function to get select value ------------------
+function getSelectValue(elementId, choicesInstance) {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    console.error(`Element ${elementId} not found`);
+    return '';
+  }
+  
+  // If Choices.js is initialized for this element, use it
+  if (choicesInstance && typeof choicesInstance.getValue === 'function') {
+    const value = choicesInstance.getValue(true);
+    console.log(`Got value from Choices.js for ${elementId}:`, value);
+    return value;
+  }
+  
+  // Otherwise use the native select value
+  const value = element.value;
+  console.log(`Got native value for ${elementId}:`, value);
+  return value;
 }
+
+// ------------------ Search Button Functionality ------------------
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('=== DOM LOADED - Looking for search button ===');
+  
+  // Use the ID selector
+  const searchButton = document.getElementById('search-btn');
+  
+  console.log('Search button found:', searchButton);
+  console.log('Button element:', searchButton ? 'EXISTS' : 'NOT FOUND');
+  
+  if (searchButton) {
+    console.log('✓ Attaching click event to search button');
+    searchButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      console.log('=== SEARCH BUTTON CLICKED ===');
+      console.log('Event prevented:', e.defaultPrevented);
+      
+      // Get raw element references
+      const pickupLocEl = document.getElementById('pickup-location');
+      const dropoffLocEl = document.getElementById('dropoff-location');
+      const pickupDateEl = document.getElementById('pickup-date');
+      const pickupTimeEl = document.getElementById('pickup-time');
+      const dropoffDateEl = document.getElementById('dropoff-date');
+      const dropoffTimeEl = document.getElementById('dropoff-time');
+      
+      console.log('Elements found:', {
+        pickupLocEl: !!pickupLocEl,
+        dropoffLocEl: !!dropoffLocEl,
+        pickupDateEl: !!pickupDateEl,
+        pickupTimeEl: !!pickupTimeEl,
+        dropoffDateEl: !!dropoffDateEl,
+        dropoffTimeEl: !!dropoffTimeEl
+      });
+      
+      // Get form values using helper function
+      const pickupLoc = getSelectValue('pickup-location', pickupLocChoice);
+      const dropoffLoc = getSelectValue('dropoff-location', dropoffLocChoice);
+      const pickupDate = pickupDateEl ? pickupDateEl.value : '';
+      const pickupTime = getSelectValue('pickup-time', pickupTimeChoice);
+      const dropoffDate = dropoffDateEl ? dropoffDateEl.value : '';
+      const dropoffTime = getSelectValue('dropoff-time', dropoffTimeChoice);
+      
+      console.log('Form values:', { 
+        pickupLoc, 
+        dropoffLoc, 
+        pickupDate, 
+        pickupTime, 
+        dropoffDate, 
+        dropoffTime 
+      });
+      
+      // Basic validation
+      if (!pickupLoc || !dropoffLoc || !pickupDate || !pickupTime || !dropoffDate || !dropoffTime) {
+        alert('Please fill in all fields');
+        console.log('Validation failed - missing fields');
+        console.log('Missing:', {
+          pickupLoc: !pickupLoc,
+          dropoffLoc: !dropoffLoc,
+          pickupDate: !pickupDate,
+          pickupTime: !pickupTime,
+          dropoffDate: !dropoffDate,
+          dropoffTime: !dropoffTime
+        });
+        return;
+      }
+      
+      // Format dates for display
+      const formatDate = (dateStr, timeStr) => {
+        const date = new Date(dateStr + 'T' + timeStr);
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        
+        const dayName = days[date.getDay()];
+        const monthName = months[date.getMonth()];
+        const day = date.getDate();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const hour12 = hours % 12 || 12;
+        const minuteStr = minutes.toString().padStart(2, '0');
+        
+        return `${dayName}, ${monthName} ${day}, ${hour12}:${minuteStr} ${ampm}`;
+      };
+      
+      const formattedPickupDate = formatDate(pickupDate, pickupTime);
+      const formattedDropoffDate = formatDate(dropoffDate, dropoffTime);
+      
+      console.log('Formatted dates:', {
+        formattedPickupDate,
+        formattedDropoffDate
+      });
+      
+      // Store in sessionStorage with both raw and formatted dates
+      const searchData = {
+        pickupLocation: pickupLoc,
+        dropoffLocation: dropoffLoc,
+        pickupDate: formattedPickupDate,
+        dropoffDate: formattedDropoffDate,
+        // Store raw date/time values for accurate calculation
+        pickupDateRaw: pickupDate,
+        pickupTimeRaw: pickupTime,
+        dropoffDateRaw: dropoffDate,
+        dropoffTimeRaw: dropoffTime
+      };
+      
+      console.log('Storing data in sessionStorage:', searchData);
+      sessionStorage.setItem('rentalSearchData', JSON.stringify(searchData));
+      
+      console.log('=== REDIRECTING ===');
+      
+      // Simple redirect without query params
+      window.location.href = 'car_select.html';
+    });
+  } else {
+    console.error('✗ Search button NOT found! Cannot attach event listener.');
+  }
+});

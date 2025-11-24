@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Vehicles - Manta Car Rental</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'ysabeau': ['Ysabeau', 'Arial', 'sans-serif'],
+            'ysabeau-sc': ['Ysabeau SC', 'Arial', 'sans-serif'],
+            'alegreya-sc': ['Alegreya Sans SC', 'Arial', 'sans-serif'],
+          },
+          colors: {
+            'manta-blue': '#4B6697',
+            'manta-banner': '#6D7C97',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Ysabeau', Arial, sans-serif;
+    }
+
+    /* Underline animation for nav links */
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background-color: black;
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Fade in animation */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="m-0 p-0 bg-white">
+  <!-- Banner -->
+  <header class="bg-manta-banner h-20 lg:h-24 w-full px-4 md:px-8 flex items-center justify-between relative">
+    <!-- Logo -->
+    <a href="homepage.html" class="flex items-center gap-2 md:gap-3">
+      <img src="images/manta.png" alt="Manta Logo" class="h-10 md:h-14 lg:h-16 w-auto">
+      <img src="images/mantaname.png" alt="Manta" class="h-7 md:h-9 lg:h-10 w-auto">
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="lg:hidden text-black p-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden lg:flex items-center gap-8 xl:gap-12">
+      <!-- Text Links -->
+      <div class="flex items-center gap-8 xl:gap-10">
+        <a href="vehicles.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Vehicles</a>
+        <a href="location.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Locations</a>
+        <a href="support.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Support</a>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center gap-3">
+        <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm hover:bg-manta-blue hover:text-white transition-all">Sign In</a>
+        <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-manta-blue transition-all">Register</a>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 right-0 bg-manta-banner shadow-lg z-50">
+      <nav class="flex flex-col p-4 gap-4">
+        <a href="vehicles.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Vehicles</a>
+        <a href="location.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Locations</a>
+        <a href="support.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Support</a>
+        <div class="flex flex-col gap-2 mt-2">
+          <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm text-center">Sign In</a>
+          <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm text-center">Register</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="bg-gray-100 px-4 md:px-8 lg:px-16 py-12 md:py-16">
+    <div class="max-w-7xl mx-auto text-center">
+      <h1 class="font-alegreya-sc text-4xl md:text-5xl lg:text-6xl font-normal mb-4">OUR FLEET</h1>
+      <p class="font-ysabeau text-gray-700 text-lg md:text-xl max-w-3xl mx-auto">
+        From luxury sedans to practical economy cars, we have the perfect vehicle for every journey. All our vehicles are meticulously maintained and ready for your adventure.
+      </p>
+    </div>
+  </section>
+
+  <!-- Vehicle Categories Section -->
+  <section class="px-4 md:px-8 lg:px-16 py-12 md:py-16">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Luxury Category -->
+      <div class="mb-16 fade-in-up">
+        <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Luxury</h2>
+        <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Experience premium comfort and cutting-edge technology</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- BMW 3 Series -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">BMW 3 Series</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Premium</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$89.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mercedes C-Class -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Mercedes C-Class</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Premium</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$95.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Audi A4 -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Audi A4</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Premium</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$92.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Electric Category -->
+      <div class="mb-16 fade-in-up">
+        <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Electric</h2>
+        <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Eco-friendly vehicles for the environmentally conscious</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Tesla Model 3 -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Tesla Model 3</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2023 • Electric • Long Range</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$110.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Premium Sedan Category -->
+      <div class="mb-16 fade-in-up">
+        <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Premium Sedan</h2>
+        <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Refined comfort for business and leisure</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Lexus ES -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Lexus ES</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2023 • Automatic • Luxury</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$88.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Toyota Camry -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Toyota Camry</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Reliable</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$65.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Honda Accord -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Honda Accord</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2023 • Automatic • Efficient</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$62.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Economy Category -->
+      <div class="mb-16 fade-in-up">
+        <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Economy</h2>
+        <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Affordable options without compromising quality</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Kia K5 -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Kia K5</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Modern</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$58.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hyundai Sonata -->
+          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-gray-300 h-48 flex items-center justify-center">
+              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <div class="p-5">
+              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Hyundai Sonata</h3>
+              <p class="font-ysabeau text-sm text-gray-600 mb-4">2023 • Automatic • Value</p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-ysabeau-sc font-bold text-xl">$60.00</span>
+                  <span class="text-sm text-gray-600"> / day</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-manta-banner/15 px-4 md:px-8 lg:px-16 py-12 md:py-16">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="font-alegreya-sc text-3xl md:text-4xl font-normal mb-4">Ready to Hit the Road?</h2>
+      <p class="font-ysabeau text-gray-700 text-lg mb-8">Browse our fleet and book your perfect vehicle today</p>
+      <a href="homepage.html" class="inline-block bg-manta-banner text-white font-ysabeau-sc font-semibold px-8 py-3 rounded-lg hover:bg-manta-blue transition-all text-base md:text-lg">
+        Start Your Reservation
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-manta-banner">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+        <!-- Logo -->
+        <div class="flex items-start">
+          <img src="images/manta.png" alt="Manta Logo" class="h-16 md:h-20 w-auto">
+        </div>
+
+        <!-- Customer Support -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Customer Support</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Contact Us</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Accident Report</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Get a Receipt</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Vehicle Theft Report</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Policies</a></li>
+          </ul>
+        </div>
+
+        <!-- Manta -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Manta</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Our Goal</a></li>
+            <li><a href="leave-review.html" class="font-ysabeau text-black hover:text-white transition-colors">Feedback</a></li>
+          </ul>
+        </div>
+
+        <!-- Car Sales -->
+        <div>
+          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Car Sales</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Buy a Car</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Sell a Car</a></li>
+            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Finance a Car</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Copyright Section -->
+  <section class="bg-white py-3 px-4 md:px-8">
+    <p class="font-ysabeau-sc text-xs md:text-sm text-left">©2025 Manta Inc.</p>
+  </section>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    }
+
+    // Scroll animations
+    const animatedElements = document.querySelectorAll('.fade-in-up');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    animatedElements.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

@@ -2,9 +2,11 @@
     This module...
 """
 import sqlite3
+import os
 
-# Connect to the database
-conn = sqlite3.connect("car_Rental.db")
+# Connect to the database in backend/Database
+DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Database', 'car_Rental.db'))
+conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
 # 1. Create the table with UNIQUE constraint to prevent future duplicates

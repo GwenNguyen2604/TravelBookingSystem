@@ -12,15 +12,20 @@ class CarsDatabase:
     This class is the car database class
     """
 
-    database = 'cars.db'
+    # Ensure the helper uses the same backend database file as the server.
+    # This resolves relative-path issues when modules are imported from
+    # different working directories.
+    database = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..', 'Database', 'cars.db')
+    )
 
     def __init__(self):
         pass
 
     # *** MASTER TABLE ***
 
-    @database_logger.DatabaseLogger.log_car_add_to_master_table
     @staticmethod
+    @database_logger.DatabaseLogger.log_car_add_to_master_table
     def add_new_car_to_table(make, model, year, vin):
         """
         Description: Adds a car to the master table in the 'cars.db' database
@@ -35,12 +40,26 @@ class CarsDatabase:
                             vin TEXT)
                     """)
 
-        con.execute("""
-                        INSERT INTO master_table (make, model, year, vin)
-                        VALUES (?, ?, ?, ?)
-                    """, (make, model, year, vin,))
+        exists = con.execute(
+            "SELECT 1 FROM master_table WHERE vin = ?",
+            (vin,)
+        ).fetchone()
+        if exists:
+            # Update the status for the existing VIN
+            con.execute("""
+                            UPDATE master_table
+                            SET make=?, model=?, year=?
+                            WHERE vin=?
+                        """, (make, model, year, vin,))
+        else:
+            # Insert a new VIN and status
+            con.execute("""
+                            INSERT INTO master_table (make, model, year, vin)
+                            VALUES (?, ?, ?, ?)
+                        """, (make, model, year, vin,))
 
         con.commit()
+        con.close()
 
     @staticmethod
     def get_all_cars_from_master_table():
@@ -54,6 +73,7 @@ class CarsDatabase:
         data = con.execute("SELECT * FROM master_table")
 
         con.commit()
+        con.close()
 
         return data
 
@@ -64,7 +84,7 @@ class CarsDatabase:
                      otherwise returns false
         """
         return os.path.exists(CarsDatabase.database)
-    
+
     # *** RATING MANAGER ***
 
     @staticmethod
@@ -85,6 +105,7 @@ class CarsDatabase:
 
         if exists.arraysize == 0:
             database_logger.DatabaseLogger.log_failed_rating_request(vin)
+            con.close()
             return None
 
         rating_data = con.execute("""
@@ -93,6 +114,7 @@ class CarsDatabase:
                                   """, (vin,))
 
         con.commit()
+        con.close()
 
         return rating_data
 
@@ -104,8 +126,8 @@ class CarsDatabase:
                      Creates a new table if the vin doesn't exist
                      in the rating_master table
         """
-        con = sqlite3.connect(CarsDatabase.database)
 
+        con = sqlite3.connect(CarsDatabase.database)
         date_time = datetime.datetime.now().isoformat()
 
         con.execute("""
@@ -130,6 +152,7 @@ class CarsDatabase:
         )
 
         con.commit()
+        con.close()
     # *** RENTAL PRICE MANAGER ***
 
     @staticmethod
@@ -168,6 +191,7 @@ class CarsDatabase:
         database_logger.DatabaseLogger.log_rental_price_added(vin, price)
 
         con.commit()
+        con.close()
 
     @staticmethod
     def get_rental_price_from_table(vin):
@@ -184,6 +208,7 @@ class CarsDatabase:
                              """, (vin,))
 
         if exists.arraysize == 0:
+            con.close()
             return None
 
         price = con.execute("""
@@ -193,6 +218,7 @@ class CarsDatabase:
                             """, (vin,))
 
         con.commit()
+        con.close()
 
         return price
 
@@ -207,6 +233,7 @@ class CarsDatabase:
         all_prices = con.execute("SELECT * FROM rental_price_table")
 
         con.commit()
+        con.close()
 
         return all_prices
 
@@ -225,6 +252,7 @@ class CarsDatabase:
                              """, (vin,))
 
         if exists.arraysize == 0:
+            con.close()
             return
 
         con.execute("""
@@ -234,10 +262,11 @@ class CarsDatabase:
                     """, (new_price, vin,))
 
         con.commit()
+        con.close()
 
     # *** STATUS MANAGER ***
-    @database_logger.DatabaseLogger.log_new_status_add
     @staticmethod
+    @database_logger.DatabaseLogger.log_new_status_add
     def add_new_status_to_table(vin, status):
         """
         Description: Adds a new vin to the table and sets the status;
@@ -250,18 +279,31 @@ class CarsDatabase:
                     status TEXT
         )""")
 
-        exists = con.execute("""SELECT * FROM status_table WHERE vin = ?"""
-        , (vin,))
-        
-        if (exists.arraysize != 0): return
-
-        con.execute("""INSERT INTO status_table (vin, status) VALUES (?, ?)
-        """, (vin, status,))
+        # Check if the VIN already exists
+        exists = con.execute(
+            "SELECT 1 FROM status_table WHERE vin = ?",
+            (vin,)
+        ).fetchone()
+        if exists:
+            # Update the status for the existing VIN
+            con.execute("""
+                    UPDATE status_table SET status = ?
+                    WHERE vin = ?
+                """, (status, vin)
+            )
+        else:
+            # Insert a new VIN and status
+            con.execute("""
+                    INSERT INTO status_table (vin, status)
+                        VALUES (?, ?)
+                """, (vin, status)
+            )
 
         con.commit()
+        con.close()
 
-    @database_logger.DatabaseLogger.log_status_change
     @staticmethod
+    @database_logger.DatabaseLogger.log_status_change
     def set_status_to_table(vin, status):
         """
         Description: Sets the status of a vin in the status table;
@@ -278,9 +320,10 @@ class CarsDatabase:
         """, (status, vin,))
 
         con.commit()
+        con.close()
 
-    @database_logger.DatabaseLogger.log_get_status_request
     @staticmethod
+    @database_logger.DatabaseLogger.log_get_status_request
     def get_status_from_table(vin):
         """
         Description: Gets the status of a vin from the status table;
@@ -292,9 +335,10 @@ class CarsDatabase:
         ,(vin,))
 
         con.commit()
+        con.close()
 
         return status
-    
+
     # *** RENTED CAR MANAGER ***
     @database_logger.DatabaseLogger.log_car_added_to_rented_table
     @staticmethod
@@ -303,7 +347,7 @@ class CarsDatabase:
         Description: Adds a car to the rented table;
         The car will not added if it already exists in the table
         """
-        con = sqlite3.connect("cars.db")
+        con = sqlite3.connect(CarsDatabase.database)
 
         con.execute("""CREATE TABLE IF NOT EXISTS rented_table(
                     vin TEXT,
@@ -316,6 +360,7 @@ class CarsDatabase:
         WHERE vin = ?)""", (vin, start_time, end_time, vin,))
 
         con.commit()
+        con.close()
 
     @database_logger.DatabaseLogger.log_car_removed_from_rented_table
     @staticmethod
@@ -324,15 +369,16 @@ class CarsDatabase:
         Description: Removes car from the rented_table table;
         Does not remove if the car doesn't exist in the table
         """
-        con = sqlite3.connect("cars.db")
+        con = sqlite3.connect(CarsDatabase.database)
 
         try:
             con.execute("""DELETE * FROM rented_table
                         WHERE vin = ?""", (vin,))
         except:
             print("WARNING: Attempted deletion from nonexistent rented_table")
-    
+
         con.commit()
+        con.close()
 
     # MAINTENANCE MANAGER
     @staticmethod

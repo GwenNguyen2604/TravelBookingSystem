@@ -5,14 +5,21 @@ Do not call the functions contained within this file elsewhere outside of this f
 """
 import sqlite3
 import database_manager
+import os
 # import database_duplicator
 
-cars_database = "cars.db"
-logger_database = "data_log.db"
+cars_database = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', 'Database', 'cars.db')
+)
+
+logger_database = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', 'Database', 'data_log.db')
+)
 
 # Test the output of adding a new car to the database
 def test_add_new_car():
     database_manager.CarsDatabase.add_new_car_to_table("Toyota", "Camry", 2009, "4GC1CYC84DF143936")
+    database_manager.CarsDatabase.add_new_car_to_table("Toyota", "Prius", 2020, "4GC1CYC84DF14393A")
 
     # Output the car in the cars database
     con = sqlite3.connect(cars_database)
@@ -24,6 +31,7 @@ def test_add_new_car():
     for data in car_data: print(data)
 
     con.commit()
+    con.close()
 
     logger = sqlite3.connect(logger_database)
 
@@ -34,9 +42,10 @@ def test_add_new_car():
     for data in log_data: print(data)
 
     logger.commit()
+    logger.close()
 
 def test_add_status():
-    database_manager.CarsDatabase.add_new_status_to_table("5AC1CYC84DF143936")
+    #database_manager.CarsDatabase.add_new_status_to_table("5AC1CYC84DF143936")
 
     database_manager.CarsDatabase.add_new_status_to_table("5AC1CYC84DF143936", "MAINTENANCE")
 
@@ -49,6 +58,7 @@ def test_add_status():
     for data in car_data: print(data)
 
     con.commit()
+    con.close()
 
     logger = sqlite3.connect(logger_database)
 
@@ -59,6 +69,8 @@ def test_add_status():
     for data in log_data: print(data)
 
     logger.commit()
-# test_add_new_car()
+    logger.close()
+
+test_add_new_car()
 test_add_status()
 

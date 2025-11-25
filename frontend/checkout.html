@@ -355,6 +355,8 @@
     <p class="font-ysabeau-sc text-xs md:text-sm text-left">©2025 Manta Inc.</p>
   </section>
 
+  <script src="api.js"></script>
+
   <script>
     // Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -442,11 +444,11 @@
         const taxes = subtotal * 0.15; // 15% tax
         const total = subtotal + taxes;
 
-        document.getElementById('daily-rate').textContent = `${dailyRate.toFixed(2)}`;
+        document.getElementById('daily-rate').textContent = dailyRate.toFixed(2);
         document.getElementById('num-days').textContent = numDays;
-        document.getElementById('subtotal').textContent = `${subtotal.toFixed(2)}`;
-        document.getElementById('taxes').textContent = `${taxes.toFixed(2)}`;
-        document.getElementById('total').textContent = `${total.toFixed(2)}`;
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+        document.getElementById('taxes').textContent = taxes.toFixed(2);
+        document.getElementById('total').textContent = total.toFixed(2);
 
         // Store the calculated total for the confirmation page
         sessionStorage.setItem('calculatedTotal', total.toFixed(2));
@@ -493,8 +495,8 @@
       e.target.value = e.target.value.replace(/\D/g, '');
     });
 
-    // Complete reservation
-    document.getElementById('complete-reservation').addEventListener('click', function() {
+    // Complete reservation with backend submission
+    document.getElementById('complete-reservation').addEventListener('click', async function() {
       // Basic validation
       const requiredFields = [
         'first-name', 'last-name', 'email', 'phone',
@@ -546,19 +548,86 @@
         return;
       }
 
-      // If validation passes, store reservation data and redirect to confirmation
-      const reservationData = {
-        firstName: document.getElementById('first-name').value,
-        lastName: document.getElementById('last-name').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        completedAt: new Date().toISOString()
-      };
-      
-      sessionStorage.setItem('reservationData', JSON.stringify(reservationData));
-      
-      // Redirect to confirmation page
-      window.location.href = 'confirmation.html';
+      // Disable button to prevent double submission
+      const button = this;
+      const originalText = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Processing...';
+      button.classList.add('opacity-50', 'cursor-not-allowed');
+
+      try {
+        // Check if api.js is loaded
+        if (typeof window.api === 'undefined') {
+          throw new Error('API module not loaded. Please refresh the page.');
+        }
+
+        // Get stored data
+        const searchData = JSON.parse(sessionStorage.getItem('rentalSearchData') || '{}');
+        const vehicleData = JSON.parse(sessionStorage.getItem('selectedVehicle') || '{}');
+
+        // Validate we have the necessary data
+        if (!vehicleData.vin) {
+          throw new Error('Vehicle information is missing. Please select a vehicle again.');
+        }
+
+        if (!searchData.pickupDateRaw || !searchData.dropoffDateRaw) {
+          throw new Error('Rental dates are missing. Please start over from the homepage.');
+        }
+
+        // Create booking via API
+        const bookingData = {
+          vin: vehicleData.vin,
+          start_time: `${searchData.pickupDateRaw} ${searchData.pickupTimeRaw}`,
+          end_time: `${searchData.dropoffDateRaw} ${searchData.dropoffTimeRaw}`
+        };
+
+        console.log('Submitting booking:', bookingData);
+
+        // Submit to backend
+        const response = await window.api.createBooking(bookingData);
+        console.log('Booking response:', response);
+
+        // Store reservation data for confirmation page
+        const reservationData = {
+          firstName: document.getElementById('first-name').value,
+          lastName: document.getElementById('last-name').value,
+          email: document.getElementById('email').value,
+          phone: document.getElementById('phone').value,
+          completedAt: new Date().toISOString()
+        };
+        
+        sessionStorage.setItem('reservationData', JSON.stringify(reservationData));
+        
+        // Redirect to confirmation page
+        window.location.href = 'confirmation.html';
+
+      } catch (error) {
+        console.error('Error creating booking:', error);
+        
+        let errorMessage = 'Error processing your reservation. Please try again.';
+        
+        // Provide more specific error messages
+        if (error.message.includes('API module not loaded')) {
+          errorMessage = 'Connection error. Please refresh the page and try again.';
+        } else if (error.message.includes('Vehicle information')) {
+          errorMessage = 'Vehicle information is missing. Please go back and select a vehicle again.';
+        } else if (error.message.includes('Rental dates')) {
+          errorMessage = 'Rental information is missing. Please start over from the homepage.';
+        } else if (error.message.includes('HTTP 409') || error.message.includes('not available')) {
+          errorMessage = 'Sorry! This vehicle was just booked by someone else for your selected dates. Please go back and choose another vehicle or different dates.';
+        } else if (error.message.includes('HTTP 500')) {
+          errorMessage = 'Server error. Please contact support or try again later.';
+        } else if (error.message.includes('Failed to fetch')) {
+          errorMessage = 'Cannot connect to server. Make sure the backend is running.';
+        }
+        
+        alert(errorMessage + '\n\nTechnical details: ' + error.message);
+        
+        // Re-enable button
+        button.disabled = false;
+        button.textContent = originalText;
+        button.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
     });
 
     // Load data on page load

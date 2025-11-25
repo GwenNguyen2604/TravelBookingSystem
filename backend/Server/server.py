@@ -43,6 +43,7 @@ def init_db():
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS rented_table (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             vin TEXT,
             start_time TEXT,
             end_time TEXT
@@ -66,6 +67,34 @@ def init_db():
     conn.close()
 
 
+def check_availability(vin, start_time, end_time):
+    """
+    Check if a vehicle is available for the given time period.
+    Returns True if available, False if already booked.
+    """
+    conn = get_db_connection()
+    cur = conn.cursor()
+    
+    # Query for overlapping rentals
+    # A rental overlaps if:
+    # - New rental starts before existing ends AND new rental ends after existing starts
+    cur.execute("""
+        SELECT COUNT(*) as overlap_count
+        FROM rented_table
+        WHERE vin = ?
+        AND (
+            (start_time < ? AND end_time > ?)
+            OR (start_time < ? AND end_time > ?)
+            OR (start_time >= ? AND end_time <= ?)
+        )
+    """, (vin, end_time, start_time, end_time, start_time, start_time, end_time))
+    
+    result = cur.fetchone()
+    conn.close()
+    
+    return result['overlap_count'] == 0
+
+
 app = Flask(__name__)
 CORS(app)
 
@@ -77,12 +106,33 @@ def health():
 
 @app.route('/api/vehicles', methods=['GET'])
 def get_vehicles():
+    """
+    Get all vehicles. Optionally filter by availability for given dates.
+    Query params: start_time, end_time (format: YYYY-MM-DD HH:MM)
+    """
+    start_time = request.args.get('start_time')
+    end_time = request.args.get('end_time')
+    
     conn = get_db_connection()
     cur = conn.cursor()
     try:
         cur.execute('SELECT make, model, year, vin FROM master_table')
         rows = cur.fetchall()
         vehicles = [dict(row) for row in rows]
+        
+        # If dates provided, check availability for each vehicle
+        if start_time and end_time:
+            for vehicle in vehicles:
+                vehicle['available'] = check_availability(
+                    vehicle['vin'], 
+                    start_time, 
+                    end_time
+                )
+        else:
+            # No dates provided, mark all as potentially available
+            for vehicle in vehicles:
+                vehicle['available'] = True
+                
     except sqlite3.OperationalError:
         vehicles = []
     finally:
@@ -111,6 +161,28 @@ def get_vehicle(vin):
     return jsonify(vehicle)
 
 
+@app.route('/api/vehicles/<vin>/availability', methods=['GET'])
+def check_vehicle_availability(vin):
+    """
+    Check if a specific vehicle is available for given dates.
+    Query params: start_time, end_time (format: YYYY-MM-DD HH:MM)
+    """
+    start_time = request.args.get('start_time')
+    end_time = request.args.get('end_time')
+    
+    if not start_time or not end_time:
+        return jsonify({'error': 'start_time and end_time are required'}), 400
+    
+    available = check_availability(vin, start_time, end_time)
+    
+    return jsonify({
+        'vin': vin,
+        'available': available,
+        'start_time': start_time,
+        'end_time': end_time
+    })
+
+
 @app.route('/api/prices', methods=['GET'])
 def get_prices():
     conn = get_db_connection()
@@ -137,6 +209,13 @@ def create_booking():
     if not vin or not start_time or not end_time:
         return jsonify({'error': 'vin, start_time and end_time are required'}), 400
 
+    # Check availability before booking
+    if not check_availability(vin, start_time, end_time):
+        return jsonify({
+            'error': 'Vehicle is not available for the selected dates',
+            'available': False
+        }), 409  # 409 Conflict status code
+
     conn = get_db_connection()
     cur = conn.cursor()
     try:
@@ -145,12 +224,39 @@ def create_booking():
             (vin, start_time, end_time)
         )
         conn.commit()
+        booking_id = cur.lastrowid
     except Exception as e:
         conn.close()
         return jsonify({'error': str(e)}), 500
 
     conn.close()
-    return jsonify({'status': 'booked', 'vin': vin}), 201
+    return jsonify({
+        'status': 'booked',
+        'booking_id': booking_id,
+        'vin': vin,
+        'start_time': start_time,
+        'end_time': end_time
+    }), 201
+
+
+@app.route('/api/bookings/<vin>', methods=['GET'])
+def get_vehicle_bookings(vin):
+    """Get all bookings for a specific vehicle"""
+    conn = get_db_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(
+            'SELECT id, vin, start_time, end_time FROM rented_table WHERE vin = ? ORDER BY start_time',
+            (vin,)
+        )
+        rows = cur.fetchall()
+        bookings = [dict(row) for row in rows]
+    except Exception as e:
+        conn.close()
+        return jsonify({'error': str(e)}), 500
+    
+    conn.close()
+    return jsonify({'bookings': bookings})
 
 
 @app.route('/api/ratings', methods=['POST'])

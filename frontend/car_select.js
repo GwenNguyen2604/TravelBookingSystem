@@ -14,93 +14,78 @@ if (mobileMenuBtn && mobileMenu) {
   });
 }
 
-// ------------------ Sample Vehicle Data ------------------
-const sampleVehicles = [
-  {
-    id: 1,
-    name: "BMW 3 Series",
-    brand: "bmw",
-    model: "3-series",
-    year: 2024,
-    price: 89.00,
-    image: null
-  },
-  {
-    id: 2,
-    name: "Mercedes C-Class",
-    brand: "mercedes",
-    model: "c-class",
-    year: 2024,
-    price: 95.00,
-    image: null
-  },
-  {
-    id: 3,
-    name: "Tesla Model 3",
-    brand: "tesla",
-    model: "model-3",
-    year: 2023,
-    price: 110.00,
-    image: null
-  },
-  {
-    id: 4,
-    name: "Audi A4",
-    brand: "audi",
-    model: "a4",
-    year: 2024,
-    price: 92.00,
-    image: null
-  },
-  {
-    id: 5,
-    name: "Lexus ES",
-    brand: "lexus",
-    model: "es",
-    year: 2023,
-    price: 88.00,
-    image: null
-  },
-  {
-    id: 6,
-    name: "Toyota Camry",
-    brand: "toyota",
-    model: "camry",
-    year: 2024,
-    price: 65.00,
-    image: null
-  },
-  {
-    id: 7,
-    name: "Honda Accord",
-    brand: "honda",
-    model: "accord",
-    year: 2023,
-    price: 62.00,
-    image: null
-  },
-  {
-    id: 8,
-    name: "Kia K5",
-    brand: "kia",
-    model: "k5",
-    year: 2024,
-    price: 58.00,
-    image: null
-  },
-  {
-    id: 9,
-    name: "Hyundai Sonata",
-    brand: "hyundai",
-    model: "sonata",
-    year: 2023,
-    price: 60.00,
-    image: null
-  }
-];
+// ------------------ Vehicle Data (loaded from backend) ------------------
+let allVehicles = [];
+let filteredVehicles = [];
 
-let allVehicles = [...sampleVehicles];
-let filteredVehicles = [...sampleVehicles];
+// ------------------ Load Vehicles from Backend ------------------
+async function loadVehicles() {
+  try {
+    console.log('Loading vehicles from backend...');
+    
+    // Check if api.js is loaded
+    if (typeof window.api === 'undefined') {
+      console.error('api.js not loaded!');
+      alert('Error: API module not loaded. Please refresh the page.');
+      return;
+    }
+    
+    // Show loading message
+    const grid = document.getElementById('vehicle-grid');
+    grid.innerHTML = `
+      <div class="col-span-full text-center py-12">
+        <p class="text-gray-600 text-lg">Loading vehicles...</p>
+      </div>
+    `;
+    
+    // Get rental dates from session storage
+    const searchData = JSON.parse(sessionStorage.getItem('rentalSearchData') || '{}');
+    let startTime = null;
+    let endTime = null;
+    
+    // Build start and end time strings if we have the data
+    if (searchData.pickupDateRaw && searchData.pickupTimeRaw && 
+        searchData.dropoffDateRaw && searchData.dropoffTimeRaw) {
+      startTime = `${searchData.pickupDateRaw} ${searchData.pickupTimeRaw}`;
+      endTime = `${searchData.dropoffDateRaw} ${searchData.dropoffTimeRaw}`;
+      console.log('Checking availability for:', startTime, 'to', endTime);
+    }
+    
+    // Call the API to get vehicles (with dates if available)
+    const vehicles = await window.api.listVehicles(startTime, endTime);
+    console.log('Loaded vehicles:', vehicles);
+    
+    if (!vehicles || vehicles.length === 0) {
+      console.warn('No vehicles returned from API');
+      grid.innerHTML = `
+        <div class="col-span-full text-center py-12">
+          <p class="text-gray-600 text-lg">No vehicles available at this time.</p>
+          <p class="text-gray-500 text-sm mt-2">Please check back later or contact support.</p>
+        </div>
+      `;
+      return;
+    }
+    
+    // Store vehicles and render them
+    allVehicles = vehicles;
+    filteredVehicles = [...vehicles];
+    renderVehicles(filteredVehicles);
+    
+  } catch (error) {
+    console.error('Error loading vehicles:', error);
+    const grid = document.getElementById('vehicle-grid');
+    grid.innerHTML = `
+      <div class="col-span-full text-center py-12">
+        <p class="text-red-600 text-lg font-semibold">Error loading vehicles</p>
+        <p class="text-gray-600 text-sm mt-2">${error.message}</p>
+        <p class="text-gray-500 text-sm mt-2">Make sure the backend server is running on http://127.0.0.1:5000</p>
+        <button onclick="location.reload()" class="mt-4 bg-manta-blue text-white px-6 py-2 rounded-lg hover:bg-manta-banner transition-all">
+          Retry
+        </button>
+      </div>
+    `;
+  }
+}
 
 // ------------------ Get Search Parameters ------------------
 function getSearchParams() {
@@ -212,30 +197,41 @@ function renderVehicles(vehicles) {
       return;
     }
 
-    grid.innerHTML = vehicles.map(vehicle => `
-      <div class="bg-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-        <div class="p-4">
-          <h3 class="font-ysabeau-sc font-semibold text-lg mb-4">${vehicle.name}</h3>
-          <div class="bg-gray-300 h-48 rounded-md flex items-center justify-center mb-4">
-            ${vehicle.image ? 
-              `<img src="${vehicle.image}" alt="${vehicle.name}" class="w-full h-full object-cover">` :
-              `<svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>`
-            }
-          </div>
-          <div class="flex items-center justify-between">
-            <div>
-              <span class="font-ysabeau-sc font-bold text-xl">$${vehicle.price.toFixed(2)}</span>
-              <span class="text-sm text-gray-600">/ DAY</span>
+    grid.innerHTML = vehicles.map(vehicle => {
+      const price = vehicle.price != null ? vehicle.price : 0;
+      const displayPrice = price > 0 ? `${price.toFixed(2)}` : 'Price N/A';
+      const isAvailable = price > 0 && vehicle.available !== false;
+      
+      return `
+        <div class="bg-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow ${!isAvailable ? 'opacity-60' : ''}">
+          <div class="p-4">
+            ${!isAvailable ? '<div class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block">UNAVAILABLE</div>' : ''}
+            <h3 class="font-ysabeau-sc font-semibold text-lg mb-4">${vehicle.name}</h3>
+            <div class="bg-gray-300 h-48 rounded-md flex items-center justify-center mb-4">
+              ${vehicle.image ? 
+                `<img src="${vehicle.image}" alt="${vehicle.name}" class="w-full h-full object-cover">` :
+                `<svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>`
+              }
             </div>
-            <button onclick="selectVehicle(${vehicle.id})" class="bg-white text-black font-ysabeau-sc font-semibold px-4 py-2 rounded-md text-sm hover:bg-manta-blue hover:text-white transition-all">
-              Rent Now
-            </button>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-ysabeau-sc font-bold text-xl">${displayPrice}</span>
+                ${isAvailable ? '<span class="text-sm text-gray-600">/ DAY</span>' : ''}
+              </div>
+              <button 
+                onclick="selectVehicle('${vehicle.vin || vehicle.id}')" 
+                class="bg-white text-black font-ysabeau-sc font-semibold px-4 py-2 rounded-md text-sm hover:bg-manta-blue hover:text-white transition-all ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''}"
+                ${!isAvailable ? 'disabled' : ''}
+              >
+                ${isAvailable ? 'Rent Now' : 'Not Available'}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
     
     console.log(`✓ Rendered ${vehicles.length} vehicles`);
   } catch (error) {
@@ -300,13 +296,28 @@ if (modelFilter) modelFilter.addEventListener('change', applyFilters);
 if (yearFilter) yearFilter.addEventListener('change', applyFilters);
 
 // ------------------ Vehicle Selection ------------------
-function selectVehicle(vehicleId) {
+function selectVehicle(vehicleIdentifier) {
   try {
-    const vehicle = allVehicles.find(v => v.id === vehicleId);
+    // Find vehicle by VIN or ID
+    const vehicle = allVehicles.find(v => 
+      v.vin === vehicleIdentifier || v.id.toString() === vehicleIdentifier
+    );
     
     if (!vehicle) {
       console.error('Vehicle not found!');
       alert('Error: Vehicle not found. Please try again.');
+      return;
+    }
+    
+    // Check if vehicle has a valid price
+    if (!vehicle.price || vehicle.price <= 0) {
+      alert('Sorry, this vehicle is currently unavailable.');
+      return;
+    }
+    
+    // Check if vehicle is available for selected dates
+    if (vehicle.available === false) {
+      alert('Sorry, this vehicle is not available for your selected dates. Please choose different dates or another vehicle.');
       return;
     }
     
@@ -331,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('=== DOM CONTENT LOADED ===');
   try {
     updateProgressSection();
-    renderVehicles(filteredVehicles);
+    loadVehicles(); // Load vehicles from backend API
     console.log('=== INITIALIZATION COMPLETE ===');
   } catch (error) {
     console.error('Error during initialization:', error);

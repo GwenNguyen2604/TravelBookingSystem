@@ -14,10 +14,20 @@
     return res.json();
   }
 
-  async function listVehicles() {
-    // fetch vehicles and prices and merge
+  async function listVehicles(startTime, endTime) {
+    // Build query params if dates provided
+    let url = '/api/vehicles';
+    if (startTime && endTime) {
+      const params = new URLSearchParams({
+        start_time: startTime,
+        end_time: endTime
+      });
+      url += '?' + params.toString();
+    }
+
+    // Fetch vehicles and prices and merge
     const [vehResp, pricesResp] = await Promise.all([
-      fetchJson('/api/vehicles').catch(() => ({ vehicles: [] })),
+      fetchJson(url).catch(() => ({ vehicles: [] })),
       fetchJson('/api/prices').catch(() => ({ prices: [] })),
     ]);
 
@@ -36,7 +46,8 @@
         year: v.year || null,
         price: pricesMap[v.vin] != null ? Number(pricesMap[v.vin]) : null,
         image: null,
-        vin: v.vin
+        vin: v.vin,
+        available: v.available !== false  // Default to true if not specified
       };
     });
 
@@ -45,6 +56,14 @@
 
   async function getVehicle(vin) {
     return fetchJson(`/api/vehicles/${encodeURIComponent(vin)}`);
+  }
+
+  async function checkVehicleAvailability(vin, startTime, endTime) {
+    const params = new URLSearchParams({
+      start_time: startTime,
+      end_time: endTime
+    });
+    return fetchJson(`/api/vehicles/${encodeURIComponent(vin)}/availability?${params.toString()}`);
   }
 
   async function getPrices() {
@@ -59,6 +78,10 @@
     });
   }
 
+  async function getVehicleBookings(vin) {
+    return fetchJson(`/api/bookings/${encodeURIComponent(vin)}`);
+  }
+
   async function addRating(data) {
     return fetchJson('/api/ratings', {
       method: 'POST',
@@ -70,8 +93,10 @@
   window.api = {
     listVehicles,
     getVehicle,
+    checkVehicleAvailability,
     getPrices,
     createBooking,
+    getVehicleBookings,
     addRating,
     BASE_URL
   };

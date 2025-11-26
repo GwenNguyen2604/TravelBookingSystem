@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask import send_from_directory, abort
 from flask_cors import CORS
 import sqlite3
 import os
@@ -80,9 +81,9 @@ def get_vehicles():
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        cur.execute('SELECT make, model, year, vin FROM master_table')
-        rows = cur.fetchall()
-        vehicles = [dict(row) for row in rows]
+            cur.execute('SELECT make, model, year, vin FROM master_table')
+            rows = cur.fetchall()
+            vehicles = [dict(row) for row in rows]
     except sqlite3.OperationalError:
         vehicles = []
     finally:
@@ -109,6 +110,36 @@ def get_vehicle(vin):
         conn.close()
 
     return jsonify(vehicle)
+
+
+
+@app.route('/api/vehicles/<vin>/image', methods=['GET'])
+def get_vehicle_image(vin):
+    """Serve the image file named by VIN from `Database/Images`.
+
+    Tries common extensions; 404 if none found.
+    """
+    images_dir = os.path.abspath(os.path.join(BASE_DIR, '..', 'Database', 'Images'))
+    if not os.path.isdir(images_dir):
+        abort(404)
+
+    # Try common extensions
+    exts = ['.jpg', '.jpeg', '.png', '.webp', '.avif']
+    for ext in exts:
+        candidate = f"{vin}{ext}"
+        candidate_path = os.path.join(images_dir, candidate)
+        if os.path.exists(candidate_path):
+            return send_from_directory(images_dir, candidate)
+
+    # Fallback: scan dir for any matching prefix
+    try:
+        for name in os.listdir(images_dir):
+            if name.startswith(vin + '.') or name.startswith(vin):
+                return send_from_directory(images_dir, name)
+    except Exception:
+        pass
+
+    abort(404)
 
 
 @app.route('/api/prices', methods=['GET'])

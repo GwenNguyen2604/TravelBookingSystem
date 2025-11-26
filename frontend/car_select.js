@@ -14,7 +14,7 @@ if (mobileMenuBtn && mobileMenu) {
   });
 }
 
-// ------------------ Sample Vehicle Data ------------------
+// ------------------ Sample Vehicle Data (fallback) ------------------
 const sampleVehicles = [
   {
     id: 1,
@@ -23,7 +23,8 @@ const sampleVehicles = [
     model: "3-series",
     year: 2024,
     price: 89.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE1'
   },
   {
     id: 2,
@@ -32,7 +33,8 @@ const sampleVehicles = [
     model: "c-class",
     year: 2024,
     price: 95.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE2'
   },
   {
     id: 3,
@@ -41,7 +43,8 @@ const sampleVehicles = [
     model: "model-3",
     year: 2023,
     price: 110.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE3'
   },
   {
     id: 4,
@@ -50,7 +53,8 @@ const sampleVehicles = [
     model: "a4",
     year: 2024,
     price: 92.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE4'
   },
   {
     id: 5,
@@ -59,7 +63,8 @@ const sampleVehicles = [
     model: "es",
     year: 2023,
     price: 88.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE5'
   },
   {
     id: 6,
@@ -68,7 +73,8 @@ const sampleVehicles = [
     model: "camry",
     year: 2024,
     price: 65.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE6'
   },
   {
     id: 7,
@@ -77,7 +83,8 @@ const sampleVehicles = [
     model: "accord",
     year: 2023,
     price: 62.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE7'
   },
   {
     id: 8,
@@ -86,7 +93,8 @@ const sampleVehicles = [
     model: "k5",
     year: 2024,
     price: 58.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE8'
   },
   {
     id: 9,
@@ -95,22 +103,23 @@ const sampleVehicles = [
     model: "sonata",
     year: 2023,
     price: 60.00,
-    image: null
+    image: null,
+    vin: 'SAMPLE9'
   }
 ];
 
-let allVehicles = [...sampleVehicles];
-let filteredVehicles = [...sampleVehicles];
+let allVehicles = [];
+let filteredVehicles = [];
 
 // ------------------ Get Search Parameters ------------------
 function getSearchParams() {
   try {
     console.log('=== GETTING SEARCH PARAMETERS ===');
-    
+
     // Get data from sessionStorage
     const storedData = sessionStorage.getItem('rentalSearchData');
     console.log('Raw sessionStorage data:', storedData);
-    
+
     if (!storedData) {
       console.warn('No data found in sessionStorage');
       return {
@@ -120,10 +129,10 @@ function getSearchParams() {
         dropoffDate: 'Not specified'
       };
     }
-    
+
     const params = JSON.parse(storedData);
     console.log('Parsed params:', params);
-    
+
     return {
       pickupLocation: params.pickupLocation || 'Not specified',
       dropoffLocation: params.dropoffLocation || 'Not specified',
@@ -147,7 +156,7 @@ function updateProgressSection() {
     console.log('=== UPDATING PROGRESS SECTION ===');
     const params = getSearchParams();
     console.log('Params to display:', params);
-    
+
     // Update pickup date
     const pickupDisplay = document.getElementById('pickup-date-display');
     if (pickupDisplay) {
@@ -156,7 +165,7 @@ function updateProgressSection() {
     } else {
       console.error('pickup-date-display element not found!');
     }
-    
+
     // Update dropoff date
     const dropoffDisplay = document.getElementById('dropoff-date-display');
     if (dropoffDisplay) {
@@ -165,7 +174,7 @@ function updateProgressSection() {
     } else {
       console.error('dropoff-date-display element not found!');
     }
-    
+
     // Update pickup location
     const pickupLocationDisplay = document.getElementById('pickup-location-display');
     if (pickupLocationDisplay) {
@@ -174,7 +183,7 @@ function updateProgressSection() {
     } else {
       console.error('pickup-location-display element not found!');
     }
-    
+
     // Update dropoff location
     const dropoffLocationDisplay = document.getElementById('dropoff-location-display');
     if (dropoffLocationDisplay) {
@@ -183,7 +192,7 @@ function updateProgressSection() {
     } else {
       console.error('dropoff-location-display element not found!');
     }
-    
+
     console.log('=== PROGRESS SECTION UPDATED ===');
   } catch (error) {
     console.error('Error updating progress section:', error);
@@ -195,14 +204,14 @@ function renderVehicles(vehicles) {
   try {
     console.log('=== RENDERING VEHICLES ===');
     console.log('Number of vehicles to render:', vehicles.length);
-    
+
     const grid = document.getElementById('vehicle-grid');
-    
+
     if (!grid) {
       console.error('vehicle-grid not found!');
       return;
     }
-    
+
     if (vehicles.length === 0) {
       grid.innerHTML = `
         <div class="col-span-full text-center py-12">
@@ -217,7 +226,7 @@ function renderVehicles(vehicles) {
         <div class="p-4">
           <h3 class="font-ysabeau-sc font-semibold text-lg mb-4">${vehicle.name}</h3>
           <div class="bg-gray-300 h-48 rounded-md flex items-center justify-center mb-4">
-            ${vehicle.image ? 
+            ${vehicle.image ?
               `<img src="${vehicle.image}" alt="${vehicle.name}" class="w-full h-full object-cover">` :
               `<svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -226,7 +235,7 @@ function renderVehicles(vehicles) {
           </div>
           <div class="flex items-center justify-between">
             <div>
-              <span class="font-ysabeau-sc font-bold text-xl">$${vehicle.price.toFixed(2)}</span>
+              <span class="font-ysabeau-sc font-bold text-xl">${vehicle.price != null ? ('$' + vehicle.price.toFixed(2)) : 'N/A'}</span>
               <span class="text-sm text-gray-600">/ DAY</span>
             </div>
             <button onclick="selectVehicle(${vehicle.id})" class="bg-white text-black font-ysabeau-sc font-semibold px-4 py-2 rounded-md text-sm hover:bg-manta-blue hover:text-white transition-all">
@@ -236,7 +245,7 @@ function renderVehicles(vehicles) {
         </div>
       </div>
     `).join('');
-    
+
     console.log(`✓ Rendered ${vehicles.length} vehicles`);
   } catch (error) {
     console.error('Error rendering vehicles:', error);
@@ -271,24 +280,24 @@ function updateModelOptions() {
   try {
     const selectedBrand = brandFilter.value;
     modelFilter.innerHTML = '<option value="">All Models</option>';
-    
+
     if (selectedBrand) {
       const models = [...new Set(
         allVehicles
           .filter(v => v.brand === selectedBrand)
           .map(v => v.model)
       )];
-      
+
       models.forEach(model => {
         const option = document.createElement('option');
         option.value = model;
-        option.textContent = model.split('-').map(word => 
+        option.textContent = model.split('-').map(word =>
           word.charAt(0).toUpperCase() + word.slice(1)
         ).join(' ');
         modelFilter.appendChild(option);
       });
     }
-    
+
     applyFilters();
   } catch (error) {
     console.error('Error updating model options:', error);
@@ -303,19 +312,19 @@ if (yearFilter) yearFilter.addEventListener('change', applyFilters);
 function selectVehicle(vehicleId) {
   try {
     const vehicle = allVehicles.find(v => v.id === vehicleId);
-    
+
     if (!vehicle) {
       console.error('Vehicle not found!');
       alert('Error: Vehicle not found. Please try again.');
       return;
     }
-    
+
     // Store selected vehicle in sessionStorage
     sessionStorage.setItem('selectedVehicle', JSON.stringify(vehicle));
-    
+
     console.log('Selected vehicle:', vehicle);
     console.log('Redirecting to checkout page...');
-    
+
     // Redirect to checkout page
     window.location.href = 'checkout.html';
   } catch (error) {
@@ -331,7 +340,31 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('=== DOM CONTENT LOADED ===');
   try {
     updateProgressSection();
-    renderVehicles(filteredVehicles);
+    // Load vehicles from backend via api wrapper, fall back to sample data
+    if (window.api && typeof window.api.listVehicles === 'function') {
+      window.api.listVehicles()
+        .then(vehicles => {
+          if (!vehicles || vehicles.length === 0) {
+            console.warn('No vehicles returned from API, using sample data');
+            allVehicles = [...sampleVehicles];
+          } else {
+            allVehicles = vehicles;
+          }
+        })
+        .catch(err => {
+          console.error('Error fetching vehicles from API:', err);
+          allVehicles = [...sampleVehicles];
+        })
+        .finally(() => {
+          filteredVehicles = [...allVehicles];
+          renderVehicles(filteredVehicles);
+        });
+    } else {
+      console.warn('API wrapper not found, using sample data');
+      allVehicles = [...sampleVehicles];
+      filteredVehicles = [...allVehicles];
+      renderVehicles(filteredVehicles);
+    }
     console.log('=== INITIALIZATION COMPLETE ===');
   } catch (error) {
     console.error('Error during initialization:', error);

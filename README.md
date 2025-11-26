@@ -25,34 +25,67 @@ This project involves the end-to-end development of a digital platform for Manta
 
 ## 🔌 Installation Steps
 
-1. **Install Dependencies**  
-    Install [node.js](https://nodejs.org/en/download)  
-    Check if installed in terminal: 
+### Frontend
+1. **Install Dependencies**
+    Install [node.js](https://nodejs.org/en/download)
+    Check if installed in terminal:
     ```bash
     node -v
     npm -v
     ```
 
-2. **Install serve globally**  
+2. **Install serve globally**
     From the frontend folder, run:
    ```bash
    sudo npm install -g serve
    ```
 
-3. **Run the Server**  
+3. **Run the Server**
     From the root, run:
    ```bash
    serve .
    ```
 
-4. **Open in Browser**  
+4. **Open in Browser**
     Go to:
     ```bash
     http://localhost:3000
     ```
 
-5. **Stop the Server**  
+5. **Stop the Server**
     Press Ctrl + C in the terminal to stop the server.
+
+### Backend Server (Flask API)
+Assuming at root codebase
+1. Create a Python virtual environment and activate it:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+2. Install backend dependencies:
+
+```bash
+pip install -r backend/Server/requirements.txt
+```
+
+3. Run the Flask server (from project root):
+
+```bash
+python3 backend/Server/server.py
+```
+
+4. Example API calls:
+
+```bash
+# health check
+curl http://127.0.0.1:5000/api/health
+
+# list vehicles
+curl http://127.0.0.1:5000/api/vehicles
+
+```
 
 ## 💻 Tech Stack
 

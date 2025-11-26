@@ -37,7 +37,8 @@ class CarsDatabase:
                             make TEXT,
                             model TEXT,
                             year INTEGER,
-                            vin TEXT)
+                            vin TEXT
+                        )
                     """)
 
         exists = con.execute(
@@ -45,14 +46,12 @@ class CarsDatabase:
             (vin,)
         ).fetchone()
         if exists:
-            # Update the status for the existing VIN
             con.execute("""
                             UPDATE master_table
                             SET make=?, model=?, year=?
                             WHERE vin=?
                         """, (make, model, year, vin,))
         else:
-            # Insert a new VIN and status
             con.execute("""
                             INSERT INTO master_table (make, model, year, vin)
                             VALUES (?, ?, ?, ?)
@@ -170,12 +169,12 @@ class CarsDatabase:
                     """)
 
         exists = con.execute("""
-                                SELECT *
+                                SELECT 1
                                 FROM rental_price_table
                                 WHERE vin = ?
-                             """, (vin,))
+                             """, (vin,)).fetchone()
 
-        if exists.arraysize != 0:
+        if exists:
             database_logger.DatabaseLogger.log_rental_price_fail_added(vin)
             con.close()
             return
@@ -202,25 +201,26 @@ class CarsDatabase:
         con = sqlite3.connect(CarsDatabase.database)
 
         exists = con.execute("""
-                                SELECT *
+                                SELECT 1
                                 FROM rental_price_table
                                 WHERE vin = ?
-                             """, (vin,))
+                             """, (vin,)).fetchone()
 
-        if exists.arraysize == 0:
+        if not exists:
             con.close()
             return None
 
-        price = con.execute("""
+        cur = con.execute("""
                                 SELECT rental_price
                                 FROM rental_price_table
                                 WHERE vin = ?
                             """, (vin,))
+        row = cur.fetchone()
 
         con.commit()
         con.close()
 
-        return price
+        return row[0] if row else None
 
     @staticmethod
     def get_all_rental_prices_from_table():

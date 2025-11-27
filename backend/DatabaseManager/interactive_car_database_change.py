@@ -231,7 +231,7 @@ def list_all_cars():
 def main():
     MENU = '''\
 Choose an option:
-1) Add new car (and optional initial price)
+1) Add new car
 2) Update extended attributes (class/electric/body)
 3) Remove car by VIN
 4) Update car availability status

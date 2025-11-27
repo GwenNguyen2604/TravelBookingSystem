@@ -113,8 +113,6 @@
     return outer;
   }
 
-  // Explore button removed
-
   function populateGrid(container, vehicles, pricesMap, predicate, limit = 5) {
     if (!container) return;
     const matches = vehicles.filter(predicate).slice(0, limit);
@@ -122,7 +120,6 @@
       const p = pricesMap.get(String(v.vin));
       container.appendChild(renderCard(v, p));
     });
-    // No Explore button per request
   }
 
   async function init() {

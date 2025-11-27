@@ -87,6 +87,62 @@ curl http://127.0.0.1:5000/api/vehicles
 
 ```
 
+# Adding a car entry using interactive_car_database_change.py
+
+1. Determine a car to add, including the make/model/year. Preferably have the picture of that car downloaded.
+
+2. Run the script
+``` bash
+python3 interactive_car_database_change.py
+```
+This will show up
+
+``` bash
+Choose an option:
+1) Add new car (and optional initial price)
+2) Update extended attributes (class/electric/body)
+3) Remove car by VIN
+4) Update car availability status
+5) Update car price
+6) List all cars
+q) Quit
+
+>
+```
+
+3. Choose 1, enter the make, model and year as prompted. The script will generate the VIN for you so dont worry about that.
+
+4. It will ask for the image file, give the script the entire path of the file. Example below
+
+``` bash
+Make: Ferrari
+Model: 296
+Year: 2020
+Generated VIN: 22D1EC505ABC43B2B
+Path to image file (optional, press enter to skip): /home/nguyennguyen/Download/ferari.jpg
+
+```
+5. Give it a per diem rental price when prompted
+
+6. Copy the VIN number
+
+7. Once done, an entry will be generated in the database. Choose 6 to view all cars and notice your entry has been added
+   You are not done yet. There are a few attributes that are still blank. You will need to update them
+
+8. Back at the script, this time, choose 2) Update extended attributes (class/electric/body)
+
+9. Pass the VIN to the prompt, then type in the class/Electric/Body attributes the vehicle has, example for the Ferrari below
+
+``` bash
+VIN to update attributes for: 22D1EC505ABC43B2B
+Class (Luxury/Premium/Economy or blank): Luxury
+Electric (YES/NO or blank): NO
+Body (Sedan/SUV/Truck or blank): Sedan
+Attributes updated.
+```
+10. You can revisit 2, 4, 5 to update the attributes, availability and rental price of the car, providing you have the VIN.
+    To remove the car based on its VIN, choose 3.
+
 ## 💻 Tech Stack
 
 ### Programming Languages

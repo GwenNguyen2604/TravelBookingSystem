@@ -32,31 +32,74 @@ class CarsDatabase:
         """
         con = sqlite3.connect(CarsDatabase.database)
 
+        # Ensure master_table exists (with desired column order: vin first)
         con.execute("""
-                        CREATE TABLE IF NOT EXISTS master_table (
-                            make TEXT,
-                            model TEXT,
-                            year INTEGER,
-                            vin TEXT)
-                    """)
+            CREATE TABLE IF NOT EXISTS master_table (
+                vin TEXT,
+                make TEXT,
+                model TEXT,
+                year INTEGER,
+                class TEXT,
+                electric TEXT,
+                body TEXT
+            )
+        """)
+
+        # Migration: add columns if table created earlier without them & reorder if needed
+        cur = con.execute("PRAGMA table_info(master_table)")
+        info_rows = cur.fetchall()
+        existing_cols = [row[1] for row in info_rows]
+        existing_set = set(existing_cols)
+        for col, col_type in (
+            ('class', 'TEXT'),
+            ('electric', 'TEXT'),
+            ('body', 'TEXT'),
+        ):
+            if col not in existing_set:
+                try:
+                    con.execute(f"ALTER TABLE master_table ADD COLUMN {col} {col_type}")
+                except Exception:
+                    pass
+        # Reorder columns if vin is not first
+        desired_order = ['vin','make','model','year','class','electric','body']
+        if existing_cols and existing_cols != desired_order:
+            try:
+                con.execute("""
+                    CREATE TABLE IF NOT EXISTS master_table_reordered (
+                        vin TEXT,
+                        make TEXT,
+                        model TEXT,
+                        year INTEGER,
+                        class TEXT,
+                        electric TEXT,
+                        body TEXT
+                    )
+                """)
+                con.execute("""
+                    INSERT INTO master_table_reordered (vin, make, model, year, class, electric, body)
+                    SELECT vin, make, model, year, class, electric, body FROM master_table
+                """)
+                con.execute("DROP TABLE master_table")
+                con.execute("ALTER TABLE master_table_reordered RENAME TO master_table")
+            except Exception:
+                # if anything fails, keep existing table
+                pass
 
         exists = con.execute(
             "SELECT 1 FROM master_table WHERE vin = ?",
             (vin,)
         ).fetchone()
         if exists:
-            # Update the status for the existing VIN
             con.execute("""
-                            UPDATE master_table
-                            SET make=?, model=?, year=?
-                            WHERE vin=?
-                        """, (make, model, year, vin,))
+                UPDATE master_table
+                SET make=?, model=?, year=?
+                WHERE vin=?
+            """, (make, model, year, vin,))
         else:
-            # Insert a new VIN and status
             con.execute("""
-                            INSERT INTO master_table (make, model, year, vin)
-                            VALUES (?, ?, ?, ?)
-                        """, (make, model, year, vin,))
+                INSERT INTO master_table (vin, make, model, year, class, electric, body)
+                VALUES (?, ?, ?, ?, NULL, NULL, NULL)
+            """, (vin, make, model, year,))
 
         con.commit()
         con.close()
@@ -84,6 +127,79 @@ class CarsDatabase:
                      otherwise returns false
         """
         return os.path.exists(CarsDatabase.database)
+
+    # *** CAR ATTRIBUTE EXTENSIONS ***
+    @staticmethod
+    def update_car_specs(vin, car_class=None, electric=None, body=None):
+        """Update extended car attributes for a VIN.
+
+        Parameters may be left as None to skip updating that attribute.
+        car_class: one of ('Luxury','Premium','Economy') or None
+        electric: 'YES' / 'NO' / boolean or None
+        body: one of ('Sedan','SUV','Truck') or None
+        """
+        con = sqlite3.connect(CarsDatabase.database)
+        # ensure table has columns
+        con.execute("""
+            CREATE TABLE IF NOT EXISTS master_table (
+                vin TEXT,
+                make TEXT,
+                model TEXT,
+                year INTEGER,
+                class TEXT,
+                electric TEXT,
+                body TEXT
+            )
+        """)
+        # basic VIN existence check
+        exists = con.execute("SELECT 1 FROM master_table WHERE vin = ?", (vin,)).fetchone()
+        if not exists:
+            con.close()
+            return False
+
+        fields = []
+        values = []
+        if car_class is not None:
+            if car_class not in ('Luxury','Premium','Economy'):
+                con.close()
+                raise ValueError('Invalid car_class')
+            fields.append('class = ?')
+            values.append(car_class)
+        if electric is not None:
+            if isinstance(electric, bool):
+                electric_val = 'YES' if electric else 'NO'
+            else:
+                electric_val = str(electric).upper()
+            if electric_val not in ('YES','NO'):
+                con.close()
+                raise ValueError('Invalid electric value')
+            fields.append('electric = ?')
+            values.append(electric_val)
+        if body is not None:
+            if body not in ('Sedan','SUV','Truck'):
+                con.close()
+                raise ValueError('Invalid body value')
+            fields.append('body = ?')
+            values.append(body)
+
+        if fields:
+            values.append(vin)
+            set_clause = ', '.join(fields)
+            con.execute(f"UPDATE master_table SET {set_clause} WHERE vin = ?", tuple(values))
+            con.commit()
+        con.close()
+        return True
+
+    @staticmethod
+    def get_car_specs(vin):
+        """Return extended car attributes for a VIN as dict or None if not found."""
+        con = sqlite3.connect(CarsDatabase.database)
+        cur = con.execute("SELECT class, electric, body FROM master_table WHERE vin = ?", (vin,))
+        row = cur.fetchone()
+        con.close()
+        if not row:
+            return None
+        return {'vin': vin, 'class': row[0], 'electric': row[1], 'body': row[2]}
 
     # *** RATING MANAGER ***
 
@@ -171,12 +287,12 @@ class CarsDatabase:
                     """)
 
         exists = con.execute("""
-                                SELECT *
+                                SELECT 1
                                 FROM rental_price_table
                                 WHERE vin = ?
-                             """, (vin,))
+                             """, (vin,)).fetchone()
 
-        if exists.arraysize != 0:
+        if exists:
             database_logger.DatabaseLogger.log_rental_price_fail_added(vin)
             return None
 
@@ -202,25 +318,26 @@ class CarsDatabase:
         con = sqlite3.connect(CarsDatabase.database)
 
         exists = con.execute("""
-                                SELECT *
+                                SELECT 1
                                 FROM rental_price_table
                                 WHERE vin = ?
-                             """, (vin,))
+                             """, (vin,)).fetchone()
 
-        if exists.arraysize == 0:
+        if not exists:
             con.close()
             return None
 
-        price = con.execute("""
+        cur = con.execute("""
                                 SELECT rental_price
                                 FROM rental_price_table
                                 WHERE vin = ?
                             """, (vin,))
+        row = cur.fetchone()
 
         con.commit()
         con.close()
 
-        return price
+        return row[0] if row else None
 
     @staticmethod
     def get_all_rental_prices_from_table():

@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask import send_from_directory, abort
 from flask_cors import CORS
 import sqlite3
 import os
@@ -20,16 +21,57 @@ def init_db():
     conn = get_db_connection()
     cur = conn.cursor()
 
+    # Ensure master_table exists with vin as first column
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS master_table (
+            vin TEXT PRIMARY KEY,
             make TEXT,
             model TEXT,
             year INTEGER,
-            vin TEXT PRIMARY KEY
+            class TEXT,
+            electric TEXT,
+            body TEXT
         )
         """
     )
+    # Migration: add columns if missing & reorder if vin not first
+    cur.execute("PRAGMA table_info(master_table)")
+    info_rows = cur.fetchall()
+    existing_cols = [row[1] for row in info_rows]
+    existing_set = set(existing_cols)
+    for col, col_type in (
+        ('class', 'TEXT'),
+        ('electric', 'TEXT'),
+        ('body', 'TEXT'),
+    ):
+        if col not in existing_set:
+            try:
+                cur.execute(f"ALTER TABLE master_table ADD COLUMN {col} {col_type}")
+            except Exception:
+                pass
+    desired_order = ['vin','make','model','year','class','electric','body']
+    if existing_cols and existing_cols != desired_order:
+        try:
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS master_table_reordered (
+                    vin TEXT PRIMARY KEY,
+                    make TEXT,
+                    model TEXT,
+                    year INTEGER,
+                    class TEXT,
+                    electric TEXT,
+                    body TEXT
+                )
+            """)
+            cur.execute("""
+                INSERT INTO master_table_reordered (vin, make, model, year, class, electric, body)
+                SELECT vin, make, model, year, class, electric, body FROM master_table
+            """)
+            cur.execute("DROP TABLE master_table")
+            cur.execute("ALTER TABLE master_table_reordered RENAME TO master_table")
+        except Exception:
+            pass
 
     cur.execute(
         """
@@ -80,9 +122,9 @@ def get_vehicles():
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        cur.execute('SELECT make, model, year, vin FROM master_table')
-        rows = cur.fetchall()
-        vehicles = [dict(row) for row in rows]
+            cur.execute('SELECT make, model, year, vin, class, electric, body FROM master_table')
+            rows = cur.fetchall()
+            vehicles = [dict(row) for row in rows]
     except sqlite3.OperationalError:
         vehicles = []
     finally:
@@ -96,7 +138,7 @@ def get_vehicle(vin):
     conn = get_db_connection()
     cur = conn.cursor()
     try:
-        cur.execute('SELECT make, model, year, vin FROM master_table WHERE vin = ?', (vin,))
+        cur.execute('SELECT make, model, year, vin, class, electric, body FROM master_table WHERE vin = ?', (vin,))
         row = cur.fetchone()
         if row is None:
             return jsonify({'error': 'vehicle not found'}), 404
@@ -109,6 +151,36 @@ def get_vehicle(vin):
         conn.close()
 
     return jsonify(vehicle)
+
+
+
+@app.route('/api/vehicles/<vin>/image', methods=['GET'])
+def get_vehicle_image(vin):
+    """Serve the image file named by VIN from `Database/Images`.
+
+    Tries common extensions; 404 if none found.
+    """
+    images_dir = os.path.abspath(os.path.join(BASE_DIR, '..', 'Database', 'Images'))
+    if not os.path.isdir(images_dir):
+        abort(404)
+
+    # Try common extensions
+    exts = ['.jpg', '.jpeg', '.png', '.webp', '.avif']
+    for ext in exts:
+        candidate = f"{vin}{ext}"
+        candidate_path = os.path.join(images_dir, candidate)
+        if os.path.exists(candidate_path):
+            return send_from_directory(images_dir, candidate)
+
+    # Fallback: scan dir for any matching prefix
+    try:
+        for name in os.listdir(images_dir):
+            if name.startswith(vin + '.') or name.startswith(vin):
+                return send_from_directory(images_dir, name)
+    except Exception:
+        pass
+
+    abort(404)
 
 
 @app.route('/api/prices', methods=['GET'])

@@ -12,7 +12,7 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <!-- Tailwind Config -->
   <script>
     tailwind.config = {
@@ -125,208 +125,37 @@
   <!-- Vehicle Categories Section -->
   <section class="px-4 md:px-8 lg:px-16 py-12 md:py-16">
     <div class="max-w-7xl mx-auto">
-      
+
       <!-- Luxury Category -->
       <div class="mb-16 fade-in-up">
         <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Luxury</h2>
         <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Experience premium comfort and cutting-edge technology</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- BMW 3 Series -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">BMW 3 Series</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Premium</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$89.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Mercedes C-Class -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Mercedes C-Class</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Premium</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$95.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Audi A4 -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Audi A4</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Premium</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$92.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="luxury-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
       </div>
 
       <!-- Electric Category -->
       <div class="mb-16 fade-in-up">
         <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Electric</h2>
         <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Eco-friendly vehicles for the environmentally conscious</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Tesla Model 3 -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Tesla Model 3</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2023 • Electric • Long Range</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$110.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <div id="electric-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
       </div>
 
       <!-- Premium Sedan Category -->
       <div class="mb-16 fade-in-up">
         <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Premium Sedan</h2>
         <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Refined comfort for business and leisure</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Lexus ES -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Lexus ES</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2023 • Automatic • Luxury</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$88.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Toyota Camry -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Toyota Camry</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Reliable</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$65.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Honda Accord -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Honda Accord</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2023 • Automatic • Efficient</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$62.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="premium-sedan-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
       </div>
 
       <!-- Economy Category -->
       <div class="mb-16 fade-in-up">
         <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Economy</h2>
         <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Affordable options without compromising quality</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Kia K5 -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Kia K5</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2024 • Automatic • Modern</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$58.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Hyundai Sonata -->
-          <div class="bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-            <div class="bg-gray-300 h-48 flex items-center justify-center">
-              <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </div>
-            <div class="p-5">
-              <h3 class="font-ysabeau-sc font-semibold text-xl mb-2">Hyundai Sonata</h3>
-              <p class="font-ysabeau text-sm text-gray-600 mb-4">2023 • Automatic • Value</p>
-              <div class="flex items-center justify-between">
-                <div>
-                  <span class="font-ysabeau-sc font-bold text-xl">$60.00</span>
-                  <span class="text-sm text-gray-600"> / day</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="economy-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
       </div>
 
     </div>
@@ -423,5 +252,7 @@
 
     animatedElements.forEach(el => observer.observe(el));
   </script>
+  <!-- Dynamic grid population -->
+  <script src="vehicles.js"></script>
 </body>
 </html>

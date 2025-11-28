@@ -57,7 +57,7 @@ This project involves the end-to-end development of a digital platform for Manta
 
 ### Backend Server (Flask API)
 Assuming at root codebase
-1. Create a Python virtual environment and activate it:
+1. **Create a Python virtual environment and activate it**
 
 ```bash
 python3 -m venv .venv
@@ -71,13 +71,13 @@ python -m venv .venv
 . .\.venv\Scripts\Activate.ps1
 ```
 
-2. Install backend dependencies:
+2. **Install backend dependencies**
 
 ```bash
 pip install -r backend/Server/requirements.txt
 ```
 
-3. Run the Flask server (from project root):
+3. **Run the Flask server (from project root)**
 
 ```bash
 python3 backend/Server/server.py
@@ -100,15 +100,17 @@ curl http://127.0.0.1:5000/api/vehicles
 
 ```
 
-# Adding a car entry using interactive_car_database_change.py
+# Adding a Car Entry
 
 1. Determine a car to add, including the make/model/year. Preferably have the picture of that car downloaded.
 
 2. Run the script
 ``` bash
+cd backend
+cd DatabaseManager
 python3 interactive_car_database_change.py
 ```
-This will show up
+This will show up:
 
 ``` bash
 Choose an option:

@@ -64,7 +64,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-&emsp(WINDOWS ONLY):  
+- (WINDOWS ONLY):  
 
 ```bash
 python -m venv .venv
@@ -83,7 +83,7 @@ pip install -r backend/Server/requirements.txt
 python3 backend/Server/server.py
 ```
 
-&emsp(WINDOWS ONLY):
+- (WINDOWS ONLY):
 
 ```bash
 python backend/Server/server.py

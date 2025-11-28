@@ -164,7 +164,7 @@ Attributes updated.
 JS, HTML, CSS, Python
 
 ### Libraries and Frameworks
-Frontend: TailwindCSS
+Frontend: TailwindCSS  
 Backend: Flask
 
 ## 🎞️ Visuals

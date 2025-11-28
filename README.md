@@ -26,33 +26,33 @@ This project involves the end-to-end development of a digital platform for Manta
 ## 🔌 Installation Steps
 
 ### Frontend
-1. **Install Dependencies**
-    Install [node.js](https://nodejs.org/en/download)
+1. **Install Dependencies**  
+    Install [node.js](https://nodejs.org/en/download)  
     Check if installed in terminal:
     ```bash
     node -v
     npm -v
     ```
 
-2. **Install serve globally**
+2. **Install serve globally**  
     From the frontend folder, run:
    ```bash
    sudo npm install -g serve
    ```
 
-3. **Run the Server**
+3. **Run the Server**  
     From the root, run:
    ```bash
    serve .
    ```
 
-4. **Open in Browser**
+4. **Open in Browser**  
     Go to:
     ```bash
     http://localhost:3000
     ```
 
-5. **Stop the Server**
+5. **Stop the Server**  
     Press Ctrl + C in the terminal to stop the server.
 
 ### Backend Server (Flask API)
@@ -62,6 +62,13 @@ Assuming at root codebase
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
+```
+
+(WINDOWS ONLY):  
+
+```bash
+python -m venv .venv
+. .\.venv\Scripts\Activate.ps1
 ```
 
 2. Install backend dependencies:
@@ -74,6 +81,12 @@ pip install -r backend/Server/requirements.txt
 
 ```bash
 python3 backend/Server/server.py
+```
+
+(WINDOWS ONLY):
+
+```bash
+python backend/Server/server.py
 ```
 
 4. Example API calls:
@@ -110,9 +123,9 @@ q) Quit
 >
 ```
 
-3. Choose 1, enter the make, model and year as prompted. The script will generate the VIN for you so dont worry about that.
+3. Choose 1, enter the make, model and year as prompted. The script will generate the VIN for you.
 
-4. It will ask for the image file, give the script the entire path of the file. Example below
+4. If you want to include an image file, paste it as a path without quotation marks surrounding the path. Example below:
 
 ``` bash
 Make: Ferrari
@@ -122,16 +135,16 @@ Generated VIN: 22D1EC505ABC43B2B
 Path to image file (optional, press enter to skip): /home/nguyennguyen/Download/ferari.jpg
 
 ```
-5. Give it a per diem rental price when prompted
+5. Give the car a per diem rental price when prompted.
 
-6. Copy the VIN number
+6. Copy the VIN number.
 
-7. Once done, an entry will be generated in the database. Choose 6 to view all cars and notice your entry has been added
-   You are not done yet. There are a few attributes that are still blank. You will need to update them
+7. Once done, an entry will be generated in the database. Choose option 6 to view all cars and notice your entry has been added.
+   You are not done yet. There are a few attributes that are still blank. You will need to update them.
 
-8. Back at the script, this time, choose 2) Update extended attributes (class/electric/body)
+8. Back at the script, this time, choose option 2: Update extended attributes (class/electric/body)
 
-9. Pass the VIN to the prompt, then type in the class/Electric/Body attributes the vehicle has, example for the Ferrari below
+9. Pass the VIN to the prompt, then type in the Class/Electric/Body attributes the vehicle has. Example below:
 
 ``` bash
 VIN to update attributes for: 22D1EC505ABC43B2B
@@ -140,7 +153,7 @@ Electric (YES/NO or blank): NO
 Body (Sedan/SUV/Truck or blank): Sedan
 Attributes updated.
 ```
-10. You can revisit 2, 4, 5 to update the attributes, availability and rental price of the car, providing you have the VIN.
+10. You can revisit 2, 4, 5 to update the attributes, availability and rental price of the car, provided you have the VIN.
     To remove the car based on its VIN, choose 3.
 
 ## 💻 Tech Stack
@@ -149,13 +162,16 @@ Attributes updated.
 JS, HTML, CSS, Python
 
 ### Libraries and Frameworks
-
+Frontend: TailwindCSS
+Backend: Flask
 
 ## 🎞️ Visuals
 
 
-## 💡 Known Issues
 
+## 💡 Known Issues
+- User can enter holiday dates for rentals  
+- User can enter a pick-up time of the same date at an earlier time.
 
 ## 📝 License
 This project is licensed under the GPL-3.0 License - see the LICENSE file for details.

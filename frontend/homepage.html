@@ -161,12 +161,12 @@
     </div>
 
     <!-- Booking Form -->
-    <div class="absolute bottom-[5%] md:bottom-[6%] lg:bottom-[8%] left-1/2 transform -translate-x-1/2 w-[95%] md:w-[90%] lg:w-[85%] max-w-5xl bg-white/40 backdrop-blur-sm p-4 md:p-6 rounded-3xl">
+    <div class="absolute bottom-[5%] md:bottom-[8%] lg:bottom-[18%] xl:bottom-[22%] 2xl:bottom-[25%] left-1/2 transform -translate-x-1/2 w-[95%] md:w-[90%] lg:w-[85%] max-w-7xl bg-white/40 backdrop-blur-sm p-4 md:p-6 lg:p-8 xl:p-10 rounded-3xl">
       <!-- Location Row -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 xl:gap-8 mb-4">
         <div class="flex flex-col">
-          <label for="pickup-location" class="mb-2 font-semibold text-gray-800 text-sm md:text-base">Pickup Location</label>
-          <select id="pickup-location" class="p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base">
+          <label for="pickup-location" class="mb-2 font-semibold text-gray-800 text-sm md:text-base lg:text-lg">Pickup Location</label>
+          <select id="pickup-location" class="p-3 lg:p-4 xl:p-5 border border-gray-300 rounded-md bg-white text-sm md:text-base lg:text-lg">
             <option value="" disabled selected>Select pickup location</option>
             <option value="Los Angeles, CA">Los Angeles, CA</option>
             <option value="San Francisco, CA">San Francisco, CA</option>
@@ -182,8 +182,8 @@
         </div>
 
         <div class="flex flex-col">
-          <label for="dropoff-location" class="mb-2 font-semibold text-gray-800 text-sm md:text-base">Dropoff Location</label>
-          <select id="dropoff-location" class="p-3 border border-gray-300 rounded-md bg-white text-sm md:text-base">
+          <label for="dropoff-location" class="mb-2 font-semibold text-gray-800 text-sm md:text-base lg:text-lg">Dropoff Location</label>
+          <select id="dropoff-location" class="p-3 lg:p-4 xl:p-5 border border-gray-300 rounded-md bg-white text-sm md:text-base lg:text-lg">
             <option value="" disabled selected>Select dropoff location</option>
             <option value="Los Angeles, CA">Los Angeles, CA</option>
             <option value="San Francisco, CA">San Francisco, CA</option>
@@ -200,34 +200,34 @@
       </div>
 
       <!-- Date & Time Row -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 lg:gap-6 xl:gap-8 mb-4">
         <div class="flex flex-col">
-          <label for="pickup-date" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm">Pickup Date</label>
-          <input type="date" id="pickup-date" class="p-2 md:p-3 border border-gray-300 rounded-md bg-white text-xs md:text-sm">
+          <label for="pickup-date" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm lg:text-base">Pickup Date</label>
+          <input type="date" id="pickup-date" class="p-2 md:p-3 lg:p-4 border border-gray-300 rounded-md bg-white text-xs md:text-sm lg:text-base">
         </div>
 
         <div class="flex flex-col">
-          <label for="pickup-time" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm">Pickup Time</label>
-          <select id="pickup-time" class="p-2 md:p-3 border border-gray-300 rounded-md bg-white text-xs md:text-sm">
+          <label for="pickup-time" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm lg:text-base">Pickup Time</label>
+          <select id="pickup-time" class="p-2 md:p-3 lg:p-4 border border-gray-300 rounded-md bg-white text-xs md:text-sm lg:text-base">
             <option value="" disabled selected>Select time</option>
           </select>
         </div>
 
         <div class="flex flex-col">
-          <label for="dropoff-date" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm">Dropoff Date</label>
-          <input type="date" id="dropoff-date" class="p-2 md:p-3 border border-gray-300 rounded-md bg-white text-xs md:text-sm">
+          <label for="dropoff-date" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm lg:text-base">Dropoff Date</label>
+          <input type="date" id="dropoff-date" class="p-2 md:p-3 lg:p-4 border border-gray-300 rounded-md bg-white text-xs md:text-sm lg:text-base">
         </div>
 
         <div class="flex flex-col">
-          <label for="dropoff-time" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm">Dropoff Time</label>
-          <select id="dropoff-time" class="p-2 md:p-3 border border-gray-300 rounded-md bg-white text-xs md:text-sm">
+          <label for="dropoff-time" class="mb-2 font-semibold text-gray-800 text-xs md:text-sm lg:text-base">Dropoff Time</label>
+          <select id="dropoff-time" class="p-2 md:p-3 lg:p-4 border border-gray-300 rounded-md bg-white text-xs md:text-sm lg:text-base">
             <option value="" disabled selected>Select time</option>
           </select>
         </div>
       </div>
 
       <!-- Search Button -->
-      <button id="search-btn" type="button" class="w-full md:w-auto md:min-w-[200px] bg-manta-banner text-white px-6 py-3 rounded-lg font-ysabeau-sc font-semibold hover:bg-manta-blue transition-all mx-auto block text-sm md:text-base">
+      <button id="search-btn" type="button" class="w-full md:w-auto md:min-w-[200px] lg:min-w-[240px] xl:min-w-[260px] bg-manta-banner text-white px-6 lg:px-8 py-3 lg:py-4 rounded-lg font-ysabeau-sc font-semibold hover:bg-manta-blue transition-all mx-auto block text-sm md:text-base lg:text-lg">
         Search
       </button>
     </div>
@@ -276,42 +276,42 @@
 
   <!-- Footer -->
   <footer class="bg-manta-banner">
-    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+    <div class="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-16 xl:px-24 py-12 md:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-12 lg:gap-20 xl:gap-32 2xl:gap-48">
         <!-- Logo -->
-        <div class="flex items-start">
-          <img src="images/manta.png" alt="Manta Logo" class="h-16 md:h-20 w-auto">
+        <div class="flex items-start justify-center md:justify-start">
+          <img src="images/manta.png" alt="Manta Logo" class="h-16 md:h-20 lg:h-24 xl:h-28 w-auto">
         </div>
 
         <!-- Customer Support -->
         <div>
-          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Customer Support</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Contact Us</a></li>
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Accident Report</a></li>
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Get a Receipt</a></li>
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Vehicle Theft Report</a></li>
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Policies</a></li>
+          <h3 class="font-ysabeau-sc text-lg lg:text-xl xl:text-2xl font-semibold mb-4 lg:mb-6 text-black">Customer Support</h3>
+          <ul class="space-y-2 lg:space-y-3">
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Contact Us</a></li>
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Accident Report</a></li>
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Get a Receipt</a></li>
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Vehicle Theft Report</a></li>
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Policies</a></li>
           </ul>
         </div>
 
         <!-- Manta -->
         <div>
-          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Manta</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">About Us</a></li>
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Our Goal</a></li>
-            <li><a href="leave-review.html" class="font-ysabeau text-black hover:text-white transition-colors">Feedback</a></li>
+          <h3 class="font-ysabeau-sc text-lg lg:text-xl xl:text-2xl font-semibold mb-4 lg:mb-6 text-black">Manta</h3>
+          <ul class="space-y-2 lg:space-y-3">
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">About Us</a></li>
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Our Goal</a></li>
+            <li><a href="leave-review.html" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Feedback</a></li>
           </ul>
         </div>
 
         <!-- Car Sales -->
         <div>
-          <h3 class="font-ysabeau-sc text-lg font-semibold mb-4 text-black">Car Sales</h3>
-          <ul class="space-y-2">
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Buy a Car</a></li>
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Sell a Car</a></li>
-            <li><a href="#" class="font-ysabeau text-black hover:text-white transition-colors">Finance a Car</a></li>
+          <h3 class="font-ysabeau-sc text-lg lg:text-xl xl:text-2xl font-semibold mb-4 lg:mb-6 text-black">Car Sales</h3>
+          <ul class="space-y-2 lg:space-y-3">
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Buy a Car</a></li>
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Sell a Car</a></li>
+            <li><a href="#" class="font-ysabeau text-sm lg:text-base xl:text-lg text-black hover:text-white transition-colors">Finance a Car</a></li>
           </ul>
         </div>
       </div>

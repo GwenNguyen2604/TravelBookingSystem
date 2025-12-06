@@ -98,7 +98,7 @@ class DatabaseLogger:
     @staticmethod
     def log_rating_request(vin):
         """
-        // Function description
+        Description: Function decorator for 
         """
 
     @staticmethod

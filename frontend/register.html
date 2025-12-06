@@ -3,19 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manta</title>
+  <title>Manta | Register</title>
 
   <link rel="icon" type="image/png" href="images/manta.png">
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Tailwind Config -->
   <script>
     tailwind.config = {
       theme: {
@@ -54,53 +51,34 @@
     .nav-link:hover::after {
       width: 100%;
     }
-
-    /* Fade in animation */
-    .fade-in-up {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    }
-
-    .fade-in-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
   </style>
 </head>
-<body class="m-0 p-0 bg-white">
-  <!-- Banner -->
+<body class="m-0 p-0 bg-gray-50 flex flex-col min-h-screen">
   <header class="bg-manta-banner h-20 lg:h-24 w-full px-4 md:px-8 flex items-center justify-between relative">
-    <!-- Logo -->
     <a href="homepage.html" class="flex items-center gap-2 md:gap-3">
       <img src="images/manta.png" alt="Manta Logo" class="h-10 md:h-14 lg:h-16 w-auto">
       <img src="images/mantaname.png" alt="Manta" class="h-7 md:h-9 lg:h-10 w-auto">
     </a>
 
-    <!-- Mobile Menu Button -->
     <button id="mobile-menu-btn" class="lg:hidden text-black p-2">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
 
-    <!-- Desktop Navigation -->
     <nav class="hidden lg:flex items-center gap-12">
-      <!-- Text Links -->
       <div class="flex items-center gap-12">
         <a href="vehicles.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-lg transition-colors">Vehicles</a>
         <a href="location.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-lg transition-colors">Locations</a>
         <a href="support.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-lg transition-colors">Support</a>
       </div>
 
-      <!-- Buttons -->
       <div class="flex items-center gap-12">
         <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-5 py-2 rounded-lg text-base hover:bg-manta-blue hover:text-white transition-all">Sign In</a>
         <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-5 py-2 rounded-lg text-base hover:bg-manta-blue transition-all">Register</a>
       </div>
     </nav>
 
-    <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 right-0 bg-manta-banner shadow-lg z-50">
       <nav class="flex flex-col p-4 gap-4">
         <a href="vehicles.html" class="font-ysabeau-sc font-semibold text-black text-base py-2">Vehicles</a>
@@ -114,76 +92,92 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="bg-gray-100 px-4 md:px-8 lg:px-16 py-12 md:py-16">
-    <div class="max-w-7xl mx-auto text-center">
-      <h1 class="font-alegreya-sc text-4xl md:text-5xl lg:text-6xl font-normal mb-4">OUR FLEET</h1>
-      <p class="font-ysabeau text-gray-700 text-lg md:text-xl max-w-3xl mx-auto">
-        From luxury sedans to practical economy cars, we have the perfect vehicle for every journey. All our vehicles are meticulously maintained and ready for your adventure.
+  <main class="flex-1 flex items-center justify-center px-4 md:px-8 py-12 md:py-20">
+    <div class="bg-white rounded-lg shadow-md w-full max-w-xl p-10 md:p-12">
+      <h1 class="font-alegreya-sc text-3xl md:text-4xl lg:text-5xl text-center mb-4">Register</h1>
+      <p class="text-gray-600 text-center text-sm md:text-base lg:text-lg mb-10">
+        Create your Manta account to manage reservations and save your details.
+      </p>
+
+      <form id="register-form" class="space-y-6">
+        <div>
+          <label for="full-name" class="block font-ysabeau font-semibold text-sm md:text-base mb-2">Full Name</label>
+          <input
+            type="text"
+            id="full-name"
+            class="w-full px-4 py-3.5 md:py-4 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue"
+            required
+          >
+        </div>
+
+        <div>
+          <label for="email" class="block font-ysabeau font-semibold text-sm md:text-base mb-2">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="w-full px-4 py-3.5 md:py-4 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue"
+            required
+          >
+        </div>
+
+        <div>
+          <label for="password" class="block font-ysabeau font-semibold text-sm md:text-base mb-2">Password</label>
+          <div class="relative">
+            <input
+              type="password"
+              id="password"
+              class="w-full px-4 py-3.5 md:py-4 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue pr-12"
+              required
+            >
+            <button type="button" onclick="togglePassword('password')" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-black">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label for="confirm-password" class="block font-ysabeau font-semibold text-sm md:text-base mb-2">Confirm Password</label>
+          <div class="relative">
+            <input
+              type="password"
+              id="confirm-password"
+              class="w-full px-4 py-3.5 md:py-4 border border-gray-300 rounded-md bg-white text-sm md:text-base focus:outline-none focus:border-manta-blue pr-12"
+              required
+            >
+            <button type="button" onclick="togglePassword('confirm-password')" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-black">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-manta-banner text-white font-ysabeau-sc font-semibold py-3.5 md:py-4 rounded-lg text-sm md:text-base lg:text-lg hover:bg-manta-blue transition-all"
+        >
+          Create Account
+        </button>
+      </form>
+
+      <p class="text-xs md:text-sm lg:text-base text-center mt-8 font-ysabeau">
+        Already have an account?
+        <a href="signin.html" class="text-manta-blue hover:underline font-semibold">Sign in</a>
       </p>
     </div>
-  </section>
+  </main>
 
-  <!-- Vehicle Categories Section -->
-  <section class="px-4 md:px-8 lg:px-16 py-12 md:py-16">
-    <div class="max-w-7xl mx-auto">
-
-      <!-- Luxury Category -->
-      <div class="mb-16 fade-in-up">
-        <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Luxury</h2>
-        <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Experience premium comfort and cutting-edge technology</p>
-
-        <div id="luxury-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-      </div>
-
-      <!-- Electric Category -->
-      <div class="mb-16 fade-in-up">
-        <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Electric</h2>
-        <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Eco-friendly vehicles for the environmentally conscious</p>
-
-        <div id="electric-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-      </div>
-
-      <!-- Premium Sedan Category -->
-      <div class="mb-16 fade-in-up">
-        <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Premium Sedan</h2>
-        <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Refined comfort for business and leisure</p>
-
-        <div id="premium-sedan-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-      </div>
-
-      <!-- Economy Category -->
-      <div class="mb-16 fade-in-up">
-        <h2 class="font-ysabeau-sc text-3xl md:text-4xl font-semibold mb-3">Economy</h2>
-        <p class="font-ysabeau text-gray-600 text-base md:text-lg mb-8">Affordable options without compromising quality</p>
-
-        <div id="economy-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="bg-manta-banner/15 px-4 md:px-8 lg:px-16 py-12 md:py-16">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="font-alegreya-sc text-3xl md:text-4xl font-normal mb-4">Ready to Hit the Road?</h2>
-      <p class="font-ysabeau text-gray-700 text-lg mb-8">Browse our fleet and book your perfect vehicle today</p>
-      <a href="homepage.html" class="inline-block bg-manta-banner text-white font-ysabeau-sc font-semibold px-8 py-3 rounded-lg hover:bg-manta-blue transition-all text-base md:text-lg">
-        Start Your Reservation
-      </a>
-    </div>
-  </section>
-
-  <!-- Footer -->
   <footer class="bg-manta-banner">
     <div class="max-w-[1800px] mx-auto px-4 md:px-8 lg:px-16 xl:px-24 py-12 md:py-16">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-12 lg:gap-20 xl:gap-32 2xl:gap-48">
-        <!-- Logo -->
         <div class="flex items-start justify-center md:justify-start">
           <img src="images/manta.png" alt="Manta Logo" class="h-16 md:h-20 lg:h-24 xl:h-28 w-auto">
         </div>
 
-        <!-- Customer Support -->
         <div>
           <h3 class="font-ysabeau-sc text-lg lg:text-xl xl:text-2xl font-semibold mb-4 lg:mb-6 text-black">Customer Support</h3>
           <ul class="space-y-2 lg:space-y-3">
@@ -195,7 +189,6 @@
           </ul>
         </div>
 
-        <!-- Manta -->
         <div>
           <h3 class="font-ysabeau-sc text-lg lg:text-xl xl:text-2xl font-semibold mb-4 lg:mb-6 text-black">Manta</h3>
           <ul class="space-y-2 lg:space-y-3">
@@ -205,7 +198,6 @@
           </ul>
         </div>
 
-        <!-- Car Sales -->
         <div>
           <h3 class="font-ysabeau-sc text-lg lg:text-xl xl:text-2xl font-semibold mb-4 lg:mb-6 text-black">Car Sales</h3>
           <ul class="space-y-2 lg:space-y-3">
@@ -215,16 +207,22 @@
           </ul>
         </div>
       </div>
-
     </div>
   </footer>
 
-  <!-- Copyright Section -->
   <section class="bg-white py-3 px-4 md:px-8">
     <p class="font-ysabeau-sc text-xs md:text-sm text-left">©2025 Manta Inc.</p>
   </section>
 
   <script>
+    // Toggle Password Visibility
+    function togglePassword(fieldId) {
+      const input = document.getElementById(fieldId);
+      if (input) {
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+    }
+
     // Mobile Menu Toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
@@ -241,21 +239,20 @@
       });
     }
 
-    // Scroll animations
-    const animatedElements = document.querySelectorAll('.fade-in-up');
+    // Basic front-end validation
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+      e.preventDefault();
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm-password').value;
 
-    animatedElements.forEach(el => observer.observe(el));
+      if (password !== confirm) {
+        alert('Passwords do not match. Please try again.');
+        return;
+      }
+
+      alert('Registration functionality would be implemented here.');
+    });
   </script>
-  <!-- Dynamic grid population -->
-  <script src="vehicles.js"></script>
 </body>
 </html>

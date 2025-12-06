@@ -62,7 +62,7 @@
       margin: 0;
     }
     input[type=number] {
-      -moz-appearance: textfield;
+      appearance: textfield;
     }
   </style>
 </head>
@@ -83,18 +83,18 @@
     </button>
 
     <!-- Desktop Navigation -->
-    <nav class="hidden lg:flex items-center gap-8 xl:gap-12">
+    <nav class="hidden lg:flex items-center gap-12">
       <!-- Text Links -->
-      <div class="flex items-center gap-8 xl:gap-10">
-        <a href="vehicles.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Vehicles</a>
-        <a href="location.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Locations</a>
-        <a href="support.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-base xl:text-lg transition-colors">Support</a>
+      <div class="flex items-center gap-12">
+        <a href="vehicles.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-lg transition-colors">Vehicles</a>
+        <a href="location.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-lg transition-colors">Locations</a>
+        <a href="support.html" class="nav-link relative font-ysabeau-sc font-semibold text-black text-lg transition-colors">Support</a>
       </div>
 
-      <!-- Buttons -->
-      <div class="flex items-center gap-3">
-        <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-4 py-2 rounded-lg text-sm hover:bg-manta-blue hover:text-white transition-all">Sign In</a>
-        <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-4 py-2 rounded-lg text-sm hover:bg-manta-blue transition-all">Register</a>
+      <!-- Buttons (even spacing with links) -->
+      <div class="flex items-center gap-12">
+        <a href="signin.html" class="font-ysabeau-sc font-semibold bg-white text-black px-5 py-2 rounded-lg text-base hover:bg-manta-blue hover:text-white transition-all">Sign In</a>
+        <a href="register.html" class="font-ysabeau-sc font-semibold bg-black text-white px-5 py-2 rounded-lg text-base hover:bg-manta-blue transition-all">Register</a>
       </div>
     </nav>
 

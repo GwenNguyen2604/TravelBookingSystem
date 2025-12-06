@@ -169,8 +169,11 @@ Backend: Flask
 
 ## 🎞️ Visuals
 
+Homepage:
 ![screenshot](screenshots/screenshotmanta.png)
 
+Car Search:
+![screenshot](screenshots/screenshotmanta2.png)
 
 ## 💡 Known Issues
 - User can enter holiday dates for rentals  

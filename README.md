@@ -169,6 +169,7 @@ Backend: Flask
 
 ## 🎞️ Visuals
 
+![screenshot](screenshots/screenshotmanta.png)
 
 
 ## 💡 Known Issues
